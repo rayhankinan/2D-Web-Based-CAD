@@ -4,13 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="icon" type="image/svg+xml" href="/images/logo.svg" />
-    <script type="x-shader/x-vertex"></script>
-    <script type="x-shader/x-fragment"></script>
-    <script type="text/javascript" src="/script/index.js" defer></script>
+    <link rel="icon" type="image/svg+xml" href="./images/logo.svg" />
+    <link rel="stylesheet" type="text/css" href="./styles/index.css" />
+    <script type="x-shader/x-vertex" id="vertex-shader">
+      attribute vec2 a_position;
+
+      uniform vec2 u_resolution;
+
+      void main() {
+        // Convert the shape from pixels to range [0, 1]
+        vec2 zeroToOne = a_position / u_resolution;
+
+        // Convert from range [0, 1] to [0, 2]
+        vec2 zeroToTwo = zeroToOne * 2.0;
+
+        // Convert from range [0, 2] to [-1, 1]
+        vec2 clipSpace = zeroToTwo - 1.0;
+
+        // gl_Position is a special variable
+        // note: Y axis must be inverted to replicate traditional view
+        gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+      }
+    </script>
+    <script type="x-shader/x-fragment" id="fragment-shader">
+      precision mediump float;
+
+      uniform vec4 u_color;
+
+      void main() {
+        gl_FragColor = u_color;
+      }
+    </script>
+    <script type="text/javascript" src="./script/webgl-utils.js" defer></script>
+    <script type="text/javascript" src="./script/index.js" defer></script>
     <title>2D Web Based CAD</title>
   </head>
   <body>
-    <div id="root"></div>
+    <canvas id="webgl-canvas"></canvas>
   </body>
 </html>
