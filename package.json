@@ -1,0 +1,14 @@
+{
+  "name": "2D-Web-Based-CAD",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/rayhankinan/2D-Web-Based-CAD.git",
+  "author": "rayhankinan <rayhankinan@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --project ./"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}
