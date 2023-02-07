@@ -5,6 +5,10 @@ class Vector extends Coordinate {
     const [x, y] = tuple;
     super([x, y, 0]);
   }
+
+  getPair(): readonly [number, number] {
+    return [this.x, this.y];
+  }
 }
 
 export default Vector;

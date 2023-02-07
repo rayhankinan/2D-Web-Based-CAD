@@ -5,6 +5,10 @@ class Point extends Coordinate {
     const [x, y] = tuple;
     super([x, y, 1]);
   }
+
+  getPair(): readonly [number, number] {
+    return [this.x, this.y];
+  }
 }
 
 export default Point;
