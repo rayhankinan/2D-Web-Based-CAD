@@ -3,14 +3,14 @@ class Coordinate {
   protected y: number;
   protected w: number;
 
-  constructor(tuple: readonly [number, number, number]) {
-    const [x, y, w] = tuple;
+  constructor(position: readonly [number, number, number]) {
+    const [x, y, w] = position;
     this.x = x;
     this.y = y;
     this.w = w;
   }
 
-  getTuple(): readonly [number, number, number] {
+  getPosition(): readonly [number, number, number] {
     return [this.x, this.y, this.w];
   }
 
