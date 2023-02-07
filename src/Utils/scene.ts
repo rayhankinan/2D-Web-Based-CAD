@@ -73,7 +73,7 @@ function drawScene(
   gl.uniformMatrix3fv(matrixLocation, false, matrix);
 
   /* Draw scene */
-  const primitiveType = gl.TRIANGLE_FAN;
+  const primitiveType = shape.drawMethod();
   const offset = 0;
   const count = shape.count();
   gl.drawArrays(primitiveType, offset, count);
