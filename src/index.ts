@@ -51,7 +51,7 @@ function main() {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
     const size = 2; /* 2 components per iteration*/
-    const type = gl.FLOAT; /* The data is 32bit float */
+    const type = gl.FLOAT; /* The data is 32 bit float */
     const normalized = false; /* Don't normalize the data */
     const stride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
     const offset = 0; /* Start at the beginning of the buffer */

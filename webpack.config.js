@@ -18,6 +18,7 @@ module.exports = {
     alias: {
       Utils: path.resolve(__dirname, "src/Utils/"),
       Objects: path.resolve(__dirname, "src/Objects/"),
+      Operations: path.resolve(__dirname, "src/Operations/"),
     },
   },
   output: {
