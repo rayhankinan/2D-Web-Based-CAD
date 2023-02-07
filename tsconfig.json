@@ -8,9 +8,9 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "public/dist",
-    "baseUrl": ".",
     "paths": {
-      "@utils/*": ["src/utils/*"]
+      "Utils/*": ["./src/Utils/*"],
+      "Object/*": ["./src/Objects/*"]
     }
   },
   "include": ["src/**/*"]
