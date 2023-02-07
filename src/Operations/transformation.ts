@@ -17,7 +17,7 @@ class Transformation {
     /* Create transformation matrix */
     const v1 = new Vector([Math.cos(degree), Math.sin(degree)]);
     const v2 = new Vector([-Math.sin(degree), Math.cos(degree)]);
-    const pivot = new Vector([0, 0]);
+    const pivot = new Point([0, 0]);
     const matrix = new Matrix([v1, v2, pivot]);
 
     return matrix;

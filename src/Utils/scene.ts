@@ -10,7 +10,7 @@ function drawScene(
   positionBuffer: WebGLBuffer,
   colorLocation: number,
   colorBuffer: WebGLBuffer,
-  matrixLocation: number,
+  matrixLocation: WebGLUniformLocation,
   shape: Shape,
   transformationProps: TransformationProps
 ) {

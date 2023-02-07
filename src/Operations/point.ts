@@ -27,9 +27,7 @@ class Point extends Coordinate {
     return [this.r, this.g, this.b, this.a];
   }
 
-  setColor(
-    color: readonly [number, number, number, number] = [0, 0, 0, 0]
-  ): void {
+  setColor(color: readonly [number, number, number, number]): void {
     const [r, g, b, a] = color;
     this.r = r;
     this.g = g;

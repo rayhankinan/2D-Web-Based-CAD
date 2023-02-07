@@ -1,5 +1,10 @@
 import createShader from "Utils/shader";
 import createProgram from "Utils/program";
+import Square from "Objects/square";
+import Point from "Operations/point";
+import drawScene from "Utils/scene";
+import resizeCanvasToDisplaySize from "Utils/resize-canvas";
+import Transformation from "Operations/transformation";
 
 function main() {
   try {
@@ -27,16 +32,42 @@ function main() {
     const colorLocation = gl.getAttribLocation(program, "a_color");
     const matrixLocation = gl.getUniformLocation(program, "u_matrix");
 
+    /* Setup Shape */
+    const square = new Square([
+      new Point([-0.5, -0.5], [0, 0, 0, 1]),
+      new Point([-0.5, 0.5], [0, 0, 0, 1]),
+      new Point([0.5, 0.5], [0, 0, 0, 1]),
+      new Point([0.5, -0.5], [0, 0, 0, 1]),
+    ]);
+
     /* Setup Buffer */
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    /* SET GEOMETRY DI SINI */
+    square.addPosition(gl); /* SET GEOMETRY DI SINI */
 
     const colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    /* SET COLOR DI SINI */
+    square.addColor(gl); /* SET COLOR DI SINI */
 
-    /* DRAW SCENE */
+    drawScene(
+      gl,
+      program,
+      positionLocation,
+      positionBuffer,
+      colorLocation,
+      colorBuffer,
+      matrixLocation,
+      square,
+      {
+        tx: 0,
+        ty: 0,
+        degree: 0,
+        sx: 1,
+        sy: 1,
+        kx: 0,
+        ky: 0,
+      }
+    );
   } catch (err) {
     if (err instanceof Error) {
       alert(err.message);

@@ -35,17 +35,36 @@ class Square extends Shape {
       new Float32Array([
         ...this.p1.getPair(),
         ...this.p2.getPair(),
+        ...this.p2.getPair(),
+        ...this.p3.getPair(),
         ...this.p3.getPair(),
         ...this.p4.getPair(),
+        ...this.p4.getPair(),
+        ...this.p1.getPair(),
       ]),
       gl.STATIC_DRAW
     );
   }
 
-  addColor(gl: WebGLRenderingContext): void {}
+  addColor(gl: WebGLRenderingContext): void {
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([
+        ...this.p1.getColor(),
+        ...this.p2.getColor(),
+        ...this.p2.getColor(),
+        ...this.p3.getColor(),
+        ...this.p3.getColor(),
+        ...this.p4.getColor(),
+        ...this.p4.getColor(),
+        ...this.p1.getColor(),
+      ]),
+      gl.STATIC_DRAW
+    );
+  }
 
   drawMethod(gl: WebGLRenderingContext): number {
-    return gl.TRIANGLE_STRIP;
+    return gl.TRIANGLE_FAN;
   }
 
   count(): number {
