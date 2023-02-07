@@ -1,6 +1,8 @@
 import Point from "Operations/point";
 
 interface TransformationProps {
+  width: number;
+  height: number;
   tx: number;
   ty: number;
   degree: number;

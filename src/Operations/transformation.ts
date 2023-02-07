@@ -1,8 +1,18 @@
 import Point from "Operations/point";
 import Vector from "Operations/vector";
 import Matrix from "Operations/matrix";
+import Coordinate from "Operations/coordinate";
 
 class Transformation {
+  static projection(width: number, height: number): Matrix {
+    /* Create transformation matrix */
+    const p1 = new Point([2 / width, 0]);
+    const p2 = new Point([0, -2 / height]);
+    const p3 = new Coordinate([-1, 1, 1]);
+    const matrix = new Matrix([p1, p2, p3]);
+
+    return matrix;
+  }
   static translation(tx: number, ty: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([1, 0]);
@@ -33,9 +43,21 @@ class Transformation {
     return matrix;
   }
 
+  /* BUG: SHEAR MASIH KEBALIK */
   static shearX(kx: number): Matrix {
     /* Create transformation matrix */
-    const v1 = new Vector([1, kx]);
+    const v1 = new Vector([1, 0]);
+    const v2 = new Vector([kx, 1]);
+    const pivot = new Point([0, 0]);
+    const matrix = new Matrix([v1, v2, pivot]);
+
+    return matrix;
+  }
+
+  /* BUG: SHEAR MASIH KEBALIK */
+  static shearY(ky: number): Matrix {
+    /* Create transformation matrix */
+    const v1 = new Vector([1, ky]);
     const v2 = new Vector([0, 1]);
     const pivot = new Point([0, 0]);
     const matrix = new Matrix([v1, v2, pivot]);
@@ -43,17 +65,9 @@ class Transformation {
     return matrix;
   }
 
-  static shearY(ky: number): Matrix {
-    /* Create transformation matrix */
-    const v1 = new Vector([1, 0]);
-    const v2 = new Vector([ky, 1]);
-    const pivot = new Point([0, 0]);
-    const matrix = new Matrix([v1, v2, pivot]);
-
-    return matrix;
-  }
-
   static general(
+    width: number,
+    height: number,
     tx: number,
     ty: number,
     degree: number,
@@ -65,7 +79,8 @@ class Transformation {
   ): Matrix {
     const [pivotX, pivotY] = pivot.getPair();
 
-    return Transformation.translation(tx, ty)
+    return Transformation.projection(width, height)
+      .multiplyMatrix(Transformation.translation(tx, ty))
       .multiplyMatrix(Transformation.translation(pivotX, pivotY))
       .multiplyMatrix(Transformation.rotation(degree))
       .multiplyMatrix(Transformation.scale(sx, sy))

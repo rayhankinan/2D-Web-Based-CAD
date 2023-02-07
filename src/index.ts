@@ -3,8 +3,6 @@ import createProgram from "Utils/program";
 import Square from "Objects/square";
 import Point from "Operations/point";
 import drawScene from "Utils/scene";
-import resizeCanvasToDisplaySize from "Utils/resize-canvas";
-import Transformation from "Operations/transformation";
 
 function main() {
   try {
@@ -34,10 +32,10 @@ function main() {
 
     /* Setup Shape */
     const square = new Square([
-      new Point([-0.5, -0.5], [0, 0, 0, 1]),
-      new Point([-0.5, 0.5], [0, 0, 0, 1]),
-      new Point([0.5, 0.5], [0, 0, 0, 1]),
-      new Point([0.5, -0.5], [0, 0, 0, 1]),
+      new Point([50, 50], [0, 0, 0, 1]),
+      new Point([50, 100], [0, 0, 0, 1]),
+      new Point([100, 100], [0, 0, 0, 1]),
+      new Point([100, 50], [0, 0, 0, 1]),
     ]);
 
     /* Setup Buffer */
@@ -59,6 +57,8 @@ function main() {
       matrixLocation,
       square,
       {
+        width: gl.canvas.width,
+        height: gl.canvas.height,
         tx: 0,
         ty: 0,
         degree: 0,

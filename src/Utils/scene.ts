@@ -61,9 +61,11 @@ function drawScene(
   );
 
   /* Count Matrix */
-  const { tx, ty, degree, sx, sy, kx, ky } = transformationProps;
+  const { width, height, tx, ty, degree, sx, sy, kx, ky } = transformationProps;
 
   const matrix = Transformation.general(
+    width,
+    height,
     tx,
     ty,
     degree,
@@ -73,6 +75,8 @@ function drawScene(
     ky,
     shape.findCenter()
   ).flatten();
+
+  console.log(matrix);
 
   gl.uniformMatrix3fv(matrixLocation, false, matrix);
 
