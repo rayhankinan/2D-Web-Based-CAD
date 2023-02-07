@@ -1,14 +1,13 @@
 import Point from "Operations/point";
 import Vector from "Operations/vector";
 import Matrix from "Operations/matrix";
-import Coordinate from "Operations/coordinate";
 
 class Transformation {
   static projection(width: number, height: number): Matrix {
     /* Create transformation matrix */
     const p1 = new Vector([2 / width, 0]);
     const p2 = new Vector([0, -2 / height]);
-    const p3 = new Coordinate([-1, 1, 1]);
+    const p3 = new Point([-1, 1]);
     const matrix = new Matrix([p1, p2, p3]);
 
     return matrix;
