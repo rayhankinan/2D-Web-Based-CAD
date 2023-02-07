@@ -11,7 +11,8 @@
     "paths": {
       "Utils/*": ["./src/Utils/*"],
       "Objects/*": ["./src/Objects/*"],
-      "Operations/*": ["./src/Operations/*"]
+      "Operations/*": ["./src/Operations/*"],
+      "Interfaces/*": ["./src/Interfaces/*"]
     }
   },
   "include": ["src/**/*"]

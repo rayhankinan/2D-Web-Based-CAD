@@ -16,6 +16,14 @@ class Matrix {
     return [this.a1, this.a2, this.a3];
   }
 
+  flatten(): readonly number[] {
+    return [
+      ...this.a1.getTuple(),
+      ...this.a2.getTuple(),
+      ...this.a3.getTuple(),
+    ];
+  }
+
   multiplyMatrix(other: Matrix): Matrix {
     /* Unpack "this" matrix */
     const [a11, a21, a31] = this.a1.getTuple();
