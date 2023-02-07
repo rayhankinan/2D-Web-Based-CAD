@@ -23,14 +23,6 @@ class Transformation {
     return matrix;
   }
 
-  static generalRotation(degree: number, pivot: Point): Matrix {
-    const [pivotX, pivotY] = pivot.getPair();
-
-    return Transformation.translation(pivotX, pivotY)
-      .multiplyMatrix(Transformation.rotation(degree))
-      .multiplyMatrix(Transformation.translation(-pivotX, -pivotY));
-  }
-
   static scale(sx: number, sy: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([sx, 0]);
@@ -39,14 +31,6 @@ class Transformation {
     const matrix = new Matrix([v1, v2, pivot]);
 
     return matrix;
-  }
-
-  static generalScale(sx: number, sy: number, pivot: Point): Matrix {
-    const [pivotX, pivotY] = pivot.getPair();
-
-    return Transformation.translation(pivotX, pivotY)
-      .multiplyMatrix(Transformation.scale(sx, sy))
-      .multiplyMatrix(Transformation.translation(-pivotX, -pivotY));
   }
 
   static shearX(kx: number): Matrix {
@@ -59,14 +43,6 @@ class Transformation {
     return matrix;
   }
 
-  static generalShearX(kx: number, pivot: Point): Matrix {
-    const [pivotX, pivotY] = pivot.getPair();
-
-    return Transformation.translation(pivotX, pivotY)
-      .multiplyMatrix(Transformation.shearX(kx))
-      .multiplyMatrix(Transformation.translation(-pivotX, -pivotY));
-  }
-
   static shearY(ky: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([1, 0]);
@@ -77,10 +53,23 @@ class Transformation {
     return matrix;
   }
 
-  static generalShearY(ky: number, pivot: Point): Matrix {
+  static general(
+    tx: number,
+    ty: number,
+    degree: number,
+    sx: number,
+    sy: number,
+    kx: number,
+    ky: number,
+    pivot: Point
+  ): Matrix {
     const [pivotX, pivotY] = pivot.getPair();
 
-    return Transformation.translation(pivotX, pivotY)
+    return Transformation.translation(tx, ty)
+      .multiplyMatrix(Transformation.translation(pivotX, pivotY))
+      .multiplyMatrix(Transformation.rotation(degree))
+      .multiplyMatrix(Transformation.scale(sx, sy))
+      .multiplyMatrix(Transformation.shearX(kx))
       .multiplyMatrix(Transformation.shearY(ky))
       .multiplyMatrix(Transformation.translation(-pivotX, -pivotY));
   }
