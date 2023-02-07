@@ -15,12 +15,9 @@
       varying vec4 v_color;
 
       void main() {
-        // Count matrix operation
-        vec2 clipSpace = (u_matrix * vec3(a_position, 1)).xy
-
         // gl_Position is a special variable
         // note: Y axis must be inverted to replicate traditional view
-        gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+        gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy * vec2(1, -1), 0, 1);
 
         // Change color of shape
         v_color = a_color;
