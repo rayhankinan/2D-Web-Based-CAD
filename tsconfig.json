@@ -10,7 +10,7 @@
     "outDir": "public/dist",
     "paths": {
       "Utils/*": ["./src/Utils/*"],
-      "Object/*": ["./src/Objects/*"]
+      "Objects/*": ["./src/Objects/*"]
     }
   },
   "include": ["src/**/*"]

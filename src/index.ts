@@ -1,14 +1,12 @@
-import createShader from "./Utils/shader";
-import createProgram from "./Utils/program";
-import resizeCanvasToDisplaySize from "./Utils/resize-canvas";
-import setRectangle from "./Objects/rectangle";
+import createShader from "Utils/shader";
+import createProgram from "Utils/program";
+import resizeCanvasToDisplaySize from "Utils/resize-canvas";
+import setRectangle from "Objects/rectangle";
 
 function main() {
   try {
     /* Create Program */
-    const canvas = document.createElement("canvas");
-    canvas.id = "canvas-webgl";
-
+    const canvas = document.querySelector("#webgl-canvas") as HTMLCanvasElement;
     const gl = canvas.getContext("webgl");
 
     const vertexShaderElement = document.querySelector("#vertex-shader");
@@ -90,9 +88,6 @@ function main() {
       const count = 4;
       gl.drawArrays(primitiveType, offset, count);
     }
-
-    /* Add Canvas to HTML Body */
-    document.body.appendChild(canvas);
   } catch (err) {
     if (err instanceof Error) {
       alert(err.message);
