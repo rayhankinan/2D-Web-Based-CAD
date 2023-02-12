@@ -13,7 +13,8 @@
       "Objects/*": ["./src/Objects/*"],
       "Operations/*": ["./src/Operations/*"],
       "Interfaces/*": ["./src/Interfaces/*"],
-      "Algorithms/*": ["./src/Algorithms/*"]
+      "Algorithms/*": ["./src/Algorithms/*"],
+      "Files/*": ["./src/Files/*"]
     }
   },
   "include": ["src/**/*"]
