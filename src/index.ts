@@ -5,6 +5,8 @@ import Point from "Operations/point";
 import drawScene from "Utils/scene";
 import Line from "Objects/line";
 import Polygon from "Objects/polygon";
+import FileSystem from "Files/file-system";
+import downloadFile from "Utils/download-file";
 
 function main() {
   try {
@@ -52,6 +54,8 @@ function main() {
       new Point([100, 100], [0, 0, 0, 1]),
       new Point([100, 50], [0, 0, 0, 1]),
     ]);
+
+    downloadFile(FileSystem.rawShape([square, line, polygon]));
 
     /* Setup Buffer */
     const positionBuffer = gl.createBuffer();

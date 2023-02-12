@@ -1,5 +1,5 @@
 function downloadFile(text: string) {
-  const data = new File([text], "shape.json", { type: "application/json" });
+  const data = new File([text], "shapes.json", { type: "application/json" });
 
   const url = URL.createObjectURL(data);
 
