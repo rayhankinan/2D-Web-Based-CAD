@@ -42,7 +42,6 @@ class Transformation {
     return matrix;
   }
 
-  /* BUG: SHEAR MASIH KEBALIK */
   static shearX(kx: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([1, 0]);
@@ -53,7 +52,6 @@ class Transformation {
     return matrix;
   }
 
-  /* BUG: SHEAR MASIH KEBALIK */
   static shearY(ky: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([1, ky]);

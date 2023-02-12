@@ -76,8 +76,6 @@ function drawScene(
     shape.findCenter()
   ).flatten();
 
-  console.log(matrix);
-
   gl.uniformMatrix3fv(matrixLocation, false, matrix);
 
   /* Draw scene */

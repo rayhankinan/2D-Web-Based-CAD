@@ -1,6 +1,6 @@
 import createShader from "Utils/shader";
 import createProgram from "Utils/program";
-import Square from "Objects/square";
+import Rectangle from "Objects/rectangle";
 import Point from "Operations/point";
 import drawScene from "Utils/scene";
 
@@ -31,7 +31,7 @@ function main() {
     const matrixLocation = gl.getUniformLocation(program, "u_matrix");
 
     /* Setup Shape */
-    const square = new Square([
+    const square = new Rectangle([
       new Point([50, 50], [0, 0, 0, 1]),
       new Point([50, 100], [0, 0, 0, 1]),
       new Point([100, 100], [0, 0, 0, 1]),
