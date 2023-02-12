@@ -3,6 +3,8 @@ import createProgram from "Utils/program";
 import Rectangle from "Objects/rectangle";
 import Point from "Operations/point";
 import drawScene from "Utils/scene";
+import Line from "Objects/line";
+import Polygon from "Objects/polygon";
 
 function main() {
   try {
@@ -38,14 +40,27 @@ function main() {
       new Point([100, 50], [0, 0, 0, 1]),
     ]);
 
+    const line = new Line([
+      new Point([50, 50], [0, 0, 0, 1]),
+      new Point([100, 100], [0, 0, 0, 1]),
+    ]);
+
+    const polygon = new Polygon([
+      new Point([50, 50], [0, 0, 0, 1]),
+      new Point([50, 100], [0, 0, 0, 1]),
+      new Point([75, 125], [0, 0, 0, 1]),
+      new Point([100, 100], [0, 0, 0, 1]),
+      new Point([100, 50], [0, 0, 0, 1]),
+    ]);
+
     /* Setup Buffer */
     const positionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    square.addPosition(gl); /* SET GEOMETRY DI SINI */
+    polygon.addPosition(gl); /* SET GEOMETRY DI SINI */
 
     const colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    square.addColor(gl); /* SET COLOR DI SINI */
+    polygon.addColor(gl); /* SET COLOR DI SINI */
 
     drawScene(
       gl,
@@ -55,7 +70,7 @@ function main() {
       colorLocation,
       colorBuffer,
       matrixLocation,
-      square,
+      polygon,
       {
         width: gl.canvas.width,
         height: gl.canvas.height,

@@ -10,8 +10,15 @@ class Coordinate {
     this.w = w;
   }
 
-  getPosition(): readonly [number, number, number] {
+  getTriplet(): readonly [number, number, number] {
     return [this.x, this.y, this.w];
+  }
+
+  setTriplet(position: readonly [number, number, number]): void {
+    const [x, y, w] = position;
+    this.x = x;
+    this.y = y;
+    this.w = w;
   }
 
   dot(other: Coordinate): number {

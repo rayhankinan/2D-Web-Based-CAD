@@ -18,17 +18,17 @@ class Matrix {
 
   flatten(): readonly number[] {
     return [
-      ...this.a1.getPosition(),
-      ...this.a2.getPosition(),
-      ...this.a3.getPosition(),
+      ...this.a1.getTriplet(),
+      ...this.a2.getTriplet(),
+      ...this.a3.getTriplet(),
     ];
   }
 
   multiplyMatrix(other: Matrix): Matrix {
     /* Unpack "this" matrix */
-    const [a11, a21, a31] = this.a1.getPosition();
-    const [a12, a22, a32] = this.a2.getPosition();
-    const [a13, a23, a33] = this.a3.getPosition();
+    const [a11, a21, a31] = this.a1.getTriplet();
+    const [a12, a22, a32] = this.a2.getTriplet();
+    const [a13, a23, a33] = this.a3.getTriplet();
 
     /* Create transpose coordinate */
     const a1 = new Coordinate([a11, a12, a13]);

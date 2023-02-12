@@ -58,7 +58,7 @@ class Rectangle extends Shape {
   }
 
   drawMethod(gl: WebGLRenderingContext): number {
-    return gl.TRIANGLE_STRIP;
+    return gl.TRIANGLE_FAN;
   }
 
   count(): number {
