@@ -12,7 +12,8 @@
       "Utils/*": ["./src/Utils/*"],
       "Objects/*": ["./src/Objects/*"],
       "Operations/*": ["./src/Operations/*"],
-      "Interfaces/*": ["./src/Interfaces/*"]
+      "Interfaces/*": ["./src/Interfaces/*"],
+      "Algorithms/*": ["./src/Algorithms/*"]
     }
   },
   "include": ["src/**/*"]

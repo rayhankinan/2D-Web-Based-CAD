@@ -3,7 +3,7 @@ import Vector from "Operations/vector";
 import Matrix from "Operations/matrix";
 
 class Transformation {
-  static projection(width: number, height: number): Matrix {
+  public static projection(width: number, height: number): Matrix {
     /* Create transformation matrix */
     const p1 = new Vector([2 / width, 0]);
     const p2 = new Vector([0, -2 / height]);
@@ -12,7 +12,8 @@ class Transformation {
 
     return matrix;
   }
-  static translation(tx: number, ty: number): Matrix {
+
+  public static translation(tx: number, ty: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([1, 0]);
     const v2 = new Vector([0, 1]);
@@ -22,7 +23,7 @@ class Transformation {
     return matrix;
   }
 
-  static rotation(degree: number): Matrix {
+  public static rotation(degree: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([Math.cos(degree), Math.sin(degree)]);
     const v2 = new Vector([-Math.sin(degree), Math.cos(degree)]);
@@ -32,7 +33,7 @@ class Transformation {
     return matrix;
   }
 
-  static scale(sx: number, sy: number): Matrix {
+  public static scale(sx: number, sy: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([sx, 0]);
     const v2 = new Vector([0, sy]);
@@ -42,7 +43,7 @@ class Transformation {
     return matrix;
   }
 
-  static shearX(kx: number): Matrix {
+  public static shearX(kx: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([1, 0]);
     const v2 = new Vector([kx, 1]);
@@ -52,7 +53,7 @@ class Transformation {
     return matrix;
   }
 
-  static shearY(ky: number): Matrix {
+  public static shearY(ky: number): Matrix {
     /* Create transformation matrix */
     const v1 = new Vector([1, ky]);
     const v2 = new Vector([0, 1]);
@@ -62,7 +63,7 @@ class Transformation {
     return matrix;
   }
 
-  static general(
+  public static general(
     width: number,
     height: number,
     tx: number,

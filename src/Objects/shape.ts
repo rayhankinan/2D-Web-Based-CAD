@@ -3,15 +3,15 @@ import Point from "Operations/point";
 abstract class Shape {
   protected readonly n: number;
 
-  constructor(n: number) {
+  public constructor(n: number) {
     this.n = n;
   }
 
-  abstract findCenter(): Point;
-  abstract addPosition(gl: WebGLRenderingContext): void;
-  abstract addColor(gl: WebGLRenderingContext): void;
-  abstract drawMethod(gl: WebGLRenderingContext): number;
-  abstract count(): number;
+  public abstract findCenter(): Point;
+  public abstract addPosition(gl: WebGLRenderingContext): void;
+  public abstract addColor(gl: WebGLRenderingContext): void;
+  public abstract drawMethod(gl: WebGLRenderingContext): number;
+  public abstract count(): number;
 }
 
 export default Shape;

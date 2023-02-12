@@ -7,7 +7,8 @@ class Rectangle extends Shape {
   private readonly p3: Point;
   private readonly p4: Point;
 
-  constructor(tuple: [Point, Point, Point, Point]) {
+  /* Exactly 4 Points */
+  public constructor(tuple: readonly [Point, Point, Point, Point]) {
     super(4);
 
     const [p1, p2, p3, p4] = tuple;
@@ -17,7 +18,7 @@ class Rectangle extends Shape {
     this.p4 = p4;
   }
 
-  findCenter(): Point {
+  public findCenter(): Point {
     const [p1x, p1y] = this.p1.getPair();
     const [p2x, p2y] = this.p2.getPair();
     const [p3x, p3y] = this.p3.getPair();
@@ -29,7 +30,7 @@ class Rectangle extends Shape {
     ]);
   }
 
-  addPosition(gl: WebGLRenderingContext): void {
+  public addPosition(gl: WebGLRenderingContext): void {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([
@@ -43,7 +44,7 @@ class Rectangle extends Shape {
     );
   }
 
-  addColor(gl: WebGLRenderingContext): void {
+  public addColor(gl: WebGLRenderingContext): void {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([
@@ -57,11 +58,11 @@ class Rectangle extends Shape {
     );
   }
 
-  drawMethod(gl: WebGLRenderingContext): number {
+  public drawMethod(gl: WebGLRenderingContext): number {
     return gl.TRIANGLE_FAN;
   }
 
-  count(): number {
+  public count(): number {
     return this.n + 1;
   }
 }

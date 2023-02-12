@@ -1,15 +1,17 @@
 import Shape from "Objects/shape";
 import Point from "Operations/point";
+import convexHull from "Algorithms/convex-hull";
 
 class Polygon extends Shape {
-  private readonly arrayOfPoint: Point[];
+  private readonly arrayOfPoint: readonly [Point, Point, Point, ...Point[]];
 
-  constructor(tuple: Point[]) {
-    super(tuple.length);
-    this.arrayOfPoint = tuple;
+  /* Minimum 3 Points */
+  public constructor(arrayOfPoint: readonly [Point, Point, Point, ...Point[]]) {
+    super(arrayOfPoint.length);
+    this.arrayOfPoint = arrayOfPoint;
   }
 
-  findCenter(): Point {
+  public findCenter(): Point {
     let totalX = 0;
     let totalY = 0;
 
@@ -23,14 +25,15 @@ class Polygon extends Shape {
     return new Point([totalX / this.n, totalY / this.n]);
   }
 
-  addPosition(gl: WebGLRenderingContext): void {
+  public addPosition(gl: WebGLRenderingContext): void {
     const positionArray: number[] = [];
+    const hull: readonly Point[] = convexHull(this.arrayOfPoint);
 
-    for (const p of this.arrayOfPoint) {
+    for (const p of hull) {
       positionArray.push(...p.getPair());
     }
 
-    const [pInitial] = this.arrayOfPoint;
+    const [pInitial] = hull;
     positionArray.push(...pInitial.getPair());
 
     gl.bufferData(
@@ -40,14 +43,15 @@ class Polygon extends Shape {
     );
   }
 
-  addColor(gl: WebGLRenderingContext): void {
+  public addColor(gl: WebGLRenderingContext): void {
     const colorArray: number[] = [];
+    const hull: readonly Point[] = convexHull(this.arrayOfPoint);
 
-    for (const p of this.arrayOfPoint) {
+    for (const p of hull) {
       colorArray.push(...p.getColor());
     }
 
-    const [pInitial] = this.arrayOfPoint;
+    const [pInitial] = hull;
     colorArray.push(...pInitial.getColor());
 
     gl.bufferData(
@@ -57,11 +61,11 @@ class Polygon extends Shape {
     );
   }
 
-  drawMethod(gl: WebGLRenderingContext): number {
+  public drawMethod(gl: WebGLRenderingContext): number {
     return gl.TRIANGLE_FAN;
   }
 
-  count(): number {
+  public count(): number {
     return this.n + 1;
   }
 }

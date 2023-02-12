@@ -20,6 +20,7 @@ module.exports = {
       Objects: path.resolve(__dirname, "src/Objects/"),
       Operations: path.resolve(__dirname, "src/Operations/"),
       Interfaces: path.resolve(__dirname, "src/Interfaces"),
+      Algorithms: path.resolve(__dirname, "src/Algorithms"),
     },
   },
   output: {

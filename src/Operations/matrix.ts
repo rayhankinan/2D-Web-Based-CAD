@@ -5,18 +5,18 @@ class Matrix {
   protected a2;
   protected a3;
 
-  constructor(tuple: readonly [Coordinate, Coordinate, Coordinate]) {
+  public constructor(tuple: readonly [Coordinate, Coordinate, Coordinate]) {
     const [a1, a2, a3] = tuple;
     this.a1 = a1;
     this.a2 = a2;
     this.a3 = a3;
   }
 
-  getTuple(): readonly [Coordinate, Coordinate, Coordinate] {
+  public getTuple(): readonly [Coordinate, Coordinate, Coordinate] {
     return [this.a1, this.a2, this.a3];
   }
 
-  flatten(): readonly number[] {
+  public flatten(): readonly number[] {
     return [
       ...this.a1.getTriplet(),
       ...this.a2.getTriplet(),
@@ -24,7 +24,7 @@ class Matrix {
     ];
   }
 
-  multiplyMatrix(other: Matrix): Matrix {
+  public multiplyMatrix(other: Matrix): Matrix {
     /* Unpack "this" matrix */
     const [a11, a21, a31] = this.a1.getTriplet();
     const [a12, a22, a32] = this.a2.getTriplet();

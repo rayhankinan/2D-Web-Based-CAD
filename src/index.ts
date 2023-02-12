@@ -47,8 +47,8 @@ function main() {
 
     const polygon = new Polygon([
       new Point([50, 50], [0, 0, 0, 1]),
-      new Point([50, 100], [0, 0, 0, 1]),
       new Point([75, 125], [0, 0, 0, 1]),
+      new Point([50, 100], [0, 0, 0, 1]),
       new Point([100, 100], [0, 0, 0, 1]),
       new Point([100, 50], [0, 0, 0, 1]),
     ]);
