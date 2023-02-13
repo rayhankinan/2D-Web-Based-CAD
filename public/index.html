@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="icon" type="image/svg+xml" href="./images/logo.svg" />
-    <link rel="stylesheet" type="text/css" href="./styles/index.css" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
     <script type="x-shader/x-vertex" id="vertex-shader">
       attribute vec2 a_position;
       attribute vec4 a_color;
@@ -36,8 +39,127 @@
     <title>2D Web Based CAD</title>
   </head>
   <body>
+    <div id="left-panel">
+      <a id="close-btn" href="javascript:void(0)" onclick="closeLeftPanel()">
+        &times;
+      </a>
+    </div>
     <div id="root">
+      <div class="title">
+        <div class="title-box">
+          <button id="open-panel-btn" onclick="openLeftPanel()">
+            show left panel
+          </button>
+          <div>
+            2D WEB BASED CAD
+          </div>
+          <div style="width:5vw;">
+
+          </div>
+        </div>
+      </div>
       <canvas id="webgl-canvas"></canvas>
     </div>
   </body>
+  <script>
+    /* Web Functionality (Cosmetics)*/
+    function openLeftPanel() {
+      document.getElementById("left-panel").style.width = "20vw"
+      document.getElementById("root").style.marginLeft = "20vw";
+    }
+
+    function closeLeftPanel() {
+      document.getElementById("left-panel").style.width = "0"
+      document.getElementById("root").style.marginLeft = "0";
+
+    }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: 'Manrope';
+    }
+
+    body,
+    html {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    #root {
+      width: 80vw;
+      transition: margin-left .3s;
+    }
+
+    .title {
+      position: absolute;
+      height: 5vh;
+      width: 100vw;
+      text-align: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    .title-box {
+      width: 30vw;
+      display: flex;
+      column-gap: 30px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      justify-content: center;
+      align-items: center;
+      background-color: #181D31;
+      border-radius: 0px 0px 20px 20px;
+    }
+
+    #left-panel {
+      width: 0;
+      height: 100vh;
+      top: 0;
+      height: 100vh;
+      color: gray;
+      position: absolute;
+      z-index: 2;
+      background-color: black;
+      transition: width 0.3s;
+      animation: reveal 2s forwards;
+    }
+
+    #open-panel-btn {
+      background-color: white;
+      border-radius: 0px 0px 10px 10px;
+      border-width: 0;
+      box-shadow: none;
+      box-sizing: border-box;
+      color: black;
+      cursor: pointer;
+      padding: 6px 20px;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color .2s,background-position .2s;
+    }
+
+    #close-btn {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+  </style>
 </html>

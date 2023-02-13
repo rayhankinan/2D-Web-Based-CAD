@@ -10,6 +10,9 @@ import downloadFile from "Utils/download-file";
 
 function main() {
   try {
+    /* Web Functionality (Program) */
+
+
     /* Create Program */
     const canvas = document.querySelector("#webgl-canvas") as HTMLCanvasElement;
     const gl = canvas.getContext("webgl");
