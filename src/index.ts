@@ -55,7 +55,7 @@ function main() {
       new Point([100, 50], [0, 0, 0, 1]),
     ]);
 
-    downloadFile(FileSystem.rawShape([square, line, polygon]));
+    // downloadFile(FileSystem.rawShape([square, line, polygon]));
 
     /* Setup Buffer */
     const positionBuffer = gl.createBuffer();
