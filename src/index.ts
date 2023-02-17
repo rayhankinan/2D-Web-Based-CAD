@@ -6,6 +6,7 @@ import { LINE, SQUARE, RECTANGLE, POLYGON, NONE } from "Utils/types";
 import Line from "Objects/line";
 import Shape from "Objects/shape";
 import Point from "Operations/point";
+import Rectangle from "Objects/rectangle";
 
 /* Global variables */
 var drawMethod: string;
@@ -85,6 +86,38 @@ canvas.addEventListener("mousedown", function (e) {
 				isDrawing = false
 			}
 			break;
+
+		case SQUARE:
+			if (!isDrawing) {
+				var square = new Rectangle(point, true);
+				objects.push(square);
+
+				isDrawing = true
+			} else {
+				var square = objects[objects.length-1] as Rectangle
+				square.updatePoint(point)
+				square.render(gl, program, positionBuffer, colorBuffer);
+
+				isDrawing = false
+			}
+			break;
+
+		case RECTANGLE:
+			if (!isDrawing) {
+				var rectangle = new Rectangle(point, false);
+				objects.push(rectangle);
+
+				isDrawing = true
+			} else {
+				var rectangle = objects[objects.length-1] as Rectangle
+				rectangle.updatePoint(point)
+				rectangle.render(gl, program, positionBuffer, colorBuffer);
+				console.log(rectangle)
+
+				isDrawing = false
+			}
+			break;
+
 	}
 });
 
@@ -100,6 +133,18 @@ canvas.addEventListener("mousemove", function (e) {
 				line.updatePoint(point);
 				line.render(gl, program, positionBuffer, colorBuffer);
 				break;
+
+			case SQUARE:
+				var square = objects[objects.length-1] as Rectangle
+				square.updatePoint(point)
+				square.render(gl, program, positionBuffer, colorBuffer)
+				break;
+
+			case RECTANGLE:
+				var rectangle = objects[objects.length-1] as Rectangle
+				rectangle.updatePoint(point)
+				rectangle.render(gl, program, positionBuffer, colorBuffer)
+				break;
 		}
 	}
 });
@@ -114,4 +159,3 @@ const renderCanvas = () => {
 }
 
 renderCanvas();
-
