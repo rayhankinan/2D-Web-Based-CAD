@@ -1,100 +1,117 @@
 import createShader from "Utils/shader";
 import createProgram from "Utils/program";
-import Rectangle from "Objects/rectangle";
-import Point from "Operations/point";
-import drawScene from "Utils/scene";
+import resizeCanvasToDisplaySize from "Utils/resize-canvas";
+import { LINE, SQUARE, RECTANGLE, POLYGON, NONE } from "Utils/types";
+
 import Line from "Objects/line";
-import Polygon from "Objects/polygon";
-import FileSystem from "Files/file-system";
-import downloadFile from "Utils/download-file";
+import Shape from "Objects/shape";
+import Point from "Operations/point";
 
-function main() {
-  try {
-    /* Web Functionality (Program) */
+/* Global variables */
+var drawMethod: string;
+var objects: Shape[] = [];
+var isDrawing = false;
 
+/* Create Program */
+const canvas = document.querySelector("#webgl-canvas") as HTMLCanvasElement;
+const gl = canvas.getContext("webgl");
 
-    /* Create Program */
-    const canvas = document.querySelector("#webgl-canvas") as HTMLCanvasElement;
-    const gl = canvas.getContext("webgl");
+const vertexShaderElement = document.querySelector("#vertex-shader");
+const fragmentShaderElement = document.querySelector("#fragment-shader");
 
-    const vertexShaderElement = document.querySelector("#vertex-shader");
-    const fragmentShaderElement = document.querySelector("#fragment-shader");
+const vertexShaderSource = vertexShaderElement.textContent;
+const fragmentShaderSource = fragmentShaderElement.textContent;
 
-    const vertexShaderSource = vertexShaderElement.textContent;
-    const fragmentShaderSource = fragmentShaderElement.textContent;
+const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+const fragmentShader = createShader(
+	gl,
+	gl.FRAGMENT_SHADER,
+	fragmentShaderSource
+);
 
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-    const fragmentShader = createShader(
-      gl,
-      gl.FRAGMENT_SHADER,
-      fragmentShaderSource
-    );
+const program = createProgram(gl, vertexShader, fragmentShader);
 
-    const program = createProgram(gl, vertexShader, fragmentShader);
+/* Setup program */
+gl.useProgram(program);
 
-    /* Get Program Attribute and Uniform */
-    const positionLocation = gl.getAttribLocation(program, "a_position");
-    const colorLocation = gl.getAttribLocation(program, "a_color");
-    const matrixLocation = gl.getUniformLocation(program, "u_matrix");
+/* Setup viewport */
+resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement);
+gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-    /* Setup Shape */
-    const square = new Rectangle([
-      new Point([50, 50], [0, 0, 0, 1]),
-      new Point([50, 100], [0, 0, 0, 1]),
-      new Point([100, 100], [0, 0, 0, 1]),
-      new Point([100, 50], [0, 0, 0, 1]),
-    ]);
+/* Clear color */
+gl.clear(gl.COLOR_BUFFER_BIT);
 
-    const line = new Line([
-      new Point([50, 50], [0, 0, 0, 1]),
-      new Point([100, 100], [0, 0, 0, 1]),
-    ]);
+const positionBuffer = gl.createBuffer();
+const colorBuffer = gl.createBuffer();
 
-    const polygon = new Polygon([
-      new Point([50, 50], [0, 0, 0, 1]),
-      new Point([75, 125], [0, 0, 0, 1]),
-      new Point([50, 100], [0, 0, 0, 1]),
-      new Point([100, 100], [0, 0, 0, 1]),
-      new Point([100, 50], [0, 0, 0, 1]),
-    ]);
+/* Button listener */
+const lineBtn = document.getElementById("line-btn");
+lineBtn.addEventListener("click", function (e) {
+	drawMethod = LINE;
+});
 
-    // downloadFile(FileSystem.rawShape([square, line, polygon]));
+const squareBtn = document.getElementById("square-btn");
+squareBtn.addEventListener("click", function (e) {
+	drawMethod = SQUARE;
+});
 
-    /* Setup Buffer */
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    polygon.addPosition(gl); /* SET GEOMETRY DI SINI */
+const rectangleBtn = document.getElementById("rectangle-btn");
+rectangleBtn.addEventListener("click", function (e) {
+	drawMethod = RECTANGLE;
+});
 
-    const colorBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    polygon.addColor(gl); /* SET COLOR DI SINI */
+const polygonBtn = document.getElementById("polygon-btn");
+polygonBtn.addEventListener("click", function (e) {
+	drawMethod = POLYGON;
+});
 
-    drawScene(
-      gl,
-      program,
-      positionLocation,
-      positionBuffer,
-      colorLocation,
-      colorBuffer,
-      matrixLocation,
-      polygon,
-      {
-        width: gl.canvas.width,
-        height: gl.canvas.height,
-        tx: 0,
-        ty: 0,
-        degree: 0,
-        sx: 1,
-        sy: 1,
-        kx: 0,
-        ky: 0,
-      }
-    );
-  } catch (err) {
-    if (err instanceof Error) {
-      alert(err.message);
-    }
-  }
+canvas.addEventListener("mousedown", function (e) {
+	var x = e.clientX
+	var y = e.clientY
+	var point = new Point([x,y])
+
+	switch(drawMethod) {
+		case LINE:
+			if (!isDrawing) {
+				var line = new Line(point);
+				objects.push(line)
+
+				isDrawing = true
+			} else {
+				var line = objects[objects.length-1] as Line
+				line.updatePoint(point);
+				line.render(gl, program, positionBuffer, colorBuffer);
+
+				isDrawing = false
+			}
+			break;
+	}
+});
+
+canvas.addEventListener("mousemove", function (e) {
+	var x = e.clientX
+	var y = e.clientY
+	var point = new Point([x,y])
+
+	if (isDrawing) {
+		switch(drawMethod) {
+			case LINE:
+				var line = objects[objects.length-1] as Line
+				line.updatePoint(point);
+				line.render(gl, program, positionBuffer, colorBuffer);
+				break;
+		}
+	}
+});
+
+const renderCanvas = () => {
+	gl.clear(gl.COLOR_BUFFER_BIT)
+	for (var i = 0; i < objects.length; i++) {
+		objects[i].render(gl, program, positionBuffer, colorBuffer)
+	}
+
+	window.requestAnimationFrame(renderCanvas);
 }
 
-main();
+renderCanvas();
+

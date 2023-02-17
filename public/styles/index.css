@@ -1,1 +1,108 @@
-/* Gabisa upload dari sini RIP... */
+@import url("https://fonts.cdnfonts.com/css/sf-pro-display");
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Manrope';
+	/* font-family: "SF Pro Display", sans-serif; */
+}
+
+body,
+html {
+	height: 100vh;
+	overflow: hidden;
+}
+
+canvas {
+	height: 100vh;
+	width: 100%;
+	z-index: 0;
+}
+
+#root {
+	display: flex;
+	flex-direction: vertical;
+}
+
+.title {
+	display: flex;
+	height: 5vh;
+	justify-content: center;
+	position: absolute;
+	text-align: center;
+	width: 100vw;
+}
+
+.title-box {
+	align-items: center;
+	background-color: #040404;
+	border-radius: 20px;
+	box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
+	color: #fdfdfd;
+	column-gap: 30px;
+	display: flex;
+	font-size: 16px;
+	font-weight: bold;
+	height: 2px;
+	justify-content: center;
+	margin-top: 10px;
+	padding: 20px;
+	width: 200px;
+	z-index: 2;
+}
+
+#left-panel {
+	background-color: #040404;
+	border-radius: 0px 20px 20px 0px;
+	box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
+	color: #fdfdfd;
+	height: fit-content;
+	position: absolute;
+	top: 25%;
+	width: 16vw;
+	z-index: 2;
+}
+
+.create-section {
+	display: flex;
+	flex-direction: column;
+    row-gap: 4px;
+    padding: 24px;
+}
+/* CSS */
+.btn{
+  align-items: center;
+  background: #FFFFFF;
+  border: 0 solid #E2E8F0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  color: #1A202C;
+  display: inline-flex;
+  font-family: Inter, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 56px;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  padding: 24px;
+  text-decoration: none;
+  width: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn:hover {
+  background-color: rgb(249,250,251);
+}
+
+@media (min-width: 768px) {
+  .btn {
+    font-size: 20px;
+    min-width: 200px;
+    padding: 14px 16px;
+  }
+}

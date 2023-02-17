@@ -2,15 +2,17 @@ import Shape from "Objects/shape";
 import Point from "Operations/point";
 
 class Line extends Shape {
-  private readonly p1: Point;
-  private readonly p2: Point;
+  public p1: Point;
+  public p2: Point;
 
   /* Exactly 2 Points */
-  public constructor(tuple: readonly [Point, Point]) {
+  public constructor(p1: Point) {
     super(2);
 
-    const [p1, p2] = tuple;
     this.p1 = p1;
+  }
+
+  public updatePoint(p2: Point) {
     this.p2 = p2;
   }
 
@@ -43,6 +45,10 @@ class Line extends Shape {
 
   public count(): number {
     return this.n;
+  }
+
+  public isPointComplete(): boolean {
+      return this.p2 != null
   }
 }
 
