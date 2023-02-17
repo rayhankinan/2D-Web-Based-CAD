@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./styles/index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="./styles/index.css" />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
     <script type="x-shader/x-vertex" id="vertex-shader">
       attribute vec2 a_position;
@@ -38,7 +39,7 @@
     <script type="text/javascript" src="./dist/index.js" defer></script>
     <title>2D Web Based CAD</title>
   </head>
-  <body>
+  <body> 
     <div class="title">
       <div class="title-box">
         <div>
@@ -48,74 +49,15 @@
     </div>
     <div id="root">
       <div id="left-panel">
-        <button id="create-btn">Create</button>
-        <button id="line-btn">Line</button>
-        <button id="square-btn">Square</button>
-        <button id="rectangle-btn">Rectangle</button>
-        <button id="polygon-btn">Polygon</button>
+        <div class="create-section">
+          <h1>Create shape:</h1>
+          <button class="btn" id="line-btn">Line</button>
+          <button class="btn" id="square-btn">Square</button>
+          <button class="btn" id="rectangle-btn">Rectangle</button>
+          <button class="btn" id="polygon-btn">Polygon</button>
+        </div>
       </div>
       <canvas id="webgl-canvas"></canvas>
     </div>
   </body>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      font-family: 'Manrope';
-    }
-
-    body,
-    html {
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    canvas {
-      width: 100%;
-      height: 100vh;
-      z-index: 0;
-    }
-
-    #root {
-      display: flex;
-      flex-direction: vertical;
-    }
-
-    .title {
-      position: absolute;
-      height: 5vh;
-      width: 100vw;
-      text-align: center;
-      justify-content: center;
-      display: flex;
-    }
-
-    .title-box {
-      width: 30vw;
-      display: flex;
-      column-gap: 30px;
-      color: white;
-      font-size: 20px;
-      font-weight: bold;
-      justify-content: center;
-      align-items: center;
-      background-color: #819595;
-      border-radius: 0px 0px 20px 20px;
-      box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
-    }
-
-    #left-panel {
-      width: 15vw;
-      height: 50vh;
-      box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
-      top: 0;
-      height: 100vh;
-      color: gray;
-      position: absolute;
-      z-index: 2;
-      background-color: #819595;
-      transition: width 0.3s;
-      animation: reveal 2s forwards;
-    }
-  </style>
 </html>
