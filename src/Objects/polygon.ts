@@ -40,14 +40,13 @@ class Polygon extends Shape {
 
 	public updatePoint(point: Point) {
 		if (!this.isMoreThanTwo) {
-      console.log("masuk_1")
-      this.p2 = point;
+			this.p2 = point;
 			this.arrayOfPoint.push(this.p1);
 			this.arrayOfPoint.push(this.p2);
-      this.isMoreThanTwo = true
-		} else { 
-      this.arrayOfPoint.push(point);
-    }
+			this.isMoreThanTwo = true;
+		} else {
+			this.arrayOfPoint.push(point);
+		}
 	}
 
 	public updatePointLine(point: Point) {
@@ -87,7 +86,7 @@ class Polygon extends Shape {
 	}
 
 	public addColor(gl: WebGLRenderingContext): void {
-    // add color as line
+		// add color as line
 		if (this.arrayOfPoint.length < 3) {
 			this.addColorLine(gl);
 			return;

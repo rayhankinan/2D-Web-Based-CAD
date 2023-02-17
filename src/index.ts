@@ -12,6 +12,7 @@ import Polygon from "Objects/polygon";
 /* Global variables */
 var drawMethod: string;
 var objects: Shape[] = [];
+var objectMap = Object.create(null);
 var isDrawing = false;
 var isDrawingLine = true;
 
@@ -47,29 +48,37 @@ gl.clear(gl.COLOR_BUFFER_BIT);
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
+/* List of shapes */
+const listOfShapes = document.getElementById("list-of-shapes");
+
+
 /* Button listener */
 const lineBtn = document.getElementById("line-btn");
 lineBtn.addEventListener("click", function (e) {
 	drawMethod = LINE;
 	isDrawing = false;
+	addToMap();
 });
 
 const squareBtn = document.getElementById("square-btn");
 squareBtn.addEventListener("click", function (e) {
 	drawMethod = SQUARE;
 	isDrawing = false;
+	addToMap();
 });
 
 const rectangleBtn = document.getElementById("rectangle-btn");
 rectangleBtn.addEventListener("click", function (e) {
 	drawMethod = RECTANGLE;
 	isDrawing = false;
+	addToMap();
 });
 
 const polygonBtn = document.getElementById("polygon-btn");
 polygonBtn.addEventListener("click", function (e) {
 	drawMethod = POLYGON;
 	isDrawing = false;
+	addToMap();
 });
 
 /* Canvas listener */
@@ -181,6 +190,7 @@ canvas.addEventListener("mousemove", function (e) {
 const renderCanvas = () => {
 	gl.clear(gl.COLOR_BUFFER_BIT)
 	for (var i = 0; i < objects.length; i++) {
+		objectMap[i] = objects[i]
 		objects[i].render(gl, program, positionBuffer, colorBuffer)
 	}
 
@@ -188,3 +198,9 @@ const renderCanvas = () => {
 }
 
 renderCanvas();
+
+const addToMap = () => {
+	for (var i = 0; i < objects.length; i++) {
+		objectMap[i] = objects[i]
+	}
+}
