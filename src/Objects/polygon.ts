@@ -68,6 +68,10 @@ class Polygon extends Shape {
   public count(): number {
     return this.n + 1;
   }
+
+  public isPointComplete(): boolean {
+      return true
+  }
 }
 
 export default Polygon;
