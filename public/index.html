@@ -39,41 +39,24 @@
     <title>2D Web Based CAD</title>
   </head>
   <body>
-    <div id="left-panel">
-      <a id="close-btn" href="javascript:void(0)" onclick="closeLeftPanel()">
-        &times;
-      </a>
+    <div class="title">
+      <div class="title-box">
+        <div>
+          2D WEB BASED CAD
+        </div>
+      </div>
     </div>
     <div id="root">
-      <div class="title">
-        <div class="title-box">
-          <button id="open-panel-btn" onclick="openLeftPanel()">
-            show left panel
-          </button>
-          <div>
-            2D WEB BASED CAD
-          </div>
-          <div style="width:5vw;">
-
-          </div>
-        </div>
+      <div id="left-panel">
+        <button id="create-btn">Create</button>
+        <button id="line-btn">Line</button>
+        <button id="square-btn">Square</button>
+        <button id="rectangle-btn">Rectangle</button>
+        <button id="polygon-btn">Polygon</button>
       </div>
       <canvas id="webgl-canvas"></canvas>
     </div>
   </body>
-  <script>
-    /* Web Functionality (Cosmetics)*/
-    function openLeftPanel() {
-      document.getElementById("left-panel").style.width = "20vw"
-      document.getElementById("root").style.marginLeft = "20vw";
-    }
-
-    function closeLeftPanel() {
-      document.getElementById("left-panel").style.width = "0"
-      document.getElementById("root").style.marginLeft = "0";
-
-    }
-  </script>
   <style>
     * {
       margin: 0;
@@ -94,8 +77,8 @@
     }
 
     #root {
-      width: 80vw;
-      transition: margin-left .3s;
+      display: flex;
+      flex-direction: vertical;
     }
 
     .title {
@@ -116,50 +99,23 @@
       font-weight: bold;
       justify-content: center;
       align-items: center;
-      background-color: #181D31;
+      background-color: #819595;
       border-radius: 0px 0px 20px 20px;
+      box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
     }
 
     #left-panel {
-      width: 0;
-      height: 100vh;
+      width: 15vw;
+      height: 50vh;
+      box-shadow: 0 3px 10px rgb(0 0 0 / 0.8);
       top: 0;
       height: 100vh;
       color: gray;
       position: absolute;
       z-index: 2;
-      background-color: black;
+      background-color: #819595;
       transition: width 0.3s;
       animation: reveal 2s forwards;
-    }
-
-    #open-panel-btn {
-      background-color: white;
-      border-radius: 0px 0px 10px 10px;
-      border-width: 0;
-      box-shadow: none;
-      box-sizing: border-box;
-      color: black;
-      cursor: pointer;
-      padding: 6px 20px;
-      text-align: center;
-      text-decoration: none;
-      transition: background-color .2s,background-position .2s;
-    }
-
-    #close-btn {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: 25px;
-      color: #818181;
-      display: block;
-      transition: 0.3s;
-
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
     }
   </style>
 </html>

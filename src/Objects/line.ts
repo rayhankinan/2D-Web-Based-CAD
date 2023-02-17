@@ -2,13 +2,19 @@ import Shape from "Objects/shape";
 import Point from "Operations/point";
 
 class Line extends Shape {
-  private readonly p1: Point;
-  private readonly p2: Point;
+  public p1: Point;
+  public p2: Point;
 
   /* Exactly 2 Points */
-  public constructor(tuple: readonly [Point, Point]) {
+  public constructor() {
     super(2);
 
+    // const [p1, p2] = tuple;
+    // this.p1 = p1;
+    // this.p2 = p2;
+  }
+
+  public updatePoint(tuple: [Point, Point] ) {
     const [p1, p2] = tuple;
     this.p1 = p1;
     this.p2 = p2;

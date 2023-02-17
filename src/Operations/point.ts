@@ -8,7 +8,7 @@ class Point extends Coordinate {
 
   public constructor(
     position: readonly [number, number],
-    color: readonly [number, number, number, number] = [0, 0, 0, 0]
+    color: readonly [number, number, number, number] = [0, 0, 0, 1]
   ) {
     super([...position, 1]);
 
