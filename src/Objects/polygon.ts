@@ -3,75 +3,139 @@ import Point from "Operations/point";
 import convexHull from "Algorithms/convex-hull";
 
 class Polygon extends Shape {
-  private readonly arrayOfPoint: readonly [Point, Point, Point, ...Point[]];
+	private firstPoint: Point;
+	private arrayOfPoint: Point[] = [];
+	private p1: Point;
+	private p2: Point;
+	private isMoreThanTwo: boolean;
 
-  /* Minimum 3 Points */
-  public constructor(arrayOfPoint: readonly [Point, Point, Point, ...Point[]]) {
-    super(arrayOfPoint.length);
-    this.arrayOfPoint = arrayOfPoint;
-  }
+	public constructor(point: Point) {
+		super(1);
 
-  public findCenter(): Point {
-    let totalX = 0;
-    let totalY = 0;
+		this.p1 = point;
+		this.isMoreThanTwo = false;
+	}
 
-    for (const p of this.arrayOfPoint) {
-      const [pX, pY] = p.getPair();
+	public findCenter(): Point {
+		// render point
+		if (!this.isMoreThanTwo) {
+			const [p1x, p1y] = this.p1.getPair();
+			const [p2x, p2y] = this.p2.getPair();
 
-      totalX += pX;
-      totalY += pY;
+			return new Point([(p1x + p2x) / 2, (p1y + p2y) / 2]);
+		}
+
+		let totalX = 0;
+		let totalY = 0;
+
+		for (const p of this.arrayOfPoint) {
+			const [pX, pY] = p.getPair();
+
+			totalX += pX;
+			totalY += pY;
+		}
+
+		return new Point([totalX / this.n, totalY / this.n]);
+	}
+
+	public updatePoint(point: Point) {
+		if (!this.isMoreThanTwo) {
+      console.log("masuk_1")
+      this.p2 = point;
+			this.arrayOfPoint.push(this.p1);
+			this.arrayOfPoint.push(this.p2);
+      this.isMoreThanTwo = true
+		} else { 
+      this.arrayOfPoint.push(point);
     }
+	}
 
-    return new Point([totalX / this.n, totalY / this.n]);
-  }
+	public updatePointLine(point: Point) {
+		this.p2 = point;
+	}
 
-  public addPosition(gl: WebGLRenderingContext): void {
-    const positionArray: number[] = [];
-    const hull: readonly Point[] = convexHull(this.arrayOfPoint);
+	public addPosition(gl: WebGLRenderingContext): void {
+		// add position as line
+		if (this.arrayOfPoint.length < 3) {
+			this.addPositionLine(gl);
+			return;
+		}
 
-    for (const p of hull) {
-      positionArray.push(...p.getPair());
-    }
+		const positionArray: number[] = [];
+		const hull: readonly Point[] = convexHull(this.arrayOfPoint);
 
-    const [pInitial] = hull;
-    positionArray.push(...pInitial.getPair());
+		for (const p of hull) {
+			positionArray.push(...p.getPair());
+		}
 
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array(positionArray),
-      gl.STATIC_DRAW
-    );
-  }
+		const [pInitial] = hull;
+		positionArray.push(...pInitial.getPair());
 
-  public addColor(gl: WebGLRenderingContext): void {
-    const colorArray: number[] = [];
-    const hull: readonly Point[] = convexHull(this.arrayOfPoint);
+		gl.bufferData(
+			gl.ARRAY_BUFFER,
+			new Float32Array(positionArray),
+			gl.STATIC_DRAW
+		);
+	}
 
-    for (const p of hull) {
-      colorArray.push(...p.getColor());
-    }
+	public addPositionLine(gl: WebGLRenderingContext): void {
+		gl.bufferData(
+			gl.ARRAY_BUFFER,
+			new Float32Array([...this.p1.getPair(), ...this.p2.getPair()]),
+			gl.STATIC_DRAW
+		);
+	}
 
-    const [pInitial] = hull;
-    colorArray.push(...pInitial.getColor());
+	public addColor(gl: WebGLRenderingContext): void {
+    // add color as line
+		if (this.arrayOfPoint.length < 3) {
+			this.addColorLine(gl);
+			return;
+		}
 
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array(colorArray),
-      gl.STATIC_DRAW
-    );
-  }
+		const colorArray: number[] = [];
+		const hull: readonly Point[] = convexHull(this.arrayOfPoint);
 
-  public drawMethod(gl: WebGLRenderingContext): number {
-    return gl.TRIANGLE_FAN;
-  }
+		for (const p of hull) {
+			colorArray.push(...p.getColor());
+		}
 
-  public count(): number {
-    return this.n + 1;
-  }
+		const [pInitial] = hull;
+		colorArray.push(...pInitial.getColor());
 
-  public isPointComplete(): boolean {
-      return true
-  }
+		gl.bufferData(
+			gl.ARRAY_BUFFER,
+			new Float32Array(colorArray),
+			gl.STATIC_DRAW
+		);
+	}
+
+	public addColorLine(gl: WebGLRenderingContext): void {
+		gl.bufferData(
+			gl.ARRAY_BUFFER,
+			new Float32Array([...this.p1.getColor(), ...this.p2.getColor()]),
+			gl.STATIC_DRAW
+		);
+	}
+
+	public drawMethod(gl: WebGLRenderingContext): number {
+		if (this.arrayOfPoint.length < 3) {
+			return gl.LINES;
+		}
+
+		return gl.TRIANGLE_FAN;
+	}
+
+	public count(): number {
+		if (this.arrayOfPoint.length < 3) {
+			return 3;
+		}
+		return this.arrayOfPoint.length + 1;
+	}
+
+	public isPointComplete(): boolean {
+		return this.p2 != null;
+	}
 }
 
 export default Polygon;

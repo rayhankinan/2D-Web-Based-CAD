@@ -9,7 +9,6 @@ class Rectangle extends Shape {
 	private p4: Point;
 	private isSquare: boolean;
 
-	/* Exactly 4 Points */
 	public constructor(point: Point, isSquare: boolean) {
 		super(4);
 

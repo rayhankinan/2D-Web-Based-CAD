@@ -5,15 +5,10 @@ class Line extends Shape {
   public p1: Point;
   public p2: Point;
 
-  /* Exactly 2 Points */
   public constructor(p1: Point) {
     super(2);
 
     this.p1 = p1;
-  }
-
-  public updatePoint(p2: Point) {
-    this.p2 = p2;
   }
 
   public findCenter(): Point {
@@ -21,6 +16,10 @@ class Line extends Shape {
     const [p2x, p2y] = this.p2.getPair();
 
     return new Point([(p1x + p2x) / 2, (p1y + p2y) / 2]);
+  }
+
+  public updatePoint(p2: Point) {
+    this.p2 = p2;
   }
 
   public addPosition(gl: WebGLRenderingContext): void {

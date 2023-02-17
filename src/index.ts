@@ -7,11 +7,13 @@ import Line from "Objects/line";
 import Shape from "Objects/shape";
 import Point from "Operations/point";
 import Rectangle from "Objects/rectangle";
+import Polygon from "Objects/polygon";
 
 /* Global variables */
 var drawMethod: string;
 var objects: Shape[] = [];
 var isDrawing = false;
+var isDrawingLine = true;
 
 /* Create Program */
 const canvas = document.querySelector("#webgl-canvas") as HTMLCanvasElement;
@@ -49,23 +51,28 @@ const colorBuffer = gl.createBuffer();
 const lineBtn = document.getElementById("line-btn");
 lineBtn.addEventListener("click", function (e) {
 	drawMethod = LINE;
+	isDrawing = false;
 });
 
 const squareBtn = document.getElementById("square-btn");
 squareBtn.addEventListener("click", function (e) {
 	drawMethod = SQUARE;
+	isDrawing = false;
 });
 
 const rectangleBtn = document.getElementById("rectangle-btn");
 rectangleBtn.addEventListener("click", function (e) {
 	drawMethod = RECTANGLE;
+	isDrawing = false;
 });
 
 const polygonBtn = document.getElementById("polygon-btn");
 polygonBtn.addEventListener("click", function (e) {
 	drawMethod = POLYGON;
+	isDrawing = false;
 });
 
+/* Canvas listener */
 canvas.addEventListener("mousedown", function (e) {
 	var x = e.clientX
 	var y = e.clientY
@@ -112,12 +119,26 @@ canvas.addEventListener("mousedown", function (e) {
 				var rectangle = objects[objects.length-1] as Rectangle
 				rectangle.updatePoint(point)
 				rectangle.render(gl, program, positionBuffer, colorBuffer);
-				console.log(rectangle)
 
 				isDrawing = false
 			}
 			break;
 
+		case POLYGON:
+			if (!isDrawing) {
+				var polygon = new Polygon(point);
+				objects.push(polygon)
+
+				isDrawing = true
+				isDrawingLine = true
+			} else {
+				var polygon = objects[objects.length-1] as Polygon
+				polygon.updatePoint(point)
+				polygon.render(gl, program, positionBuffer, colorBuffer);
+
+				isDrawingLine = false;
+			}
+			break;
 	}
 });
 
@@ -144,6 +165,14 @@ canvas.addEventListener("mousemove", function (e) {
 				var rectangle = objects[objects.length-1] as Rectangle
 				rectangle.updatePoint(point)
 				rectangle.render(gl, program, positionBuffer, colorBuffer)
+				break;
+
+			case POLYGON:
+				var polygon = objects[objects.length-1] as Polygon
+				if (isDrawingLine) {
+					polygon.updatePointLine(point)
+					polygon.render(gl, program, positionBuffer, colorBuffer)
+				} 
 				break;
 		}
 	}

@@ -24,7 +24,7 @@ function orientation(p: Point, q: Point, r: Point): ConvexHullOrientation {
 
 /* TODO: Bisa diganti dengan algoritma Quickhull (sebelumnya menggunakan algoritma Jarvis) */
 function convexHull(
-  arrayOfPoint: readonly [Point, Point, Point, ...Point[]]
+  arrayOfPoint: readonly Point[]
 ): readonly Point[] {
   const hull: Point[] = [];
 
