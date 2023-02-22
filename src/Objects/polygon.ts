@@ -3,17 +3,25 @@ import Point from "Operations/point";
 import convexHull from "Algorithms/convex-hull";
 
 class Polygon extends Shape {
-	private firstPoint: Point;
-	private arrayOfPoint: Point[] = [];
 	private p1: Point;
 	private p2: Point;
+	private arrayOfPoint: Point[] = [];
 	private isMoreThanTwo: boolean;
+	private originalXPoints: number[];
+	private originalYPoints: number[];
+	private deltaXvalue: number;
+	private deltaYvalue: number;
 
 	public constructor(point: Point) {
 		super(1);
 
 		this.p1 = point;
 		this.isMoreThanTwo = false;
+		this.deltaXvalue = 0;
+		this.deltaYvalue = 0;
+
+		this.originalXPoints = [point.getPair()[0]];
+		this.originalYPoints = [point.getPair()[1]];
 	}
 
 	public findCenter(): Point {
@@ -44,9 +52,16 @@ class Polygon extends Shape {
 			this.arrayOfPoint.push(this.p1);
 			this.arrayOfPoint.push(this.p2);
 			this.isMoreThanTwo = true;
-		} else {
-			this.arrayOfPoint.push(point);
-		}
+
+			this.originalXPoints[1] = this.p2.getPair()[0];
+			this.originalYPoints[1] = this.p2.getPair()[1];
+			return;
+		} 
+		this.arrayOfPoint.push(point);
+
+		const pointsLength = this.originalXPoints.length
+		this.originalXPoints[pointsLength] = point.getPair()[0];
+		this.originalYPoints[pointsLength] = point.getPair()[1];
 	}
 
 	public updatePointLine(point: Point) {
@@ -136,6 +151,30 @@ class Polygon extends Shape {
 		return this.p2 != null;
 	}
 
+	public moveX(delta: number) {
+		if (!this.isMoreThanTwo) {
+			this.p1.setX(this.originalXPoints[0] + delta);
+			this.p2.setX(this.originalXPoints[1] + delta);
+			return
+		}
+
+		for (var i=0; i<this.arrayOfPoint.length; i++) {
+			this.arrayOfPoint[i].setX(this.originalXPoints[i] + delta);
+		}
+	}
+
+	public moveY(delta: number) {
+		if (!this.isMoreThanTwo) {
+			this.p1.setY(this.originalYPoints[0] + delta);
+			this.p2.setY(this.originalYPoints[1] + delta);
+			return
+		}
+
+		for (var i=0; i<this.arrayOfPoint.length; i++) {
+			this.arrayOfPoint[i].setY(this.originalYPoints[i] + delta);
+		}
+	}
+
 	public setupSelector(): void {
 		var selector = document.getElementById("selector");
 		selector.replaceChildren();
@@ -146,7 +185,53 @@ class Polygon extends Shape {
 		var translationSelectorTitle = document.createElement("h1");
 		translationSelectorTitle.textContent = "Translation";
 
-		firstDiv.append(translationSelectorTitle);
+		/* SLIDER X */
+		var sliderxTitle = document.createElement("h2");
+		sliderxTitle.textContent = "Slider X";
+		var sliderXtext = document.createElement("label");
+		sliderXtext.textContent = this.deltaXvalue.toString();
+		var sliderX = document.createElement("input") as HTMLInputElement;
+		sliderX.type = "range";
+		sliderX.min = "-600";
+		sliderX.max = "600";
+		sliderX.value = this.deltaXvalue.toString();
+		sliderX.step = "10";
+		sliderX.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.moveX(+delta);
+			this.deltaXvalue = +delta;
+			sliderXtext.textContent = this.deltaXvalue.toString();
+		});
+
+		/* SLIDER Y */
+		var slideryTitle = document.createElement("h2");
+		slideryTitle.textContent = "Slider Y";
+		var sliderY = document.createElement("input") as HTMLInputElement;
+		sliderY.type = "range";
+		var sliderYtext = document.createElement("label");
+		sliderYtext.textContent = this.deltaYvalue.toString();
+		var sliderY = document.createElement("input") as HTMLInputElement;
+		sliderY.type = "range";
+		sliderY.min = "-500";
+		sliderY.max = "500";
+		sliderY.value = this.deltaYvalue.toString();
+		sliderY.step = "10";
+		sliderY.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.moveY(+delta);
+			this.deltaYvalue = +delta;
+			sliderYtext.textContent = this.deltaYvalue.toString();
+		});
+
+		firstDiv.append(
+			translationSelectorTitle,
+			sliderxTitle,
+			sliderX,
+			sliderXtext,
+			slideryTitle,
+			sliderY,
+			sliderYtext
+		);
 
 		// slider height, width, rotation
 		var secondDiv = document.createElement("div");

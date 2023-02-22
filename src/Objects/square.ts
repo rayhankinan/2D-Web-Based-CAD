@@ -1,5 +1,6 @@
 import Shape from "Objects/shape";
 import Point from "Operations/point";
+import { renderCanvas } from "..";
 
 class Square extends Shape {
 	private center: Point;
@@ -7,11 +8,17 @@ class Square extends Shape {
 	private p2: Point;
 	private p3: Point;
 	private p4: Point;
+	private originalXPoints: number[];
+	private originalYPoints: number[];
+	private deltaXvalue: number;
+	private deltaYvalue: number;
 
 	public constructor(point: Point) {
 		super(4);
 
         this.center = point;
+		this.deltaXvalue = 0;
+		this.deltaYvalue = 0;
 	}
 
 	public findCenter(): Point {
@@ -30,6 +37,16 @@ class Square extends Shape {
         this.p1 = p;
         [this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
 		
+
+		this.originalXPoints = [p.getPair()[0]];
+		this.originalXPoints[1] = this.p2.getPair()[0];
+		this.originalXPoints[2] = this.p3.getPair()[0];
+		this.originalXPoints[3] = this.p4.getPair()[0];
+
+		this.originalYPoints = [p.getPair()[1]];
+		this.originalYPoints[1] = this.p2.getPair()[1];
+		this.originalYPoints[2] = this.p3.getPair()[1];
+		this.originalYPoints[3] = this.p4.getPair()[1];
 	}
 
 	public addPosition(gl: WebGLRenderingContext): void {
@@ -104,7 +121,23 @@ class Square extends Shape {
 		return [point1, point2, point3];
 	}
 
+	public moveX(delta: number) {
+		this.p1.setX(this.originalXPoints[0] + delta);
+		this.p2.setX(this.originalXPoints[1] + delta);
+		this.p3.setX(this.originalXPoints[2] + delta);
+		this.p4.setX(this.originalXPoints[3] + delta);
 
+		renderCanvas();
+	}
+
+	public moveY(delta: number) {
+		this.p1.setY(this.originalYPoints[0] + delta);
+		this.p2.setY(this.originalYPoints[1] + delta);
+		this.p3.setY(this.originalYPoints[2] + delta);
+		this.p4.setY(this.originalYPoints[3] + delta);
+
+		renderCanvas();
+	}
 
 	public setupSelector(): void {
 		var selector = document.getElementById("selector");
@@ -116,7 +149,53 @@ class Square extends Shape {
 		var translationSelectorTitle = document.createElement("h1");
 		translationSelectorTitle.textContent = "Translation";
 
-		firstDiv.append(translationSelectorTitle);
+		/* SLIDER X */
+		var sliderxTitle = document.createElement("h2");
+		sliderxTitle.textContent = "Slider X";
+		var sliderXtext = document.createElement("label");
+		sliderXtext.textContent = this.deltaXvalue.toString();
+		var sliderX = document.createElement("input") as HTMLInputElement;
+		sliderX.type = "range";
+		sliderX.min = "-600";
+		sliderX.max = "600";
+		sliderX.value = this.deltaXvalue.toString();
+		sliderX.step = "10";
+		sliderX.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.moveX(+delta);
+			this.deltaXvalue = +delta;
+			sliderXtext.textContent = this.deltaXvalue.toString();
+		});
+
+		/* SLIDER Y */
+		var slideryTitle = document.createElement("h2");
+		slideryTitle.textContent = "Slider Y";
+		var sliderY = document.createElement("input") as HTMLInputElement;
+		sliderY.type = "range";
+		var sliderYtext = document.createElement("label");
+		sliderYtext.textContent = this.deltaYvalue.toString();
+		var sliderY = document.createElement("input") as HTMLInputElement;
+		sliderY.type = "range";
+		sliderY.min = "-500";
+		sliderY.max = "500";
+		sliderY.value = this.deltaYvalue.toString();
+		sliderY.step = "10";
+		sliderY.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.moveY(+delta);
+			this.deltaYvalue = +delta;
+			sliderYtext.textContent = this.deltaYvalue.toString();
+		});
+
+		firstDiv.append(
+			translationSelectorTitle,
+			sliderxTitle,
+			sliderX,
+			sliderXtext,
+			slideryTitle,
+			sliderY,
+			sliderYtext
+		);
 
 		// slider height, width, rotation
 		var secondDiv = document.createElement("div");
