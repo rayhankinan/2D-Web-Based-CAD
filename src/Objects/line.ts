@@ -7,8 +7,6 @@ class Line extends Shape {
 	public p2: Point;
 	private originalXPoints: number[];
 	private originalYPoints: number[];
-	private deltaXvalue: number;
-	private deltaYvalue: number;
 
 	public constructor(p1: Point) {
 		super(2);
@@ -16,6 +14,7 @@ class Line extends Shape {
 		this.p1 = p1;
 		this.deltaXvalue = 0;
 		this.deltaYvalue = 0;
+		this.deltaLengthValue = 0;
 
 		this.originalXPoints = [p1.getPair()[0]];
 		this.originalYPoints = [p1.getPair()[1]];
@@ -64,14 +63,48 @@ class Line extends Shape {
 	}
 
 	public moveX(delta: number) {
-		this.p1.setX(this.originalXPoints[0] + delta);
-		this.p2.setX(this.originalXPoints[1] + delta);
+		this.p1.setX(this.originalXPoints[0] + delta + this.deltaLengthValue);
+		this.p2.setX(this.originalXPoints[1] + delta + this.deltaLengthValue);
+
 		renderCanvas();
 	}
 
 	public moveY(delta: number) {
 		this.p1.setY(this.originalYPoints[0] + delta);
 		this.p2.setY(this.originalYPoints[1] + delta);
+
+		renderCanvas();
+	}
+
+	public findY(x: number, x1: number, y1: number, x2: number, y2: number) {
+		var m = (y2 - y1) / (x2 - x1);
+		var c = y2 - m * x2;
+
+		return m * x + c;
+	}
+
+	public setLength(delta: number) {
+		this.p1.setX(this.originalXPoints[0] + delta);
+		this.p1.setY(
+			this.findY(
+				this.originalXPoints[0] + delta,
+				this.originalXPoints[0] + delta,
+				this.originalYPoints[0],
+				this.originalXPoints[1] - delta,
+				this.originalYPoints[1]
+			)
+		);
+
+		this.p2.setX(this.originalXPoints[1] - delta);
+		this.p2.setY(
+			this.findY(
+				this.originalXPoints[1] - delta,
+				this.originalXPoints[0] + delta,
+				this.originalYPoints[0],
+				this.originalXPoints[1] - delta,
+				this.originalYPoints[1]
+			)
+		);
 
 		renderCanvas();
 	}
@@ -135,13 +168,40 @@ class Line extends Shape {
 			sliderYtext
 		);
 
-		// slider height, width, rotation
+		// slider length, rotation
 		var secondDiv = document.createElement("div");
 		secondDiv.className = "transformation-size";
 		var sizeSelectorTitle = document.createElement("h1");
 		sizeSelectorTitle.textContent = "Size";
 
-		secondDiv.append(sizeSelectorTitle);
+		/* Slider length */
+		var sliderLengthTitle = document.createElement("h2");
+		sliderLengthTitle.textContent = "Slider Length";
+		var sliderLength = document.createElement("input") as HTMLInputElement;
+		sliderLength.type = "range";
+		var sliderLengthtext = document.createElement("label");
+		sliderLengthtext.textContent = this.deltaYvalue.toString();
+		var sliderLength = document.createElement("input") as HTMLInputElement;
+		sliderLength.type = "range";
+		sliderLength.min = "0";
+		sliderLength.max = "500";
+		sliderLength.value = this.deltaLengthValue.toString();
+		sliderLength.step = "10";
+		sliderLength.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.setLength(+delta);
+			this.deltaLengthValue = +delta;
+			sliderLengthtext.textContent = this.deltaLengthValue.toString();
+		});
+
+		/* Slider rotation */
+
+		secondDiv.append(
+			sizeSelectorTitle,
+			sliderLengthTitle,
+			sliderLength,
+			sliderLengthtext
+		);
 
 		// input for colors
 		var thirdDiv = document.createElement("div");

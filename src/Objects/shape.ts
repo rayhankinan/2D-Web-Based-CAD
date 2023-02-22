@@ -3,6 +3,10 @@ import Transformation from "Operations/transformation";
 
 abstract class Shape {
 	protected readonly n: number;
+	public deltaXvalue: number;
+	public deltaYvalue: number;
+	public deltaLengthValue: number;
+	public deltaWidthValue: number;
 
 	public constructor(n: number) {
 		this.n = n;

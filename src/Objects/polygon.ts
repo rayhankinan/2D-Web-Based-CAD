@@ -9,8 +9,6 @@ class Polygon extends Shape {
 	private isMoreThanTwo: boolean;
 	private originalXPoints: number[];
 	private originalYPoints: number[];
-	private deltaXvalue: number;
-	private deltaYvalue: number;
 
 	public constructor(point: Point) {
 		super(1);

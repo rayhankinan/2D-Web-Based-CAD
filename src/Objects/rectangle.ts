@@ -9,8 +9,6 @@ class Rectangle extends Shape {
 	private p4: Point;
 	private originalXPoints: number[];
 	private originalYPoints: number[];
-	private deltaXvalue: number;
-	private deltaYvalue: number;
 
 	public constructor(point: Point) {
 		super(4);
@@ -18,6 +16,8 @@ class Rectangle extends Shape {
 		this.p1 = point;
 		this.deltaXvalue = 0;
 		this.deltaYvalue = 0;
+		this.deltaLengthValue = 0;
+		this.deltaWidthValue = 0;
 
 		this.originalXPoints = [point.getPair()[0]];
 		this.originalYPoints = [point.getPair()[1]];
@@ -122,19 +122,37 @@ class Rectangle extends Shape {
 	}
 
 	public moveX(delta: number) {
-		this.p1.setX(this.originalXPoints[0] + delta);
-		this.p2.setX(this.originalXPoints[1] + delta);
+		this.p1.setX(this.originalXPoints[0] + delta - this.deltaLengthValue);
+		this.p2.setX(this.originalXPoints[1] + delta - this.deltaLengthValue);
+		this.p3.setX(this.originalXPoints[2] + delta + this.deltaLengthValue);
+		this.p4.setX(this.originalXPoints[3] + delta + this.deltaLengthValue);
+
+		renderCanvas();
+	}
+
+	public moveY(delta: number) {
+		this.p1.setY(this.originalYPoints[0] + delta - this.deltaWidthValue);
+		this.p2.setY(this.originalYPoints[1] + delta + this.deltaWidthValue);
+		this.p3.setY(this.originalYPoints[2] + delta + this.deltaWidthValue);
+		this.p4.setY(this.originalYPoints[3] + delta - this.deltaWidthValue);
+
+		renderCanvas();
+	}
+
+	public setLength(delta: number) {
+		this.p1.setX(this.originalXPoints[0] - delta);
+		this.p2.setX(this.originalXPoints[1] - delta);
 		this.p3.setX(this.originalXPoints[2] + delta);
 		this.p4.setX(this.originalXPoints[3] + delta);
 
 		renderCanvas();
 	}
 
-	public moveY(delta: number) {
-		this.p1.setY(this.originalYPoints[0] + delta);
+	public setWidth(delta: number) {
+		this.p1.setY(this.originalYPoints[0] - delta);
 		this.p2.setY(this.originalYPoints[1] + delta);
 		this.p3.setY(this.originalYPoints[2] + delta);
-		this.p4.setY(this.originalYPoints[3] + delta);
+		this.p4.setY(this.originalYPoints[3] - delta);
 
 		renderCanvas();
 	}
@@ -203,7 +221,57 @@ class Rectangle extends Shape {
 		var sizeSelectorTitle = document.createElement("h1");
 		sizeSelectorTitle.textContent = "Size";
 
-		secondDiv.append(sizeSelectorTitle);
+		/* Slider length */
+		var sliderLengthTitle = document.createElement("h2");
+		sliderLengthTitle.textContent = "Slider Length";
+		var sliderLength = document.createElement("input") as HTMLInputElement;
+		sliderLength.type = "range";
+		var sliderLengthtext = document.createElement("label");
+		sliderLengthtext.textContent = this.deltaYvalue.toString();
+		var sliderLength = document.createElement("input") as HTMLInputElement;
+		sliderLength.type = "range";
+		sliderLength.min = "0";
+		sliderLength.max = "500";
+		sliderLength.value = this.deltaLengthValue.toString();
+		sliderLength.step = "10";
+		sliderLength.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.setLength(+delta);
+			this.deltaLengthValue = +delta;
+			sliderLengthtext.textContent = this.deltaLengthValue.toString();
+		});
+
+		/* Slider width */
+		var sliderWidthTitle = document.createElement("h2");
+		sliderWidthTitle.textContent = "Slider Width";
+		var sliderWidth = document.createElement("input") as HTMLInputElement;
+		sliderWidth.type = "range";
+		var sliderWidthtext = document.createElement("label");
+		sliderWidthtext.textContent = this.deltaYvalue.toString();
+		var sliderWidth = document.createElement("input") as HTMLInputElement;
+		sliderWidth.type = "range";
+		sliderWidth.min = "0";
+		sliderWidth.max = "500";
+		sliderWidth.value = this.deltaWidthValue.toString();
+		sliderWidth.step = "10";
+		sliderWidth.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.setWidth(+delta);
+			this.deltaWidthValue = +delta;
+			sliderWidthtext.textContent = this.deltaWidthValue.toString();
+		});
+
+		/* Slider rotation */
+
+		secondDiv.append(
+			sizeSelectorTitle,
+			sliderLengthTitle,
+			sliderLength,
+			sliderLengthtext,
+			sliderWidthTitle,
+			sliderWidth,
+			sliderWidthtext
+		);
 
 		// input for colors
 		var thirdDiv = document.createElement("div");

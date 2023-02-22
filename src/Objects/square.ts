@@ -10,8 +10,6 @@ class Square extends Shape {
 	private p4: Point;
 	private originalXPoints: number[];
 	private originalYPoints: number[];
-	private deltaXvalue: number;
-	private deltaYvalue: number;
 
 	public constructor(point: Point) {
 		super(4);
@@ -139,6 +137,10 @@ class Square extends Shape {
 		renderCanvas();
 	}
 
+	public setLength(delta: number) {
+		
+	}
+
 	public setupSelector(): void {
 		var selector = document.getElementById("selector");
 		selector.replaceChildren();
@@ -203,7 +205,34 @@ class Square extends Shape {
 		var sizeSelectorTitle = document.createElement("h1");
 		sizeSelectorTitle.textContent = "Size";
 
-		secondDiv.append(sizeSelectorTitle);
+		/* Slider length */
+		var sliderLengthTitle = document.createElement("h2");
+		sliderLengthTitle.textContent = "Slider Length";
+		var sliderLength = document.createElement("input") as HTMLInputElement;
+		sliderLength.type = "range";
+		var sliderLengthtext = document.createElement("label");
+		sliderLengthtext.textContent = this.deltaYvalue.toString();
+		var sliderLength = document.createElement("input") as HTMLInputElement;
+		sliderLength.type = "range";
+		sliderLength.min = "0";
+		sliderLength.max = "500";
+		sliderLength.value = this.deltaLengthValue.toString();
+		sliderLength.step = "10";
+		sliderLength.addEventListener("input", (e) => {
+			const delta = (e.target as HTMLInputElement).value;
+			this.setLength(+delta);
+			this.deltaLengthValue = +delta;
+			sliderLengthtext.textContent = this.deltaLengthValue.toString();
+		});
+
+		/* Slider rotation */
+
+		secondDiv.append(
+			sizeSelectorTitle,
+			sliderLengthTitle,
+			sliderLength,
+			sliderLengthtext
+		);
 
 		// input for colors
 		var thirdDiv = document.createElement("div");
