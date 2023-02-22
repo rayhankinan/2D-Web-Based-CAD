@@ -17,13 +17,15 @@ abstract class Shape {
 	public abstract setupSelector(): void;
 
 	public setupOption(name: string, id: number) {
-		var listOfShapes = document.getElementById("list-of-shapes")
+		var listOfShapes = document.getElementById("list-of-shapes") as HTMLSelectElement;
 
-		var option = document.createElement("option")
-		option.value = (id-1).toString()
-		option.text = name
+		var option = document.createElement("option");
+		option.value = (id - 1).toString();
+		option.text = name;
 
-		listOfShapes.appendChild(option)
+		listOfShapes.appendChild(option);
+		this.setupSelector();
+		listOfShapes.value = (id - 1).toString();
 	}
 
 	public render(
@@ -33,9 +35,9 @@ abstract class Shape {
 		colorBuffer: WebGLBuffer
 	): void {
 		if (!this.isPointComplete()) {
-			return
+			return;
 		}
-		
+
 		const positionLocation = gl.getAttribLocation(program, "a_position");
 		const colorLocation = gl.getAttribLocation(program, "a_color");
 		const matrixLocation = gl.getUniformLocation(program, "u_matrix");
@@ -110,8 +112,6 @@ abstract class Shape {
 		const offset = 0;
 		const count = this.count();
 		gl.drawArrays(primitiveType, offset, count);
-
-		/* Setup option */
 	}
 }
 
