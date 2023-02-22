@@ -14,6 +14,17 @@ abstract class Shape {
 	public abstract drawMethod(gl: WebGLRenderingContext): number;
 	public abstract count(): number;
 	public abstract isPointComplete(): boolean;
+	public abstract setupSelector(): void;
+
+	public setupOption(name: string, id: number) {
+		var listOfShapes = document.getElementById("list-of-shapes")
+
+		var option = document.createElement("option")
+		option.value = (id-1).toString()
+		option.text = name
+
+		listOfShapes.appendChild(option)
+	}
 
 	public render(
 		gl: WebGLRenderingContext,
@@ -99,6 +110,8 @@ abstract class Shape {
 		const offset = 0;
 		const count = this.count();
 		gl.drawArrays(primitiveType, offset, count);
+
+		/* Setup option */
 	}
 }
 

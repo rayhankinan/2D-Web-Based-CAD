@@ -34,6 +34,7 @@ class Point extends Coordinate {
     this.b = b;
     this.a = a;
   }
+
 }
 
 export default Point;

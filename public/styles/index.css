@@ -69,8 +69,8 @@ canvas {
 	height: fit-content;
 	position: absolute;
 	right: 0;
-	top: 25%;
 	width: 16vw;
+	height: 100vh;
 	z-index: 2;
 }
 

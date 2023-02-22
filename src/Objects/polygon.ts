@@ -135,6 +135,37 @@ class Polygon extends Shape {
 	public isPointComplete(): boolean {
 		return this.p2 != null;
 	}
+
+	public setupSelector(): void {
+		var selector = document.getElementById("selector");
+		selector.replaceChildren();
+
+		// slider x, y for places
+		var firstDiv = document.createElement("div");
+		firstDiv.className = "transformation-translation";
+		var translationSelectorTitle = document.createElement("h1");
+		translationSelectorTitle.textContent = "Translation";
+
+		firstDiv.append(translationSelectorTitle);
+
+		// slider height, width, rotation
+		var secondDiv = document.createElement("div");
+		secondDiv.className = "transformation-size";
+		var sizeSelectorTitle = document.createElement("h1");
+		sizeSelectorTitle.textContent = "Size";
+
+		secondDiv.append(sizeSelectorTitle);
+
+		// input for colors
+		var thirdDiv = document.createElement("div");
+		thirdDiv.className = "transformation-color";
+		var colorSelectorTitle = document.createElement("h1");
+		colorSelectorTitle.textContent = "Color";
+
+		thirdDiv.append(colorSelectorTitle);
+
+		selector.append(firstDiv, secondDiv, thirdDiv);
+	}
 }
 
 export default Polygon;

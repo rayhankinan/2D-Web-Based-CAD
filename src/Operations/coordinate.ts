@@ -21,6 +21,14 @@ class Coordinate {
     this.w = w;
   }
 
+  public setX(x: number) {
+    this.x = x;
+  }
+
+  public setY(y: number) {
+    this.y = y;
+  }
+
   public dot(other: Coordinate): number {
     return this.x * other.x + this.y * other.y + this.w * other.w;
   }

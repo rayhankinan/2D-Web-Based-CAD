@@ -8,6 +8,7 @@ import Shape from "Objects/shape";
 import Point from "Operations/point";
 import Rectangle from "Objects/rectangle";
 import Polygon from "Objects/polygon";
+import Square from "Objects/square";
 
 /* Global variables */
 var drawMethod: string;
@@ -48,9 +49,13 @@ gl.clear(gl.COLOR_BUFFER_BIT);
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
-/* List of shapes */
-const listOfShapes = document.getElementById("list-of-shapes");
+/* List of shapes listener */
+const listOfShapes = document.getElementById("list-of-shapes") as HTMLSelectElement
+listOfShapes.addEventListener("change", (e) => {
+	const index: number = +listOfShapes.selectedOptions[0].value
 
+	objects[index].setupSelector()
+})
 
 /* Button listener */
 const lineBtn = document.getElementById("line-btn");
@@ -98,6 +103,7 @@ canvas.addEventListener("mousedown", function (e) {
 				var line = objects[objects.length-1] as Line
 				line.updatePoint(point);
 				line.render(gl, program, positionBuffer, colorBuffer);
+				line.setupOption("line_" + objects.length, objects.length);
 
 				isDrawing = false
 			}
@@ -105,14 +111,15 @@ canvas.addEventListener("mousedown", function (e) {
 
 		case SQUARE:
 			if (!isDrawing) {
-				var square = new Rectangle(point, true);
+				var square = new Square(point);
 				objects.push(square);
 
 				isDrawing = true
 			} else {
-				var square = objects[objects.length-1] as Rectangle
+				var square = objects[objects.length-1] as Square
 				square.updatePoint(point)
 				square.render(gl, program, positionBuffer, colorBuffer);
+				square.setupOption("square_" + objects.length, objects.length);
 
 				isDrawing = false
 			}
@@ -120,7 +127,7 @@ canvas.addEventListener("mousedown", function (e) {
 
 		case RECTANGLE:
 			if (!isDrawing) {
-				var rectangle = new Rectangle(point, false);
+				var rectangle = new Rectangle(point);
 				objects.push(rectangle);
 
 				isDrawing = true
@@ -128,6 +135,7 @@ canvas.addEventListener("mousedown", function (e) {
 				var rectangle = objects[objects.length-1] as Rectangle
 				rectangle.updatePoint(point)
 				rectangle.render(gl, program, positionBuffer, colorBuffer);
+				rectangle.setupOption("rectangle_" + objects.length, objects.length);
 
 				isDrawing = false
 			}
@@ -137,6 +145,7 @@ canvas.addEventListener("mousedown", function (e) {
 			if (!isDrawing) {
 				var polygon = new Polygon(point);
 				objects.push(polygon)
+				polygon.setupOption("polygon_" + objects.length, objects.length)
 
 				isDrawing = true
 				isDrawingLine = true
@@ -165,7 +174,7 @@ canvas.addEventListener("mousemove", function (e) {
 				break;
 
 			case SQUARE:
-				var square = objects[objects.length-1] as Rectangle
+				var square = objects[objects.length-1] as Square
 				square.updatePoint(point)
 				square.render(gl, program, positionBuffer, colorBuffer)
 				break;
@@ -187,7 +196,8 @@ canvas.addEventListener("mousemove", function (e) {
 	}
 });
 
-const renderCanvas = () => {
+/* Function utils */
+export const renderCanvas = () => {
 	gl.clear(gl.COLOR_BUFFER_BIT)
 	for (var i = 0; i < objects.length; i++) {
 		objectMap[i] = objects[i]
@@ -203,4 +213,8 @@ const addToMap = () => {
 	for (var i = 0; i < objects.length; i++) {
 		objectMap[i] = objects[i]
 	}
+}
+
+const updateDropdown = () => {
+	
 }
