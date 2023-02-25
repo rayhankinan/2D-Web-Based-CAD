@@ -358,6 +358,8 @@ class Rectangle extends Shape {
 
     thirdDiv.append(colorSelectorTitle, pointOption, innerThirdDiv);
     selector.append(firstDiv, secondDiv, thirdDiv);
+
+    this.setupColorSelector(1);
   }
 }
 

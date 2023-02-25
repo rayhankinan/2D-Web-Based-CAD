@@ -2,6 +2,7 @@ import Shape from "Objects/shape";
 import Point from "Operations/point";
 import Transformation from "Main/Operations/transformation";
 import renderCanvas from "Main/index";
+import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Square extends Shape {
   private center: Point;
@@ -121,6 +122,67 @@ class Square extends Shape {
     renderCanvas();
   }
 
+  public setupColorSelector(index: number) {
+    const colorSelector = document.getElementById("color-selector");
+    colorSelector.innerHTML = "";
+    colorSelector.replaceChildren();
+
+    const colorTitle = document.createElement("h2");
+    colorTitle.textContent = "Select color";
+
+    const colorInput = document.createElement("input");
+    colorInput.id = "color-input";
+    colorInput.type = "color";
+
+    switch (index) {
+      case 1:
+        colorInput.value = rgbToHex(this.p1.getColor());
+        colorInput.addEventListener("change", (e) => {
+          console.log((e.target as HTMLInputElement).value);
+          const hex = (e.target as HTMLInputElement).value;
+
+          console.log(hexToRgb(hex));
+          this.p1.setColor(hexToRgb(hex));
+        });
+        break;
+
+      case 2:
+        colorInput.value = rgbToHex(this.p2.getColor());
+        colorInput.addEventListener("change", (e) => {
+          console.log((e.target as HTMLInputElement).value);
+          const hex = (e.target as HTMLInputElement).value;
+
+          console.log(hexToRgb(hex));
+          this.p2.setColor(hexToRgb(hex));
+        });
+        break;
+
+      case 3:
+        colorInput.value = rgbToHex(this.p3.getColor());
+        colorInput.addEventListener("change", (e) => {
+          console.log((e.target as HTMLInputElement).value);
+          const hex = (e.target as HTMLInputElement).value;
+
+          console.log(hexToRgb(hex));
+          this.p3.setColor(hexToRgb(hex));
+        });
+        break;
+
+      case 4:
+        colorInput.value = rgbToHex(this.p4.getColor());
+        colorInput.addEventListener("change", (e) => {
+          console.log((e.target as HTMLInputElement).value);
+          const hex = (e.target as HTMLInputElement).value;
+
+          console.log(hexToRgb(hex));
+          this.p4.setColor(hexToRgb(hex));
+        });
+        break;
+    }
+
+    colorSelector.append(colorTitle, colorInput);
+  }
+
   public setupSelector(): void {
     const selector = document.getElementById("selector");
     selector.replaceChildren();
@@ -222,12 +284,46 @@ class Square extends Shape {
     /* Third Div */
     const thirdDiv = document.createElement("div");
     thirdDiv.className = "transformation-color";
-
     const colorSelectorTitle = document.createElement("h1");
     colorSelectorTitle.textContent = "Color";
+    const pointOption = document.createElement("select");
+    pointOption.className = "btn";
+    pointOption.addEventListener("change", () => {
+      const index: number = +pointOption.selectedOptions[0].value;
+      var point: Point = null;
+      this.setupColorSelector(index);
+    });
 
-    thirdDiv.append(colorSelectorTitle);
+    // firstPoint
+    const firstPointOption = document.createElement("option");
+    firstPointOption.value = "1";
+    firstPointOption.text = "point_1";
+
+    // second point
+    const secondPointOption = document.createElement("option");
+    secondPointOption.value = "2";
+    secondPointOption.text = "point_2";
+
+    const thirdPointOption = document.createElement("option");
+    thirdPointOption.value = "3";
+    thirdPointOption.text = "point_3";
+
+    const fourthPointOption = document.createElement("option");
+    fourthPointOption.value = "4";
+    fourthPointOption.text = "point_4";
+
+    pointOption.appendChild(firstPointOption);
+    pointOption.appendChild(secondPointOption);
+    pointOption.appendChild(thirdPointOption);
+    pointOption.appendChild(fourthPointOption);
+
+    const innerThirdDiv = document.createElement("div");
+    innerThirdDiv.id = "color-selector";
+
+    thirdDiv.append(colorSelectorTitle, pointOption, innerThirdDiv);
     selector.append(firstDiv, secondDiv, thirdDiv);
+
+    this.setupColorSelector(1);
   }
 }
 
