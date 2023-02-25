@@ -1,5 +1,6 @@
 import Shape from "Objects/shape";
 import Point from "Operations/point";
+import Transformation from "Main/Operations/transformation";
 import renderCanvas from "Main/index";
 
 class Square extends Shape {
@@ -8,43 +9,20 @@ class Square extends Shape {
   private p2: Point;
   private p3: Point;
   private p4: Point;
-  private originalXPoints: number[];
-  private originalYPoints: number[];
 
   public constructor(point: Point) {
     super(4);
 
     this.center = point;
-    this.deltaXvalue = 0;
-    this.deltaYvalue = 0;
-    this.deltaLengthValue = 0;
   }
 
   public findCenter(): Point {
-    const [p1x, p1y] = this.p1.getPair();
-    const [p2x, p2y] = this.p2.getPair();
-    const [p3x, p3y] = this.p3.getPair();
-    const [p4x, p4y] = this.p4.getPair();
-
-    return new Point([
-      (p1x + p2x + p3x + p4x) / 4,
-      (p1y + p2y + p3y + p4y) / 4,
-    ]);
+    return this.center;
   }
 
   public updatePoint(p: Point) {
     this.p1 = p;
     [this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
-
-    this.originalXPoints = [p.getPair()[0]];
-    this.originalXPoints[1] = this.p2.getPair()[0];
-    this.originalXPoints[2] = this.p3.getPair()[0];
-    this.originalXPoints[3] = this.p4.getPair()[0];
-
-    this.originalYPoints = [p.getPair()[1]];
-    this.originalYPoints[1] = this.p2.getPair()[1];
-    this.originalYPoints[2] = this.p3.getPair()[1];
-    this.originalYPoints[3] = this.p4.getPair()[1];
   }
 
   public addPosition(gl: WebGLRenderingContext): void {
@@ -87,187 +65,111 @@ class Square extends Shape {
     return this.p1 != null;
   }
 
-  public rotateByDegree(
-    x: number,
-    y: number,
-    a: number,
-    b: number,
-    deg: number
-  ): Point {
-    if (deg == 90) {
-      return new Point([-y + a + b, x - a + b]);
-    } else if (deg == 180) {
-      return new Point([-x + 2 * a, -y + 2 * b]);
-    } else if (deg == 270) {
-      return new Point([y - b + a, -x + a + b]);
-    }
-  }
+  public getSymmetricalSquarePoint(): readonly [Point, Point, Point] {
+    const [xCenter, yCenter] = this.center.getPair();
 
-  public getSymmetricalSquarePoint(): [Point, Point, Point] {
-    const [x, y] = this.p1.getPair();
-    const [a, b] = this.center.getPair();
+    const p2 = Transformation.translation(xCenter, yCenter)
+      .multiplyMatrix(Transformation.rotation(0.5 * Math.PI))
+      .multiplyMatrix(Transformation.translation(-xCenter, -yCenter))
+      .multiplyPoint(this.p1);
 
-    // point1 90
-    let point1 = this.rotateByDegree(x, y, a, b, 90);
+    console.log([
+      this.p1,
+      this.center,
+      Transformation.translation(xCenter, yCenter),
+      Transformation.rotation(0.5 * Math.PI),
+      Transformation.translation(-xCenter, -yCenter),
+      this.p2,
+    ]);
 
-    // point2 180
-    let point2 = this.rotateByDegree(x, y, a, b, 180);
+    const p3 = Transformation.translation(xCenter, yCenter)
+      .multiplyMatrix(Transformation.rotation(Math.PI))
+      .multiplyMatrix(Transformation.translation(-xCenter, -yCenter))
+      .multiplyPoint(this.p1);
 
-    // point3 270
-    let point3 = this.rotateByDegree(x, y, a, b, 270);
+    const p4 = Transformation.translation(xCenter, yCenter)
+      .multiplyMatrix(Transformation.rotation(1.5 * Math.PI))
+      .multiplyMatrix(Transformation.translation(-xCenter, -yCenter))
+      .multiplyPoint(this.p1);
 
-    return [point1, point2, point3];
+    return [p2, p3, p4];
   }
 
   public moveX(delta: number) {
-    const newX: number = this.originalXPoints[0] + this.deltaLengthValue;
-    const newY: number = this.findY(
-      newX,
-      this.originalXPoints[0],
-      this.originalYPoints[0],
-      this.center.getPair()[0],
-      this.center.getPair()[1]
-    );
-
-    // prerequisite for get symmetrical square point
-    this.p1.setX(newX);
-    this.p1.setY(newY);
-    const [p2, p3, p4] = this.getSymmetricalSquarePoint();
-
-    // then change again here
-    this.p1.setX(newX + delta);
-    this.p1.setY(newY + this.deltaYvalue);
-
-    this.p2.setX(p2.getPair()[0] + delta);
-    this.p2.setY(p2.getPair()[1] + this.deltaYvalue);
-
-    this.p3.setX(p3.getPair()[0] + delta);
-    this.p3.setY(p3.getPair()[1] + this.deltaYvalue);
-
-    this.p4.setX(p4.getPair()[0] + delta);
-    this.p4.setY(p4.getPair()[1] + this.deltaYvalue);
+    this.tx = delta;
 
     renderCanvas();
   }
 
   public moveY(delta: number) {
-    const newX: number = this.originalXPoints[0] + this.deltaLengthValue;
-    const newY: number = this.findY(
-      newX,
-      this.originalXPoints[0],
-      this.originalYPoints[0],
-      this.center.getPair()[0],
-      this.center.getPair()[1]
-    );
-
-    // prerequisite for get symmetrical square point
-    this.p1.setX(newX);
-    this.p1.setY(newY);
-    const [p2, p3, p4] = this.getSymmetricalSquarePoint();
-
-    // then change again here
-    this.p1.setX(newX + this.deltaXvalue);
-    this.p1.setY(newY + delta);
-
-    this.p2.setX(p2.getPair()[0] + this.deltaXvalue);
-    this.p2.setY(p2.getPair()[1] + delta);
-
-    this.p3.setX(p3.getPair()[0] + this.deltaXvalue);
-    this.p3.setY(p3.getPair()[1] + delta);
-
-    this.p4.setX(p4.getPair()[0] + this.deltaXvalue);
-    this.p4.setY(p4.getPair()[1] + delta);
+    this.ty = -delta;
 
     renderCanvas();
   }
 
-  public findY(x: number, x1: number, y1: number, x2: number, y2: number) {
-    const m: number = (y2 - y1) / (x2 - x1);
-    const c: number = y1 - m * x1;
+  public getLength(): number {
+    const [x1, y1] = this.p1.getPair();
+    const [x2, y2] = this.p2.getPair();
 
-    return m * x + c;
+    return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
   }
 
   public setLength(delta: number) {
-    const newX: number = this.originalXPoints[0] + delta;
-    const newY: number = this.findY(
-      newX,
-      this.originalXPoints[0],
-      this.originalYPoints[0],
-      this.center.getPair()[0],
-      this.center.getPair()[1]
-    );
-
-    // prerequisite for get symmetrical square point
-    this.p1.setX(newX);
-    this.p1.setY(newY);
-    const [p2, p3, p4] = this.getSymmetricalSquarePoint();
-
-    // then change again here
-    this.p1.setX(newX + this.deltaXvalue);
-    this.p1.setY(newY + this.deltaYvalue);
-
-    this.p2.setX(p2.getPair()[0] + this.deltaXvalue);
-    this.p2.setY(p2.getPair()[1] + this.deltaYvalue);
-
-    this.p3.setX(p3.getPair()[0] + this.deltaXvalue);
-    this.p3.setY(p3.getPair()[1] + this.deltaYvalue);
-
-    this.p4.setX(p4.getPair()[0] + this.deltaXvalue);
-    this.p4.setY(p4.getPair()[1] + this.deltaYvalue);
+    this.sx = 1 + delta / this.getLength();
+    this.sy = 1 + delta / this.getLength();
 
     renderCanvas();
   }
 
   public setupSelector(): void {
-    let selector = document.getElementById("selector");
+    const selector = document.getElementById("selector");
     selector.replaceChildren();
 
-    // slider x, y for places
-    let firstDiv = document.createElement("div");
+    /* First Div */
+    const firstDiv = document.createElement("div");
     firstDiv.className = "transformation-translation";
 
-    let translationSelectorTitle = document.createElement("h1");
+    const translationSelectorTitle = document.createElement("h1");
     translationSelectorTitle.textContent = "Translation";
 
-    /* SLIDER X */
-    let sliderxTitle = document.createElement("h2");
+    /* Slider X */
+    const sliderxTitle = document.createElement("h2");
     sliderxTitle.textContent = "Slider X";
 
-    let sliderXtext = document.createElement("label");
-    sliderXtext.textContent = this.deltaXvalue.toString();
+    const sliderXtext = document.createElement("label");
+    sliderXtext.textContent = this.tx.toString();
 
-    let sliderX = document.createElement("input");
+    const sliderX = document.createElement("input");
     sliderX.type = "range";
     sliderX.min = "-600";
     sliderX.max = "600";
-    sliderX.value = this.deltaXvalue.toString();
+    sliderX.value = this.tx.toString();
     sliderX.step = "10";
-    sliderX.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderX.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderXtext.textContent = delta;
+
       this.moveX(+delta);
-      this.deltaXvalue = +delta;
-      sliderXtext.textContent = this.deltaXvalue.toString();
     });
 
-    /* SLIDER Y */
-    let slideryTitle = document.createElement("h2");
+    /* Slider Y */
+    const slideryTitle = document.createElement("h2");
     slideryTitle.textContent = "Slider Y";
 
-    let sliderYtext = document.createElement("label");
-    sliderYtext.textContent = this.deltaYvalue.toString();
+    const sliderYtext = document.createElement("label");
+    sliderYtext.textContent = (-this.ty).toString();
 
-    let sliderY = document.createElement("input");
+    const sliderY = document.createElement("input");
     sliderY.type = "range";
     sliderY.min = "-500";
     sliderY.max = "500";
-    sliderY.value = this.deltaYvalue.toString();
+    sliderY.value = (-this.ty).toString();
     sliderY.step = "10";
-    sliderY.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderY.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderYtext.textContent = delta;
+
       this.moveY(+delta);
-      this.deltaYvalue = +delta;
-      sliderYtext.textContent = this.deltaYvalue.toString();
     });
 
     firstDiv.append(
@@ -280,34 +182,36 @@ class Square extends Shape {
       sliderYtext
     );
 
-    // slider height, width, rotation
-    let secondDiv = document.createElement("div");
+    /* Second Div */
+    const secondDiv = document.createElement("div");
     secondDiv.className = "transformation-size";
 
-    let sizeSelectorTitle = document.createElement("h1");
+    const sizeSelectorTitle = document.createElement("h1");
     sizeSelectorTitle.textContent = "Size";
 
-    /* Slider length */
-    let sliderLengthTitle = document.createElement("h2");
+    /* Slider Length */
+    const sliderLengthTitle = document.createElement("h2");
     sliderLengthTitle.textContent = "Slider Length";
 
-    let sliderLengthtext = document.createElement("label");
-    sliderLengthtext.textContent = this.deltaLengthValue.toString();
+    const sliderLengthtext = document.createElement("label");
+    sliderLengthtext.textContent = (
+      (this.sx - 1) *
+      this.getLength()
+    ).toString();
 
-    let sliderLength = document.createElement("input");
+    const sliderLength = document.createElement("input");
     sliderLength.type = "range";
     sliderLength.min = "0";
     sliderLength.max = "500";
-    sliderLength.value = this.deltaLengthValue.toString();
+    sliderLength.value = ((this.sx - 1) * this.getLength()).toString();
     sliderLength.step = "10";
-    sliderLength.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderLength.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderLengthtext.textContent = delta;
+
       this.setLength(+delta);
-      this.deltaLengthValue = +delta;
-      sliderLengthtext.textContent = this.deltaLengthValue.toString();
     });
 
-    /* Slider rotation */
     secondDiv.append(
       sizeSelectorTitle,
       sliderLengthTitle,
@@ -315,15 +219,14 @@ class Square extends Shape {
       sliderLengthtext
     );
 
-    // input for colors
-    let thirdDiv = document.createElement("div");
+    /* Third Div */
+    const thirdDiv = document.createElement("div");
     thirdDiv.className = "transformation-color";
 
-    let colorSelectorTitle = document.createElement("h1");
+    const colorSelectorTitle = document.createElement("h1");
     colorSelectorTitle.textContent = "Color";
 
     thirdDiv.append(colorSelectorTitle);
-
     selector.append(firstDiv, secondDiv, thirdDiv);
   }
 }

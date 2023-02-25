@@ -130,7 +130,8 @@ canvas.addEventListener("mousedown", (event) => {
 
         isDrawing = true;
       } else {
-        let rectangle = objects[objects.length - 1] as Rectangle;
+        const rectangle = objects[objects.length - 1] as Rectangle;
+
         rectangle.updatePoint(point);
         rectangle.render(gl, program, positionBuffer, colorBuffer);
         rectangle.setupOption(`rectangle_${objects.length}`, objects.length);
@@ -159,9 +160,9 @@ canvas.addEventListener("mousedown", (event) => {
 });
 
 canvas.addEventListener("mousemove", (event) => {
-  let x = event.clientX;
-  let y = event.clientY;
-  let point = new Point([x, y]);
+  const x = event.clientX;
+  const y = event.clientY;
+  const point = new Point([x, y]);
 
   if (isDrawing) {
     switch (drawMethod) {

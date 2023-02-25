@@ -84,8 +84,8 @@ class Rectangle extends Shape {
     const [a, b] = this.p1.getPair();
     const [c, d] = point.getPair();
 
-    let point1 = new Point([a, d]);
-    let point2 = new Point([c, b]);
+    const point1 = new Point([a, d]);
+    const point2 = new Point([c, b]);
 
     return [point1, point2];
   }
@@ -102,20 +102,28 @@ class Rectangle extends Shape {
     renderCanvas();
   }
 
-  public setLength(delta: number) {
-    const [p1x] = this.p1.getPair();
-    const [p3x] = this.p3.getPair();
+  public getLength(): number {
+    const [p1x, p1y] = this.p1.getPair();
+    const [p2x, p2y] = this.p2.getPair();
 
-    this.sx = 1 + delta / (p3x - p1x);
+    return Math.sqrt((p2x - p1x) ** 2 + (p2y - p1y) ** 2);
+  }
+
+  public getWidth(): number {
+    const [p1x, p1y] = this.p1.getPair();
+    const [p4x, p4y] = this.p4.getPair();
+
+    return Math.sqrt((p4x - p1x) ** 2 + (p4y - p1y) ** 2);
+  }
+
+  public setLength(delta: number) {
+    this.sx = 1 + delta / this.getLength();
 
     renderCanvas();
   }
 
   public setWidth(delta: number) {
-    const [, p1y] = this.p1.getPair();
-    const [, p3y] = this.p3.getPair();
-
-    this.sy = 1 - delta / (p3y - p1y);
+    this.sy = 1 + delta / this.getWidth();
 
     renderCanvas();
   }
@@ -124,7 +132,7 @@ class Rectangle extends Shape {
     const selector = document.getElementById("selector");
     selector.replaceChildren();
 
-    /* First Div  */
+    /* First Div */
     const firstDiv = document.createElement("div");
     firstDiv.className = "transformation-translation";
 
@@ -195,13 +203,16 @@ class Rectangle extends Shape {
     const [p3x] = this.p3.getPair();
 
     const sliderLengthtext = document.createElement("label");
-    sliderLengthtext.textContent = ((this.sx - 1) * (p3x - p1x)).toString();
+    sliderLengthtext.textContent = (
+      (this.sx - 1) *
+      this.getLength()
+    ).toString();
 
     const sliderLength = document.createElement("input");
     sliderLength.type = "range";
     sliderLength.min = "0";
     sliderLength.max = "500";
-    sliderLength.value = ((this.sx - 1) * (p3x - p1x)).toString();
+    sliderLength.value = ((this.sx - 1) * this.getLength()).toString();
     sliderLength.step = "10";
     sliderLength.addEventListener("input", (event) => {
       const delta = (event.target as HTMLInputElement).value;
@@ -218,13 +229,13 @@ class Rectangle extends Shape {
     const [, p3y] = this.p3.getPair();
 
     const sliderWidthText = document.createElement("label");
-    sliderWidthText.textContent = ((this.sy - 1) * (p1y - p3y)).toString();
+    sliderWidthText.textContent = ((this.sy - 1) * this.getWidth()).toString();
 
     const sliderWidth = document.createElement("input");
     sliderWidth.type = "range";
     sliderWidth.min = "0";
     sliderWidth.max = "500";
-    sliderWidth.value = ((this.sy - 1) * (p1y - p3y)).toString();
+    sliderWidth.value = ((this.sy - 1) * this.getWidth()).toString();
     sliderWidth.step = "10";
     sliderWidth.addEventListener("input", (event) => {
       const delta = (event.target as HTMLInputElement).value;

@@ -53,25 +53,29 @@ class Line extends Shape {
     return this.p2 != null;
   }
 
-  public moveX(delta: number) {
+  public moveX(delta: number): void {
     this.tx = delta;
 
     renderCanvas();
   }
 
-  public moveY(delta: number) {
+  public moveY(delta: number): void {
     this.ty = -delta;
 
     renderCanvas();
   }
 
-  public setLength(delta: number) {
-    const [p1x] = this.p1.getPair();
-    const [p2x] = this.p2.getPair();
+  public getLength(): number {
+    const [p1x, p1y] = this.p1.getPair();
+    const [p2x, p2y] = this.p2.getPair();
 
+    return Math.sqrt((p2x - p1x) ** 2 + (p2y - p1y) ** 2);
+  }
+
+  public setLength(delta: number) {
     /* Mengikuti sumbu X */
-    this.sx = 1 + delta / (p2x - p1x);
-    this.sy = 1 + delta / (p2x - p1x);
+    this.sx = 1 + delta / this.getLength();
+    this.sy = 1 + delta / this.getLength();
 
     renderCanvas();
   }
@@ -191,13 +195,16 @@ class Line extends Shape {
     const [p2x] = this.p2.getPair();
 
     const sliderLengthtext = document.createElement("label");
-    sliderLengthtext.textContent = ((this.sx - 1) * (p2x - p1x)).toString();
+    sliderLengthtext.textContent = (
+      (this.sx - 1) *
+      this.getLength()
+    ).toString();
 
     const sliderLength = document.createElement("input");
     sliderLength.type = "range";
     sliderLength.min = "0";
     sliderLength.max = "500";
-    sliderLength.value = ((this.sx - 1) * (p2x - p1x)).toString();
+    sliderLength.value = ((this.sx - 1) * this.getLength()).toString();
     sliderLength.step = "10";
     sliderLength.addEventListener("input", (event) => {
       const delta = (event.target as HTMLInputElement).value;

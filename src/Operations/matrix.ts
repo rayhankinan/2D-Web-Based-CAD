@@ -1,4 +1,5 @@
 import Coordinate from "Operations/coordinate";
+import Point from "Operations/point";
 
 class Matrix {
   protected a1;
@@ -55,6 +56,24 @@ class Matrix {
     const matrix = new Matrix([b1, b2, b3]);
 
     return matrix;
+  }
+
+  public multiplyPoint(point: Point): Point {
+    /* Unpack "this" matrix */
+    const [a11, a21] = this.a1.getTriplet();
+    const [a12, a22] = this.a2.getTriplet();
+    const [a13, a23] = this.a3.getTriplet();
+
+    /* Create transpose coordinate */
+    const a1 = new Coordinate([a11, a12, a13]);
+    const a2 = new Coordinate([a21, a22, a23]);
+
+    const x1 = a1.dot(point);
+    const y1 = a2.dot(point);
+
+    const coordinate1 = new Point([x1, y1]);
+
+    return coordinate1;
   }
 }
 
