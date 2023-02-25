@@ -14,9 +14,10 @@ class Square extends Shape {
 	public constructor(point: Point) {
 		super(4);
 
-        this.center = point;
+		this.center = point;
 		this.deltaXvalue = 0;
 		this.deltaYvalue = 0;
+		this.deltaLengthValue = 0;
 	}
 
 	public findCenter(): Point {
@@ -32,19 +33,18 @@ class Square extends Shape {
 	}
 
 	public updatePoint(p: Point) {
-        this.p1 = p;
-        [this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
-		
+		this.p1 = p;
+		[this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
 
 		this.originalXPoints = [p.getPair()[0]];
-		this.originalXPoints[1] = this.p2.getPair()[0];
-		this.originalXPoints[2] = this.p3.getPair()[0];
-		this.originalXPoints[3] = this.p4.getPair()[0];
+		// this.originalXPoints[1] = this.p2.getPair()[0];
+		// this.originalXPoints[2] = this.p3.getPair()[0];
+		// this.originalXPoints[3] = this.p4.getPair()[0];
 
 		this.originalYPoints = [p.getPair()[1]];
-		this.originalYPoints[1] = this.p2.getPair()[1];
-		this.originalYPoints[2] = this.p3.getPair()[1];
-		this.originalYPoints[3] = this.p4.getPair()[1];
+		// this.originalYPoints[1] = this.p2.getPair()[1];
+		// this.originalYPoints[2] = this.p3.getPair()[1];
+		// this.originalYPoints[3] = this.p4.getPair()[1];
 	}
 
 	public addPosition(gl: WebGLRenderingContext): void {
@@ -84,7 +84,7 @@ class Square extends Shape {
 	}
 
 	public isPointComplete(): boolean {
-        return this.p1 != null;
+		return this.p1 != null;
 	}
 
 	public rotateByDegree(
@@ -137,8 +137,22 @@ class Square extends Shape {
 		renderCanvas();
 	}
 
+	public findY(x: number, x1: number, y1: number, x2: number, y2: number) {
+		const m: number = (y2 - y1) / (x2 - x1);
+		const c: number = y1 - m * x1;
+
+		return (m*x) + c
+	}
+
 	public setLength(delta: number) {
-		
+		const newX: number = this.originalXPoints[0] + delta;
+		const newY: number = this.findY(newX, this.originalXPoints[0], this.originalYPoints[0], this.center.getPair()[0], this.center.getPair()[1])
+
+		this.p1.setX(newX);
+		this.p1.setY(newY);
+
+		[this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
+		renderCanvas();
 	}
 
 	public setupSelector(): void {
