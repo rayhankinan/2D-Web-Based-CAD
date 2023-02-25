@@ -4,11 +4,6 @@ import Transformation from "Operations/transformation";
 abstract class Shape {
   protected n: number;
 
-  protected deltaXvalue: number;
-  protected deltaYvalue: number;
-  protected deltaLengthValue: number;
-  protected deltaWidthValue: number;
-
   protected tx: number;
   protected ty: number;
   protected degree: number;
@@ -26,11 +21,6 @@ abstract class Shape {
     this.sy = 1;
     this.kx = 0;
     this.ky = 0;
-
-    this.deltaXvalue = 0;
-    this.deltaYvalue = 0;
-    this.deltaLengthValue = 0;
-    this.deltaWidthValue = 0;
   }
 
   public abstract findCenter(): Point;
@@ -40,6 +30,9 @@ abstract class Shape {
   public abstract count(): number;
   public abstract isPointComplete(): boolean;
   public abstract setupSelector(): void;
+  public abstract updatePoint(point: Point): void;
+  public abstract moveX(delta: number): void;
+  public abstract moveY(delta: number): void;
 
   public setupOption(name: string, id: number) {
     const option = document.createElement("option");

@@ -261,9 +261,6 @@ class Rectangle extends Shape {
     const sliderLengthTitle = document.createElement("h2");
     sliderLengthTitle.textContent = "Slider Length";
 
-    const [p1x] = this.p1.getPair();
-    const [p3x] = this.p3.getPair();
-
     const sliderLengthtext = document.createElement("label");
     sliderLengthtext.textContent = (
       (this.sx - 1) *
@@ -286,9 +283,6 @@ class Rectangle extends Shape {
     /* Slider Width */
     const sliderWidthTitle = document.createElement("h2");
     sliderWidthTitle.textContent = "Slider Width";
-
-    const [, p1y] = this.p1.getPair();
-    const [, p3y] = this.p3.getPair();
 
     const sliderWidthText = document.createElement("label");
     sliderWidthText.textContent = ((this.sy - 1) * this.getWidth()).toString();

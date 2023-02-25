@@ -82,37 +82,36 @@ class Line extends Shape {
 
   public setupColorSelector(index: number) {
     const colorSelector = document.getElementById("color-selector");
-    colorSelector.innerHTML = ""
-    colorSelector.replaceChildren()
+    colorSelector.innerHTML = "";
+    colorSelector.replaceChildren();
 
     const colorTitle = document.createElement("h2");
     colorTitle.textContent = "Select color";
 
     const colorInput = document.createElement("input");
-    colorInput.id = "color-input"
+    colorInput.id = "color-input";
     colorInput.type = "color";
-
 
     if (index === 1) {
       colorInput.value = rgbToHex(this.p1.getColor());
       colorInput.addEventListener("change", (e) => {
-        console.log((e.target as HTMLInputElement).value)
-        const hex = (e.target as HTMLInputElement).value
-  
+        console.log((e.target as HTMLInputElement).value);
+        const hex = (e.target as HTMLInputElement).value;
+
         console.log(hexToRgb(hex));
         this.p1.setColor(hexToRgb(hex));
-      })
-    } 
+      });
+    }
 
     if (index === 2) {
       colorInput.value = rgbToHex(this.p2.getColor());
       colorInput.addEventListener("change", (e) => {
-        console.log((e.target as HTMLInputElement).value)
-        const hex = (e.target as HTMLInputElement).value
-  
+        console.log((e.target as HTMLInputElement).value);
+        const hex = (e.target as HTMLInputElement).value;
+
         console.log(hexToRgb(hex));
         this.p2.setColor(hexToRgb(hex));
-      })
+      });
     }
 
     colorSelector.append(colorTitle, colorInput);
@@ -227,30 +226,31 @@ class Line extends Shape {
     const colorSelectorTitle = document.createElement("h1");
     colorSelectorTitle.textContent = "Color";
     const pointOption = document.createElement("select");
-    pointOption.className = "btn"
+    pointOption.className = "btn";
     pointOption.addEventListener("change", () => {
       const index: number = +pointOption.selectedOptions[0].value;
       var point: Point = null;
       this.setupColorSelector(index);
     });
 
-    // firstPoint
+    // first Point
     const firstPointOption = document.createElement("option");
     firstPointOption.value = "1";
-    firstPointOption.text = "point_1"
+    firstPointOption.text = "point_1";
 
     // second point
     const secondPointOption = document.createElement("option");
     secondPointOption.value = "2";
-    secondPointOption.text = "point_2"
+    secondPointOption.text = "point_2";
 
     pointOption.appendChild(firstPointOption);
     pointOption.appendChild(secondPointOption);
 
     const innerThirdDiv = document.createElement("div");
-    innerThirdDiv.id = "color-selector"
+    innerThirdDiv.id = "color-selector";
 
     thirdDiv.append(colorSelectorTitle, pointOption, innerThirdDiv);
+
     selector.append(firstDiv, secondDiv, thirdDiv);
 
     this.setupColorSelector(1);

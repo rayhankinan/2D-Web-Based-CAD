@@ -1,10 +1,15 @@
 function componentToHex(c: number) {
   var hex = c.toString(16);
-  return hex.length == 1 ? "0" + hex : hex;
+  return hex.length === 1 ? "0" + hex : hex;
 }
 
 function rgbToHex(rgba: readonly [number, number, number, number]) {
-    return "#" + componentToHex(rgba[0]) + componentToHex(rgba[1]) + componentToHex(rgba[2]);
+  return (
+    "#" +
+    componentToHex(rgba[0]) +
+    componentToHex(rgba[1]) +
+    componentToHex(rgba[2])
+  );
 }
 
 function hexToRgb(hex: string): readonly [number, number, number, number] {
