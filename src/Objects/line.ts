@@ -91,19 +91,18 @@ class Line extends Shape {
     sliderXTitle.textContent = "Slider X";
 
     const sliderXtext = document.createElement("label");
-    sliderXtext.textContent = this.deltaXvalue.toString();
+    sliderXtext.textContent = this.tx.toString();
 
     const sliderX = document.createElement("input");
     sliderX.type = "range";
     sliderX.min = "-600";
     sliderX.max = "600";
-    sliderX.value = this.deltaXvalue.toString();
+    sliderX.value = this.tx.toString();
     sliderX.step = "10";
     sliderX.addEventListener("input", (event) => {
       const delta = (event.target as HTMLInputElement).value;
       sliderXtext.textContent = delta;
 
-      this.deltaXvalue = +delta;
       this.moveX(+delta);
     });
 
@@ -112,19 +111,18 @@ class Line extends Shape {
     sliderYTitle.textContent = "Slider Y";
 
     const sliderYtext = document.createElement("label");
-    sliderYtext.textContent = this.deltaYvalue.toString();
+    sliderYtext.textContent = (-this.ty).toString();
 
     const sliderY = document.createElement("input");
     sliderY.type = "range";
     sliderY.min = "-500";
     sliderY.max = "500";
-    sliderY.value = this.deltaYvalue.toString();
+    sliderY.value = (-this.ty).toString();
     sliderY.step = "10";
     sliderY.addEventListener("input", (event) => {
       const delta = (event.target as HTMLInputElement).value;
       sliderYtext.textContent = delta;
 
-      this.deltaYvalue = +delta;
       this.moveY(+delta);
     });
 
@@ -149,20 +147,22 @@ class Line extends Shape {
     const sliderLengthTitle = document.createElement("h2");
     sliderLengthTitle.textContent = "Slider Length";
 
+    const [p1x] = this.p1.getPair();
+    const [p2x] = this.p2.getPair();
+
     const sliderLengthtext = document.createElement("label");
-    sliderLengthtext.textContent = this.deltaYvalue.toString();
+    sliderLengthtext.textContent = ((this.sx - 1) * (p2x - p1x)).toString();
 
     const sliderLength = document.createElement("input");
     sliderLength.type = "range";
     sliderLength.min = "0";
     sliderLength.max = "500";
-    sliderLength.value = this.deltaLengthValue.toString();
+    sliderLength.value = ((this.sx - 1) * (p2x - p1x)).toString();
     sliderLength.step = "10";
-    sliderLength.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderLength.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
       sliderLengthtext.textContent = delta;
 
-      this.deltaLengthValue = +delta;
       this.setLength(+delta);
     });
 
