@@ -3,8 +3,12 @@ import Transformation from "Operations/transformation";
 
 abstract class Shape {
   protected readonly n: number;
-  protected width: number;
-  protected height: number;
+
+  protected deltaXvalue: number;
+  protected deltaYvalue: number;
+  protected deltaLengthValue: number;
+  protected deltaWidthValue: number;
+
   protected tx: number;
   protected ty: number;
   protected degree: number;
@@ -13,13 +17,20 @@ abstract class Shape {
   protected kx: number;
   protected ky: number;
 
-  protected deltaXvalue: number;
-  protected deltaYvalue: number;
-  protected deltaLengthValue: number;
-  protected deltaWidthValue: number;
-
   public constructor(n: number) {
     this.n = n;
+    this.tx = 0;
+    this.ty = 0;
+    this.degree = 0;
+    this.sx = 1;
+    this.sy = 1;
+    this.kx = 0;
+    this.ky = 0;
+
+    this.deltaXvalue = 0;
+    this.deltaYvalue = 0;
+    this.deltaLengthValue = 0;
+    this.deltaWidthValue = 0;
   }
 
   public abstract findCenter(): Point;
@@ -31,17 +42,17 @@ abstract class Shape {
   public abstract setupSelector(): void;
 
   public setupOption(name: string, id: number) {
-    let listOfShapes = document.getElementById(
-      "list-of-shapes"
-    ) as HTMLSelectElement;
-
-    let option = document.createElement("option");
+    const option = document.createElement("option");
     option.value = (id - 1).toString();
     option.text = name;
 
+    const listOfShapes = document.getElementById(
+      "list-of-shapes"
+    ) as HTMLSelectElement;
     listOfShapes.appendChild(option);
-    this.setupSelector();
     listOfShapes.value = (id - 1).toString();
+
+    this.setupSelector();
   }
 
   public render(
@@ -81,6 +92,7 @@ abstract class Shape {
     gl.enableVertexAttribArray(colorLocation);
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     this.addColor(gl);
+
     const colorSize = 4; /* 4 components per iteration */
     const colorType = gl.FLOAT; /* The data is 32 bit float */
     const colorNormalized = false; /* Don't normalize the data */
@@ -95,29 +107,16 @@ abstract class Shape {
       colorOffset
     );
 
-    /* Count Matrix */
-    const { width, height, tx, ty, degree, sx, sy, kx, ky } = {
-      width: gl.canvas.width,
-      height: gl.canvas.height,
-      tx: 0,
-      ty: 0,
-      degree: 0,
-      sx: 1,
-      sy: 1,
-      kx: 0,
-      ky: 0,
-    };
-
     const matrix = Transformation.general(
-      width,
-      height,
-      tx,
-      ty,
-      degree,
-      sx,
-      sy,
-      kx,
-      ky,
+      gl.canvas.width,
+      gl.canvas.height,
+      this.tx,
+      this.ty,
+      this.degree,
+      this.sx,
+      this.sy,
+      this.kx,
+      this.ky,
       this.findCenter()
     ).flatten();
 
@@ -127,6 +126,7 @@ abstract class Shape {
     const primitiveType = this.drawMethod(gl);
     const offset = 0;
     const count = this.count();
+
     gl.drawArrays(primitiveType, offset, count);
   }
 }

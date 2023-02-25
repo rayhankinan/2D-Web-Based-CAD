@@ -73,7 +73,7 @@ squareBtn.addEventListener("click", () => {
 });
 
 const rectangleBtn = document.getElementById("rectangle-btn");
-rectangleBtn.addEventListener("click", (e) => {
+rectangleBtn.addEventListener("click", () => {
   drawMethod = ShapeType.RECTANGLE;
   isDrawing = false;
 });
