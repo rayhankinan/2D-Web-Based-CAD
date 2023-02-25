@@ -37,14 +37,14 @@ class Square extends Shape {
 		[this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
 
 		this.originalXPoints = [p.getPair()[0]];
-		// this.originalXPoints[1] = this.p2.getPair()[0];
-		// this.originalXPoints[2] = this.p3.getPair()[0];
-		// this.originalXPoints[3] = this.p4.getPair()[0];
+		this.originalXPoints[1] = this.p2.getPair()[0];
+		this.originalXPoints[2] = this.p3.getPair()[0];
+		this.originalXPoints[3] = this.p4.getPair()[0];
 
 		this.originalYPoints = [p.getPair()[1]];
-		// this.originalYPoints[1] = this.p2.getPair()[1];
-		// this.originalYPoints[2] = this.p3.getPair()[1];
-		// this.originalYPoints[3] = this.p4.getPair()[1];
+		this.originalYPoints[1] = this.p2.getPair()[1];
+		this.originalYPoints[2] = this.p3.getPair()[1];
+		this.originalYPoints[3] = this.p4.getPair()[1];
 	}
 
 	public addPosition(gl: WebGLRenderingContext): void {
@@ -120,19 +120,63 @@ class Square extends Shape {
 	}
 
 	public moveX(delta: number) {
-		this.p1.setX(this.originalXPoints[0] + delta);
-		this.p2.setX(this.originalXPoints[1] + delta);
-		this.p3.setX(this.originalXPoints[2] + delta);
-		this.p4.setX(this.originalXPoints[3] + delta);
+		const newX: number = this.originalXPoints[0] + this.deltaLengthValue;
+		const newY: number = this.findY(
+			newX,
+			this.originalXPoints[0],
+			this.originalYPoints[0],
+			this.center.getPair()[0],
+			this.center.getPair()[1]
+		);
+
+		// prerequisite for get symmetrical square point
+		this.p1.setX(newX);
+		this.p1.setY(newY);
+		const [p2, p3, p4] = this.getSymmetricalSquarePoint();
+
+		// then change again here
+		this.p1.setX(newX + delta);
+		this.p1.setY(newY + this.deltaYvalue);
+
+		this.p2.setX(p2.getPair()[0] + delta);
+		this.p2.setY(p2.getPair()[1] + this.deltaYvalue);
+
+		this.p3.setX(p3.getPair()[0] + delta);
+		this.p3.setY(p3.getPair()[1] + this.deltaYvalue);
+
+		this.p4.setX(p4.getPair()[0] + delta);
+		this.p4.setY(p4.getPair()[1] + this.deltaYvalue);
 
 		renderCanvas();
 	}
 
 	public moveY(delta: number) {
-		this.p1.setY(this.originalYPoints[0] + delta);
-		this.p2.setY(this.originalYPoints[1] + delta);
-		this.p3.setY(this.originalYPoints[2] + delta);
-		this.p4.setY(this.originalYPoints[3] + delta);
+		const newX: number = this.originalXPoints[0] + this.deltaLengthValue ;
+		const newY: number = this.findY(
+			newX,
+			this.originalXPoints[0],
+			this.originalYPoints[0],
+			this.center.getPair()[0],
+			this.center.getPair()[1]
+		);
+
+		// prerequisite for get symmetrical square point
+		this.p1.setX(newX);
+		this.p1.setY(newY);
+		const [p2, p3, p4] = this.getSymmetricalSquarePoint();
+
+		// then change again here
+		this.p1.setX(newX + this.deltaXvalue);
+		this.p1.setY(newY + delta);
+
+		this.p2.setX(p2.getPair()[0] + this.deltaXvalue);
+		this.p2.setY(p2.getPair()[1] + delta);
+
+		this.p3.setX(p3.getPair()[0] + this.deltaXvalue);
+		this.p3.setY(p3.getPair()[1] + delta);
+
+		this.p4.setX(p4.getPair()[0] + this.deltaXvalue);
+		this.p4.setY(p4.getPair()[1] + delta);
 
 		renderCanvas();
 	}
@@ -141,17 +185,37 @@ class Square extends Shape {
 		const m: number = (y2 - y1) / (x2 - x1);
 		const c: number = y1 - m * x1;
 
-		return (m*x) + c
+		return m * x + c;
 	}
 
 	public setLength(delta: number) {
 		const newX: number = this.originalXPoints[0] + delta;
-		const newY: number = this.findY(newX, this.originalXPoints[0], this.originalYPoints[0], this.center.getPair()[0], this.center.getPair()[1])
+		const newY: number = this.findY(
+			newX,
+			this.originalXPoints[0],
+			this.originalYPoints[0],
+			this.center.getPair()[0],
+			this.center.getPair()[1]
+		);
 
+		// prerequisite for get symmetrical square point
 		this.p1.setX(newX);
 		this.p1.setY(newY);
+		const [p2, p3, p4] = this.getSymmetricalSquarePoint();
 
-		[this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
+		// then change again here
+		this.p1.setX(newX + this.deltaXvalue);
+		this.p1.setY(newY + this.deltaYvalue);
+
+		this.p2.setX(p2.getPair()[0] + this.deltaXvalue);
+		this.p2.setY(p2.getPair()[1] + this.deltaYvalue);
+
+		this.p3.setX(p3.getPair()[0] + this.deltaXvalue);
+		this.p3.setY(p3.getPair()[1] + this.deltaYvalue);
+
+		this.p4.setX(p4.getPair()[0] + this.deltaXvalue);
+		this.p4.setY(p4.getPair()[1] + this.deltaYvalue);
+
 		renderCanvas();
 	}
 
@@ -225,7 +289,7 @@ class Square extends Shape {
 		var sliderLength = document.createElement("input") as HTMLInputElement;
 		sliderLength.type = "range";
 		var sliderLengthtext = document.createElement("label");
-		sliderLengthtext.textContent = this.deltaYvalue.toString();
+		sliderLengthtext.textContent = this.deltaLengthValue.toString();
 		var sliderLength = document.createElement("input") as HTMLInputElement;
 		sliderLength.type = "range";
 		sliderLength.min = "0";
