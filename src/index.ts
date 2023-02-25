@@ -15,7 +15,6 @@ const objects: Shape[] = [];
 
 let drawMethod: ShapeType;
 let isDrawing = false;
-let isDrawingLine = true;
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -144,16 +143,14 @@ canvas.addEventListener("mousedown", (event) => {
       if (!isDrawing) {
         const polygon = new Polygon(point);
         objects.push(polygon);
-        polygon.setupOption(`polygon_${objects.length}`, objects.length);
 
         isDrawing = true;
-        isDrawingLine = true;
       } else {
         const polygon = objects[objects.length - 1] as Polygon;
+
         polygon.updatePoint(point);
         polygon.render(gl, program, positionBuffer, colorBuffer);
-
-        isDrawingLine = false;
+        polygon.setupOption(`polygon_${objects.length}`, objects.length);
       }
       break;
   }
@@ -206,5 +203,11 @@ const renderCanvas = () => {
 
 /* DOM Listener */
 document.addEventListener("DOMContentLoaded", renderCanvas);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    objects.pop();
+    isDrawing = false;
+  }
+});
 
 export default renderCanvas;
