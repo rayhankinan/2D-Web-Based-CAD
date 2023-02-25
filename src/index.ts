@@ -180,12 +180,6 @@ canvas.addEventListener("mousemove", (event) => {
         rectangle.updatePoint(point);
         rectangle.render(gl, program, positionBuffer, colorBuffer);
         break;
-
-      case ShapeType.POLYGON:
-        const polygon = objects[objects.length - 1] as Polygon;
-        polygon.updatePointLine(point);
-        polygon.render(gl, program, positionBuffer, colorBuffer);
-        break;
     }
   }
 });
@@ -203,11 +197,5 @@ const renderCanvas = () => {
 
 /* DOM Listener */
 document.addEventListener("DOMContentLoaded", renderCanvas);
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    objects.pop();
-    isDrawing = false;
-  }
-});
 
 export default renderCanvas;

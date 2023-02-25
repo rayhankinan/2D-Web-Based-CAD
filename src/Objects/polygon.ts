@@ -5,13 +5,11 @@ import renderCanvas from "Main/index";
 
 class Polygon extends Shape {
   private arrayOfPoint: Point[];
-  private newPoint: Point;
 
   public constructor(point: Point) {
     super(1);
 
     this.arrayOfPoint = [point];
-    this.newPoint = null;
   }
 
   public findCenter(): Point {
@@ -33,25 +31,16 @@ class Polygon extends Shape {
 
   public updatePoint(point: Point) {
     this.arrayOfPoint = convexHull([...this.arrayOfPoint, point]);
-    this.newPoint = null;
-  }
-
-  public updatePointLine(point: Point) {
-    this.newPoint = point;
   }
 
   public addPosition(gl: WebGLRenderingContext): void {
     const positionArray: number[] = [];
-    const points: readonly Point[] =
-      this.newPoint !== null
-        ? [...this.arrayOfPoint, this.newPoint]
-        : this.arrayOfPoint;
 
-    for (const p of points) {
+    for (const p of this.arrayOfPoint) {
       positionArray.push(...p.getPair());
     }
 
-    const [pInitial] = points;
+    const [pInitial] = this.arrayOfPoint;
     positionArray.push(...pInitial.getPair());
 
     gl.bufferData(
@@ -63,16 +52,12 @@ class Polygon extends Shape {
 
   public addColor(gl: WebGLRenderingContext): void {
     const colorArray: number[] = [];
-    const points: readonly Point[] =
-      this.newPoint !== null
-        ? [...this.arrayOfPoint, this.newPoint]
-        : this.arrayOfPoint;
 
-    for (const p of points) {
+    for (const p of this.arrayOfPoint) {
       colorArray.push(...p.getColor());
     }
 
-    const [pInitial] = points;
+    const [pInitial] = this.arrayOfPoint;
     colorArray.push(...pInitial.getColor());
 
     gl.bufferData(
