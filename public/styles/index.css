@@ -112,9 +112,18 @@ canvas {
 }
 
 input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
   background: transparent;
   cursor: pointer;
-  width: 15rem;
+  width: 10rem;
+}
+
+input[type="color"] {
+	border: none;
+	width: 100%;
+	height: 32px;
+}
+
+.transformation-color {
+  display: flex;
+  flex-direction: column;
 }
