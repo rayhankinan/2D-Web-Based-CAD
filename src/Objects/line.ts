@@ -68,6 +68,7 @@ class Line extends Shape {
     const [p1x] = this.p1.getPair();
     const [p2x] = this.p2.getPair();
 
+    /* Mengikuti sumbu X */
     this.sx = 1 + delta / (p2x - p1x);
     this.sy = 1 + delta / (p2x - p1x);
 
