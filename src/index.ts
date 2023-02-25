@@ -186,10 +186,8 @@ canvas.addEventListener("mousemove", (event) => {
 
       case ShapeType.POLYGON:
         const polygon = objects[objects.length - 1] as Polygon;
-        if (isDrawingLine) {
-          polygon.updatePointLine(point);
-          polygon.render(gl, program, positionBuffer, colorBuffer);
-        }
+        polygon.updatePointLine(point);
+        polygon.render(gl, program, positionBuffer, colorBuffer);
         break;
     }
   }

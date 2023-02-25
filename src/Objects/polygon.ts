@@ -4,7 +4,7 @@ import convexHull from "Algorithms/convex-hull";
 import renderCanvas from "Main/index";
 
 class Polygon extends Shape {
-  private readonly arrayOfPoint: Point[];
+  private arrayOfPoint: Point[];
   private newPoint: Point;
 
   public constructor(point: Point) {
@@ -32,7 +32,7 @@ class Polygon extends Shape {
   }
 
   public updatePoint(point: Point) {
-    this.arrayOfPoint.push(point);
+    this.arrayOfPoint = convexHull([...this.arrayOfPoint, point]);
     this.newPoint = null;
   }
 
@@ -42,17 +42,16 @@ class Polygon extends Shape {
 
   public addPosition(gl: WebGLRenderingContext): void {
     const positionArray: number[] = [];
-    const hull: readonly Point[] = convexHull(
+    const points: readonly Point[] =
       this.newPoint !== null
         ? [...this.arrayOfPoint, this.newPoint]
-        : this.arrayOfPoint
-    );
+        : this.arrayOfPoint;
 
-    for (const p of hull) {
+    for (const p of points) {
       positionArray.push(...p.getPair());
     }
 
-    const [pInitial] = hull;
+    const [pInitial] = points;
     positionArray.push(...pInitial.getPair());
 
     gl.bufferData(
@@ -64,17 +63,16 @@ class Polygon extends Shape {
 
   public addColor(gl: WebGLRenderingContext): void {
     const colorArray: number[] = [];
-    const hull: readonly Point[] = convexHull(
+    const points: readonly Point[] =
       this.newPoint !== null
         ? [...this.arrayOfPoint, this.newPoint]
-        : this.arrayOfPoint
-    );
+        : this.arrayOfPoint;
 
-    for (const p of hull) {
+    for (const p of points) {
       colorArray.push(...p.getColor());
     }
 
-    const [pInitial] = hull;
+    const [pInitial] = points;
     colorArray.push(...pInitial.getColor());
 
     gl.bufferData(

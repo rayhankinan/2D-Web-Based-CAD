@@ -22,39 +22,37 @@ function orientation(p: Point, q: Point, r: Point): ConvexHullOrientation {
   }
 }
 
-function convexHull(arrayOfPoint: readonly Point[]): readonly Point[] {
-  // const hull: Point[] = [];
+function convexHull(arrayOfPoint: Point[]): Point[] {
+  const hull: Point[] = [];
 
-  // let leftmostIndex = 0;
-  // for (let i = 1; i < arrayOfPoint.length; i++) {
-  //   const [leftmostX] = arrayOfPoint[leftmostIndex].getPair();
-  //   const [pX] = arrayOfPoint[i].getPair();
+  let leftmostIndex = 0;
+  for (let i = 1; i < arrayOfPoint.length; i++) {
+    const [leftmostX] = arrayOfPoint[leftmostIndex].getPair();
+    const [pX] = arrayOfPoint[i].getPair();
 
-  //   if (pX < leftmostX) leftmostIndex = i;
-  // }
+    if (pX < leftmostX) leftmostIndex = i;
+  }
 
-  // let currentIndex = leftmostIndex;
-  // do {
-  //   hull.push(arrayOfPoint[currentIndex]);
+  let currentIndex = leftmostIndex;
+  do {
+    hull.push(arrayOfPoint[currentIndex]);
 
-  //   let newIndex = (currentIndex + 1) % arrayOfPoint.length;
-  //   for (let i = 0; i < arrayOfPoint.length; i++) {
-  //     if (
-  //       orientation(
-  //         arrayOfPoint[currentIndex],
-  //         arrayOfPoint[i],
-  //         arrayOfPoint[newIndex]
-  //       ) === ConvexHullOrientation.COUNTERCLOCKWISE
-  //     )
-  //       newIndex = i;
-  //   }
+    let newIndex = (currentIndex + 1) % arrayOfPoint.length;
+    for (let i = 0; i < arrayOfPoint.length; i++) {
+      if (
+        orientation(
+          arrayOfPoint[currentIndex],
+          arrayOfPoint[i],
+          arrayOfPoint[newIndex]
+        ) === ConvexHullOrientation.COUNTERCLOCKWISE
+      )
+        newIndex = i;
+    }
 
-  //   currentIndex = newIndex;
-  // } while (currentIndex !== leftmostIndex);
+    currentIndex = newIndex;
+  } while (currentIndex !== leftmostIndex);
 
-  // return hull;
-
-  return arrayOfPoint;
+  return hull;
 }
 
 export default convexHull;
