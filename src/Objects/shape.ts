@@ -2,121 +2,133 @@ import Point from "Operations/point";
 import Transformation from "Operations/transformation";
 
 abstract class Shape {
-	protected readonly n: number;
-	public deltaXvalue: number;
-	public deltaYvalue: number;
-	public deltaLengthValue: number;
-	public deltaWidthValue: number;
+  protected readonly n: number;
+  protected width: number;
+  protected height: number;
+  protected tx: number;
+  protected ty: number;
+  protected degree: number;
+  protected sx: number;
+  protected sy: number;
+  protected kx: number;
+  protected ky: number;
 
-	public constructor(n: number) {
-		this.n = n;
-	}
+  protected deltaXvalue: number;
+  protected deltaYvalue: number;
+  protected deltaLengthValue: number;
+  protected deltaWidthValue: number;
 
-	public abstract findCenter(): Point;
-	public abstract addPosition(gl: WebGLRenderingContext): void;
-	public abstract addColor(gl: WebGLRenderingContext): void;
-	public abstract drawMethod(gl: WebGLRenderingContext): number;
-	public abstract count(): number;
-	public abstract isPointComplete(): boolean;
-	public abstract setupSelector(): void;
+  public constructor(n: number) {
+    this.n = n;
+  }
 
-	public setupOption(name: string, id: number) {
-		var listOfShapes = document.getElementById("list-of-shapes") as HTMLSelectElement;
+  public abstract findCenter(): Point;
+  public abstract addPosition(gl: WebGLRenderingContext): void;
+  public abstract addColor(gl: WebGLRenderingContext): void;
+  public abstract drawMethod(gl: WebGLRenderingContext): number;
+  public abstract count(): number;
+  public abstract isPointComplete(): boolean;
+  public abstract setupSelector(): void;
 
-		var option = document.createElement("option");
-		option.value = (id - 1).toString();
-		option.text = name;
+  public setupOption(name: string, id: number) {
+    let listOfShapes = document.getElementById(
+      "list-of-shapes"
+    ) as HTMLSelectElement;
 
-		listOfShapes.appendChild(option);
-		this.setupSelector();
-		listOfShapes.value = (id - 1).toString();
-	}
+    let option = document.createElement("option");
+    option.value = (id - 1).toString();
+    option.text = name;
 
-	public render(
-		gl: WebGLRenderingContext,
-		program: WebGLProgram,
-		positionBuffer: WebGLBuffer,
-		colorBuffer: WebGLBuffer
-	): void {
-		if (!this.isPointComplete()) {
-			return;
-		}
+    listOfShapes.appendChild(option);
+    this.setupSelector();
+    listOfShapes.value = (id - 1).toString();
+  }
 
-		const positionLocation = gl.getAttribLocation(program, "a_position");
-		const colorLocation = gl.getAttribLocation(program, "a_color");
-		const matrixLocation = gl.getUniformLocation(program, "u_matrix");
+  public render(
+    gl: WebGLRenderingContext,
+    program: WebGLProgram,
+    positionBuffer: WebGLBuffer,
+    colorBuffer: WebGLBuffer
+  ): void {
+    if (!this.isPointComplete()) {
+      return;
+    }
 
-		/* Setup position */
-		gl.enableVertexAttribArray(positionLocation);
-		gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-		this.addPosition(gl);
+    const positionLocation = gl.getAttribLocation(program, "a_position");
+    const colorLocation = gl.getAttribLocation(program, "a_color");
+    const matrixLocation = gl.getUniformLocation(program, "u_matrix");
 
-		const positionSize = 2; /* 2 components per iteration */
-		const positionType = gl.FLOAT; /* The data is 32 bit float */
-		const positionNormalized = false; /* Don't normalize the data */
-		const positionStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
-		const positionOffset = 0; /* Start at the beginning of the buffer */
-		gl.vertexAttribPointer(
-			positionLocation,
-			positionSize,
-			positionType,
-			positionNormalized,
-			positionStride,
-			positionOffset
-		);
+    /* Setup position */
+    gl.enableVertexAttribArray(positionLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    this.addPosition(gl);
 
-		/* Setup color */
-		gl.enableVertexAttribArray(colorLocation);
-		gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-		this.addColor(gl);
-		const colorSize = 4; /* 4 components per iteration */
-		const colorType = gl.FLOAT; /* The data is 32 bit float */
-		const colorNormalized = false; /* Don't normalize the data */
-		const colorStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
-		const colorOffset = 0; /* Start at the beginning of the buffer */
-		gl.vertexAttribPointer(
-			colorLocation,
-			colorSize,
-			colorType,
-			colorNormalized,
-			colorStride,
-			colorOffset
-		);
+    const positionSize = 2; /* 2 components per iteration */
+    const positionType = gl.FLOAT; /* The data is 32 bit float */
+    const positionNormalized = false; /* Don't normalize the data */
+    const positionStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
+    const positionOffset = 0; /* Start at the beginning of the buffer */
+    gl.vertexAttribPointer(
+      positionLocation,
+      positionSize,
+      positionType,
+      positionNormalized,
+      positionStride,
+      positionOffset
+    );
 
-		/* Count Matrix */
-		const { width, height, tx, ty, degree, sx, sy, kx, ky } = {
-			width: gl.canvas.width,
-			height: gl.canvas.height,
-			tx: 0,
-			ty: 0,
-			degree: 0,
-			sx: 1,
-			sy: 1,
-			kx: 0,
-			ky: 0,
-		};
+    /* Setup color */
+    gl.enableVertexAttribArray(colorLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+    this.addColor(gl);
+    const colorSize = 4; /* 4 components per iteration */
+    const colorType = gl.FLOAT; /* The data is 32 bit float */
+    const colorNormalized = false; /* Don't normalize the data */
+    const colorStride = 0; /* 0: Move forward size * sizeof(type) each iteration to get the next position */
+    const colorOffset = 0; /* Start at the beginning of the buffer */
+    gl.vertexAttribPointer(
+      colorLocation,
+      colorSize,
+      colorType,
+      colorNormalized,
+      colorStride,
+      colorOffset
+    );
 
-		const matrix = Transformation.general(
-			width,
-			height,
-			tx,
-			ty,
-			degree,
-			sx,
-			sy,
-			kx,
-			ky,
-			this.findCenter()
-		).flatten();
+    /* Count Matrix */
+    const { width, height, tx, ty, degree, sx, sy, kx, ky } = {
+      width: gl.canvas.width,
+      height: gl.canvas.height,
+      tx: 0,
+      ty: 0,
+      degree: 0,
+      sx: 1,
+      sy: 1,
+      kx: 0,
+      ky: 0,
+    };
 
-		gl.uniformMatrix3fv(matrixLocation, false, matrix);
+    const matrix = Transformation.general(
+      width,
+      height,
+      tx,
+      ty,
+      degree,
+      sx,
+      sy,
+      kx,
+      ky,
+      this.findCenter()
+    ).flatten();
 
-		/* Draw scene */
-		const primitiveType = this.drawMethod(gl);
-		const offset = 0;
-		const count = this.count();
-		gl.drawArrays(primitiveType, offset, count);
-	}
+    gl.uniformMatrix3fv(matrixLocation, false, matrix);
+
+    /* Draw scene */
+    const primitiveType = this.drawMethod(gl);
+    const offset = 0;
+    const count = this.count();
+    gl.drawArrays(primitiveType, offset, count);
+  }
 }
 
 export default Shape;

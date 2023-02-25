@@ -9,6 +9,7 @@
     "sourceMap": true,
     "outDir": "public/dist",
     "paths": {
+      "Main/*": ["./src/*"],
       "Utils/*": ["./src/Utils/*"],
       "Objects/*": ["./src/Objects/*"],
       "Operations/*": ["./src/Operations/*"],
