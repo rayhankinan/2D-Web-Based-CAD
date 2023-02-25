@@ -7,20 +7,14 @@ class Rectangle extends Shape {
   private p2: Point;
   private p3: Point;
   private p4: Point;
-  private originalXPoints: number[];
-  private originalYPoints: number[];
 
   public constructor(point: Point) {
     super(4);
 
     this.p1 = point;
-    this.deltaXvalue = 0;
-    this.deltaYvalue = 0;
-    this.deltaLengthValue = 0;
-    this.deltaWidthValue = 0;
-
-    this.originalXPoints = [point.getPair()[0]];
-    this.originalYPoints = [point.getPair()[1]];
+    this.p2 = null;
+    this.p3 = null;
+    this.p3 = null;
   }
 
   public findCenter(): Point {
@@ -36,23 +30,14 @@ class Rectangle extends Shape {
   }
 
   public updatePoint(p: Point) {
-    let p2 = p;
-    const [p3, p4] = this.getSymmetricalRectanglePoint(p);
+    const [p2, p4] = this.getSymmetricalRectanglePoint(p);
 
-    // p1 ----> p3
-    // ^		v
-    // p4 <---- p2
-    this.p2 = p3;
+    // p1 ----> p2
+    // ↑        ↓
+    // p4 <---- p3
+    this.p2 = p2;
     this.p3 = p;
     this.p4 = p4;
-
-    this.originalXPoints[1] = this.p2.getPair()[0];
-    this.originalXPoints[2] = this.p3.getPair()[0];
-    this.originalXPoints[3] = this.p4.getPair()[0];
-
-    this.originalYPoints[1] = this.p2.getPair()[1];
-    this.originalYPoints[2] = this.p3.getPair()[1];
-    this.originalYPoints[3] = this.p4.getPair()[1];
   }
 
   public addPosition(gl: WebGLRenderingContext): void {
@@ -92,23 +77,7 @@ class Rectangle extends Shape {
   }
 
   public isPointComplete(): boolean {
-    return this.p2 != null;
-  }
-
-  public rotateByDegree(
-    x: number,
-    y: number,
-    a: number,
-    b: number,
-    deg: number
-  ): Point {
-    if (deg == 90) {
-      return new Point([-y + a + b, x - a + b]);
-    } else if (deg == 180) {
-      return new Point([-x + 2 * a, -y + 2 * b]);
-    } else if (deg == 270) {
-      return new Point([y - b + a, -x + a + b]);
-    }
+    return this.p3 != null;
   }
 
   public getSymmetricalRectanglePoint(point: Point): [Point, Point] {
@@ -122,87 +91,84 @@ class Rectangle extends Shape {
   }
 
   public moveX(delta: number) {
-    this.p1.setX(this.originalXPoints[0] + delta - this.deltaLengthValue);
-    this.p2.setX(this.originalXPoints[1] + delta - this.deltaLengthValue);
-    this.p3.setX(this.originalXPoints[2] + delta + this.deltaLengthValue);
-    this.p4.setX(this.originalXPoints[3] + delta + this.deltaLengthValue);
+    this.tx = delta;
 
     renderCanvas();
   }
 
   public moveY(delta: number) {
-    this.p1.setY(this.originalYPoints[0] + delta - this.deltaWidthValue);
-    this.p2.setY(this.originalYPoints[1] + delta + this.deltaWidthValue);
-    this.p3.setY(this.originalYPoints[2] + delta + this.deltaWidthValue);
-    this.p4.setY(this.originalYPoints[3] + delta - this.deltaWidthValue);
+    this.ty = -delta;
 
     renderCanvas();
   }
 
   public setLength(delta: number) {
-    this.p1.setX(this.originalXPoints[0] - delta);
-    this.p2.setX(this.originalXPoints[1] - delta);
-    this.p3.setX(this.originalXPoints[2] + delta);
-    this.p4.setX(this.originalXPoints[3] + delta);
+    const [p1x] = this.p1.getPair();
+    const [p3x] = this.p3.getPair();
+
+    this.sx = 1 + delta / (p3x - p1x);
 
     renderCanvas();
   }
 
   public setWidth(delta: number) {
-    this.p1.setY(this.originalYPoints[0] - delta);
-    this.p2.setY(this.originalYPoints[1] + delta);
-    this.p3.setY(this.originalYPoints[2] + delta);
-    this.p4.setY(this.originalYPoints[3] - delta);
+    const [, p1y] = this.p1.getPair();
+    const [, p3y] = this.p3.getPair();
+
+    this.sy = 1 - delta / (p3y - p1y);
 
     renderCanvas();
   }
 
   public setupSelector(): void {
-    let selector = document.getElementById("selector");
+    const selector = document.getElementById("selector");
     selector.replaceChildren();
 
-    // slider x, y for places
-    let firstDiv = document.createElement("div");
+    /* First Div  */
+    const firstDiv = document.createElement("div");
     firstDiv.className = "transformation-translation";
-    let translationSelectorTitle = document.createElement("h1");
+
+    const translationSelectorTitle = document.createElement("h1");
     translationSelectorTitle.textContent = "Translation";
 
-    /* SLIDER X */
-    let sliderxTitle = document.createElement("h2");
+    /* Slider X */
+    const sliderxTitle = document.createElement("h2");
     sliderxTitle.textContent = "Slider X";
-    let sliderXtext = document.createElement("label");
-    sliderXtext.textContent = this.deltaXvalue.toString();
-    let sliderX = document.createElement("input");
+
+    const sliderXtext = document.createElement("label");
+    sliderXtext.textContent = this.tx.toString();
+
+    const sliderX = document.createElement("input");
     sliderX.type = "range";
     sliderX.min = "-600";
     sliderX.max = "600";
-    sliderX.value = this.deltaXvalue.toString();
+    sliderX.value = this.tx.toString();
     sliderX.step = "10";
-    sliderX.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderX.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderXtext.textContent = delta;
+
       this.moveX(+delta);
-      this.deltaXvalue = +delta;
-      sliderXtext.textContent = this.deltaXvalue.toString();
     });
 
-    /* SLIDER Y */
-    let slideryTitle = document.createElement("h2");
+    /* Slider Y */
+    const slideryTitle = document.createElement("h2");
     slideryTitle.textContent = "Slider Y";
 
-    let sliderYtext = document.createElement("label");
-    sliderYtext.textContent = this.deltaYvalue.toString();
+    const sliderYtext = document.createElement("label");
+    sliderYtext.textContent = (-this.ty).toString();
 
-    let sliderY = document.createElement("input");
+    const sliderY = document.createElement("input");
     sliderY.type = "range";
     sliderY.min = "-500";
     sliderY.max = "500";
-    sliderY.value = this.deltaYvalue.toString();
+    sliderY.value = (-this.ty).toString();
     sliderY.step = "10";
-    sliderY.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderY.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderYtext.textContent = delta;
+
       this.moveY(+delta);
-      this.deltaYvalue = +delta;
-      sliderYtext.textContent = this.deltaYvalue.toString();
     });
 
     firstDiv.append(
@@ -215,50 +181,56 @@ class Rectangle extends Shape {
       sliderYtext
     );
 
-    // slider Height and Width
-    let secondDiv = document.createElement("div");
+    /* Second Div */
+    const secondDiv = document.createElement("div");
     secondDiv.className = "transformation-size";
-    let sizeSelectorTitle = document.createElement("h1");
+    const sizeSelectorTitle = document.createElement("h1");
     sizeSelectorTitle.textContent = "Size";
 
-    /* Slider length */
-    let sliderLengthTitle = document.createElement("h2");
+    /* Slider Length */
+    const sliderLengthTitle = document.createElement("h2");
     sliderLengthTitle.textContent = "Slider Length";
 
-    let sliderLengthtext = document.createElement("label");
-    sliderLengthtext.textContent = this.deltaYvalue.toString();
+    const [p1x] = this.p1.getPair();
+    const [p3x] = this.p3.getPair();
 
-    let sliderLength = document.createElement("input");
+    const sliderLengthtext = document.createElement("label");
+    sliderLengthtext.textContent = ((this.sx - 1) * (p3x - p1x)).toString();
+
+    const sliderLength = document.createElement("input");
     sliderLength.type = "range";
     sliderLength.min = "0";
     sliderLength.max = "500";
-    sliderLength.value = this.deltaLengthValue.toString();
+    sliderLength.value = ((this.sx - 1) * (p3x - p1x)).toString();
     sliderLength.step = "10";
-    sliderLength.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderLength.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderLengthtext.textContent = delta;
+
       this.setLength(+delta);
-      this.deltaLengthValue = +delta;
-      sliderLengthtext.textContent = this.deltaLengthValue.toString();
     });
 
-    /* Slider width */
-    let sliderWidthTitle = document.createElement("h2");
+    /* Slider Width */
+    const sliderWidthTitle = document.createElement("h2");
     sliderWidthTitle.textContent = "Slider Width";
 
-    let sliderWidthText = document.createElement("label");
-    sliderWidthText.textContent = this.deltaYvalue.toString();
+    const [, p1y] = this.p1.getPair();
+    const [, p3y] = this.p3.getPair();
 
-    let sliderWidth = document.createElement("input");
+    const sliderWidthText = document.createElement("label");
+    sliderWidthText.textContent = ((this.sy - 1) * (p1y - p3y)).toString();
+
+    const sliderWidth = document.createElement("input");
     sliderWidth.type = "range";
     sliderWidth.min = "0";
     sliderWidth.max = "500";
-    sliderWidth.value = this.deltaWidthValue.toString();
+    sliderWidth.value = ((this.sy - 1) * (p1y - p3y)).toString();
     sliderWidth.step = "10";
-    sliderWidth.addEventListener("input", (e) => {
-      const delta = (e.target as HTMLInputElement).value;
+    sliderWidth.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderWidthText.textContent = delta;
+
       this.setWidth(+delta);
-      this.deltaWidthValue = +delta;
-      sliderWidthText.textContent = this.deltaWidthValue.toString();
     });
 
     secondDiv.append(
@@ -271,11 +243,11 @@ class Rectangle extends Shape {
       sliderWidthText
     );
 
-    // input for colors
-    let thirdDiv = document.createElement("div");
+    /* Third Div */
+    const thirdDiv = document.createElement("div");
     thirdDiv.className = "transformation-color";
 
-    let colorSelectorTitle = document.createElement("h1");
+    const colorSelectorTitle = document.createElement("h1");
     colorSelectorTitle.textContent = "Color";
 
     thirdDiv.append(colorSelectorTitle);

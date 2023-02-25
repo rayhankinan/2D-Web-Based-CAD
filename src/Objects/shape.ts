@@ -2,7 +2,7 @@ import Point from "Operations/point";
 import Transformation from "Operations/transformation";
 
 abstract class Shape {
-  protected readonly n: number;
+  protected n: number;
 
   protected deltaXvalue: number;
   protected deltaYvalue: number;

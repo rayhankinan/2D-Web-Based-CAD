@@ -60,6 +60,8 @@ class Polygon extends Shape {
     const pointsLength = this.originalXPoints.length;
     this.originalXPoints[pointsLength] = point.getPair()[0];
     this.originalYPoints[pointsLength] = point.getPair()[1];
+
+    this.n++;
   }
 
   public updatePointLine(point: Point) {
