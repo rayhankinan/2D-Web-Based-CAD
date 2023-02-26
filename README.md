@@ -12,7 +12,7 @@
 
 ## Deskripsi Singkat
 
-WebGL merupakan kakas dengan spesialisasi pada ranah grafika yang dapat dengan mudah diintegrasikan pada web. Dengan menggunakan WebGL, kita dapat mengimplementasikan web dengan fitur menggambar, mengedit, dan memvisualisasi sejumlah model pada kanvas HTML. Selain itu, WebGL juga mengutilitasikan GPU untuk melakukan rendering dan transformasi geometri. Oleh karena itu, aplikasi 2D Web Based CAD menggunakan WebGL sebagai tools untuk memodelkan berbagai bentuk geometri.
+WebGL merupakan kakas dengan spesialisasi pada ranah grafika yang dapat dengan mudah diintegrasikan pada web. Dengan menggunakan WebGL, kita dapat mengimplementasikan web dengan fitur menggambar, mengedit, dan memvisualisasikan sejumlah model pada kanvas HTML. Selain itu, WebGL juga mengutilitasikan GPU untuk melakukan rendering dan transformasi geometri. Oleh karena itu, aplikasi 2D Web Based CAD menggunakan WebGL sebagai tools untuk memodelkan berbagai bentuk geometri.
 
 ## Struktur Program
 
