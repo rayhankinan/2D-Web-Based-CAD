@@ -1,12 +1,14 @@
-name: Computer Aided Design 2D
-run-name: ${{ github.actor }} deploying new instance
-on: [push]
+name: Build
+on:
+  push:
+    branches:
+      - main
 jobs:
-  computer-aided-design-2d:
+  build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
     steps:
-      - run: yarn install
-      - run: yarn build
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
