@@ -15,6 +15,7 @@ const objects: Shape[] = [];
 
 let shapeType: ShapeType;
 let isDrawing = false;
+let isFirstDrawing = true;
 
 /* Create Program */
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
@@ -81,6 +82,7 @@ const polygonBtn = document.getElementById("polygon-btn");
 polygonBtn.addEventListener("click", () => {
   shapeType = ShapeType.POLYGON;
   isDrawing = false;
+  isFirstDrawing = true;
 });
 
 /* Canvas listener */
@@ -100,7 +102,7 @@ canvas.addEventListener("mousedown", (event) => {
         const line = objects[objects.length - 1] as Line;
         line.updatePoint(point);
         line.render(gl, program, positionBuffer, colorBuffer);
-        line.setupOption(`line_${objects.length}`, objects.length);
+        line.setupOption(`line_${objects.length}`, objects.length, true);
 
         isDrawing = false;
       }
@@ -116,7 +118,7 @@ canvas.addEventListener("mousedown", (event) => {
         const square = objects[objects.length - 1] as Square;
         square.updatePoint(point);
         square.render(gl, program, positionBuffer, colorBuffer);
-        square.setupOption(`square_${objects.length}`, objects.length);
+        square.setupOption(`square_${objects.length}`, objects.length, true);
 
         isDrawing = false;
       }
@@ -133,7 +135,7 @@ canvas.addEventListener("mousedown", (event) => {
 
         rectangle.updatePoint(point);
         rectangle.render(gl, program, positionBuffer, colorBuffer);
-        rectangle.setupOption(`rectangle_${objects.length}`, objects.length);
+        rectangle.setupOption(`rectangle_${objects.length}`, objects.length, true);
 
         isDrawing = false;
       }
@@ -150,7 +152,7 @@ canvas.addEventListener("mousedown", (event) => {
 
         polygon.updatePoint(point);
         polygon.render(gl, program, positionBuffer, colorBuffer);
-        polygon.setupOption(`polygon_${objects.length}`, objects.length);
+        polygon.setupOption(`polygon_${objects.length}`, objects.length, isFirstDrawing);
       }
       break;
   }

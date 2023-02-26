@@ -4,6 +4,7 @@ import ShapeType from "Objects/types";
 import Point from "Operations/point";
 import convexHull from "Algorithms/convex-hull";
 import renderCanvas from "Main/index";
+import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Polygon extends Shape implements PolygonInterface {
   public arrayOfPoint: Point[];
@@ -147,6 +148,60 @@ class Polygon extends Shape implements PolygonInterface {
     this.degree = (degree * Math.PI) / 180;
 
     renderCanvas();
+  }
+
+  public deletePoint(index: number) {
+    var newPoints: Point[] = [this.arrayOfPoint[index]];
+    for (let i=0; i<this.arrayOfPoint.length; i++) {
+      if (i != index) {
+        newPoints.push(this.arrayOfPoint[i]);
+      }
+    }
+
+    this.arrayOfPoint = newPoints.slice(1, this.arrayOfPoint.length);
+
+    // after delete, need to setup option again
+    const pointOption = document.getElementById("point-option");
+    pointOption.innerHTML = ""
+    pointOption.replaceChildren();
+    /* All Point */
+    for (let i = 0; i < this.arrayOfPoint.length; i++) {
+      const option = document.createElement("option");
+      option.value = i.toString();
+      option.text = "point_" + i;
+      pointOption.appendChild(option);
+    }
+  }
+
+  public setupColorSelector(index: number) {
+    const colorSelector = document.getElementById("color-selector");
+    colorSelector.innerHTML = "";
+    colorSelector.replaceChildren();
+
+    const colorTitle = document.createElement("h2");
+    colorTitle.textContent = "Select color";
+
+    const colorInput = document.createElement("input");
+    colorInput.id = "color-input";
+    colorInput.type = "color";
+
+    colorInput.value = rgbToHex(this.arrayOfPoint[index].getColor());
+    colorInput.addEventListener("change", (e) => {
+      console.log((e.target as HTMLInputElement).value);
+      const hex = (e.target as HTMLInputElement).value;
+
+      console.log(hexToRgb(hex));
+      this.arrayOfPoint[index].setColor(hexToRgb(hex));
+    });
+
+    const deletePointSelector = document.createElement("button");
+    deletePointSelector.textContent = "delete point"
+    deletePointSelector.addEventListener("click", () => {
+      this.deletePoint(index);
+      renderCanvas();
+    })
+
+    colorSelector.append(colorTitle, colorInput, deletePointSelector);
   }
 
   public setupSelector(): void {
@@ -309,9 +364,31 @@ class Polygon extends Shape implements PolygonInterface {
     const colorSelectorTitle = document.createElement("h1");
     colorSelectorTitle.textContent = "Color";
 
-    fourthDiv.append(colorSelectorTitle);
+    const pointOption = document.createElement("select");
+    pointOption.id = "point-option"
+    pointOption.className = "btn";
+    pointOption.addEventListener("change", () => {
+      const index: number = +pointOption.selectedOptions[0].value;
+      var point: Point = null;
+      this.setupColorSelector(index);
+    });
+
+    /* All Point */
+    for (let i = 0; i < this.arrayOfPoint.length; i++) {
+      const option = document.createElement("option");
+      option.value = i.toString();
+      option.text = "point_" + i;
+      pointOption.appendChild(option);
+    }
+
+    const innerFourthDiv = document.createElement("div");
+    innerFourthDiv.id = "color-selector";
+
+    fourthDiv.append(colorSelectorTitle, pointOption, innerFourthDiv);
 
     selector.append(firstDiv, secondDiv, thirdDiv, fourthDiv);
+
+    this.setupColorSelector(0);
   }
 }
 

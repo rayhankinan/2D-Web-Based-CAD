@@ -39,16 +39,18 @@ abstract class Shape implements ShapeInterface {
     return this.type;
   }
 
-  public setupOption(name: string, id: number): void {
+  public setupOption(name: string, id: number, isFirstDrawing: boolean): void {
     const option = document.createElement("option");
     option.value = (id - 1).toString();
     option.text = name;
 
-    const listOfShapes = document.getElementById(
-      "list-of-shapes"
-    ) as HTMLSelectElement;
-    listOfShapes.appendChild(option);
-    listOfShapes.value = (id - 1).toString();
+    if (!isFirstDrawing) {
+      const listOfShapes = document.getElementById(
+        "list-of-shapes"
+      ) as HTMLSelectElement;
+      listOfShapes.appendChild(option);
+      listOfShapes.value = (id - 1).toString();
+    }
 
     this.setupSelector();
   }
