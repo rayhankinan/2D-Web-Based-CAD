@@ -3,19 +3,16 @@ function componentToHex(c: number) {
   return hex.length === 1 ? "0" + hex : hex;
 }
 
-function rgbToHex(rgba: readonly [number, number, number, number]) {
-  return (
-    "#" +
-    componentToHex(rgba[0]) +
-    componentToHex(rgba[1]) +
-    componentToHex(rgba[2])
-  );
+function rgbToHex(rgba: readonly [number, number, number, number]): string {
+  const [r, g, b] = rgba;
+
+  return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
 }
 
 function hexToRgb(hex: string): readonly [number, number, number, number] {
-  var r = parseInt(hex.slice(1, 3), 16),
-    g = parseInt(hex.slice(3, 5), 16),
-    b = parseInt(hex.slice(5, 7), 16);
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
 
   return [r, g, b, 1];
 }

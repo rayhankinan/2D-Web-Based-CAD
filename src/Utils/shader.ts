@@ -1,4 +1,8 @@
-function createShader(gl: WebGLRenderingContext, type: number, source: string) {
+function createShader(
+  gl: WebGLRenderingContext,
+  type: number,
+  source: string
+): WebGLShader {
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
@@ -6,6 +10,8 @@ function createShader(gl: WebGLRenderingContext, type: number, source: string) {
   const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS) as boolean;
   if (!success) {
     gl.deleteShader(shader);
+    alert("Failed to compile shader!");
+
     throw Error("Failed to compile shader!");
   }
 

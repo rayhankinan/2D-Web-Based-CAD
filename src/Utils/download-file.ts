@@ -1,4 +1,4 @@
-function downloadFile(text: string) {
+function downloadFile(text: string): void {
   const data = new File([text], "shapes.json", { type: "application/json" });
 
   const url = URL.createObjectURL(data);

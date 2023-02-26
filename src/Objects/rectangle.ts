@@ -10,7 +10,7 @@ class Rectangle extends Shape {
   private p4: Point;
 
   public constructor(point: Point) {
-    super(4);
+    super();
 
     this.p1 = point;
     this.p2 = null;
@@ -30,7 +30,7 @@ class Rectangle extends Shape {
     ]);
   }
 
-  public updatePoint(p: Point) {
+  public updatePoint(p: Point): void {
     const [p2, p4] = this.getSymmetricalRectanglePoint(p);
 
     // p1 ----> p2
@@ -74,7 +74,7 @@ class Rectangle extends Shape {
   }
 
   public count(): number {
-    return this.n + 1;
+    return 5;
   }
 
   public isPointComplete(): boolean {
@@ -91,13 +91,13 @@ class Rectangle extends Shape {
     return [point1, point2];
   }
 
-  public moveX(delta: number) {
+  public moveX(delta: number): void {
     this.tx = delta;
 
     renderCanvas();
   }
 
-  public moveY(delta: number) {
+  public moveY(delta: number): void {
     this.ty = -delta;
 
     renderCanvas();
@@ -117,25 +117,25 @@ class Rectangle extends Shape {
     return Math.sqrt((p4x - p1x) ** 2 + (p4y - p1y) ** 2);
   }
 
-  public setLength(delta: number) {
+  public setLength(delta: number): void {
     this.sx = 1 + delta / this.getLength();
 
     renderCanvas();
   }
 
-  public setWidth(delta: number) {
+  public setWidth(delta: number): void {
     this.sy = 1 + delta / this.getWidth();
 
     renderCanvas();
   }
 
-  public setRotation(degree: number) {
+  public setRotation(degree: number): void {
     this.degree = (degree * Math.PI) / 180;
 
     renderCanvas();
   }
 
-  public setupColorSelector(index: number) {
+  public setupColorSelector(index: number): void {
     const colorSelector = document.getElementById("color-selector");
     colorSelector.innerHTML = "";
     colorSelector.replaceChildren();

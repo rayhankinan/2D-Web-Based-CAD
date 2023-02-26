@@ -12,7 +12,7 @@ class Square extends Shape {
   private p4: Point;
 
   public constructor(point: Point) {
-    super(4);
+    super();
 
     this.center = point;
   }
@@ -21,7 +21,7 @@ class Square extends Shape {
     return this.center;
   }
 
-  public updatePoint(p: Point) {
+  public updatePoint(p: Point): void {
     this.p1 = p;
     [this.p2, this.p3, this.p4] = this.getSymmetricalSquarePoint();
   }
@@ -59,7 +59,7 @@ class Square extends Shape {
   }
 
   public count(): number {
-    return this.n + 1;
+    return 5;
   }
 
   public isPointComplete(): boolean {
@@ -96,13 +96,13 @@ class Square extends Shape {
     return [p2, p3, p4];
   }
 
-  public moveX(delta: number) {
+  public moveX(delta: number): void {
     this.tx = delta;
 
     renderCanvas();
   }
 
-  public moveY(delta: number) {
+  public moveY(delta: number): void {
     this.ty = -delta;
 
     renderCanvas();
@@ -115,20 +115,20 @@ class Square extends Shape {
     return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
   }
 
-  public setLength(delta: number) {
+  public setLength(delta: number): void {
     this.sx = 1 + delta / this.getLength();
     this.sy = 1 + delta / this.getLength();
 
     renderCanvas();
   }
 
-  public setRotation(degree: number) {
+  public setRotation(degree: number): void {
     this.degree = (degree * Math.PI) / 180;
 
     renderCanvas();
   }
 
-  public setupColorSelector(index: number) {
+  public setupColorSelector(index: number): void {
     const colorSelector = document.getElementById("color-selector");
     colorSelector.innerHTML = "";
     colorSelector.replaceChildren();

@@ -2,7 +2,7 @@ function createProgram(
   gl: WebGLRenderingContext,
   vertexShader: WebGLShader,
   fragmentShader: WebGLShader
-) {
+): WebGLProgram {
   const program = gl.createProgram();
   gl.attachShader(program, vertexShader);
   gl.attachShader(program, fragmentShader);
@@ -11,6 +11,8 @@ function createProgram(
   const success = gl.getProgramParameter(program, gl.LINK_STATUS) as boolean;
   if (!success) {
     gl.deleteProgram(program);
+    alert("Failed to link program!");
+
     throw Error("Failed to link program!");
   }
 

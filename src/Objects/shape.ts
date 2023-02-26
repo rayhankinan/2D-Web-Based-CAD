@@ -2,8 +2,6 @@ import Point from "Operations/point";
 import Transformation from "Operations/transformation";
 
 abstract class Shape {
-  protected n: number;
-
   protected tx: number;
   protected ty: number;
   protected degree: number;
@@ -12,8 +10,7 @@ abstract class Shape {
   protected kx: number;
   protected ky: number;
 
-  public constructor(n: number) {
-    this.n = n;
+  public constructor() {
     this.tx = 0;
     this.ty = 0;
     this.degree = 0;
@@ -32,7 +29,7 @@ abstract class Shape {
   public abstract setupSelector(): void;
   public abstract updatePoint(point: Point): void;
 
-  public setupOption(name: string, id: number) {
+  public setupOption(name: string, id: number): void {
     const option = document.createElement("option");
     option.value = (id - 1).toString();
     option.text = name;

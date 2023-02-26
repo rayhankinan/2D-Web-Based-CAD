@@ -7,7 +7,7 @@ class Polygon extends Shape {
   private arrayOfPoint: Point[];
 
   public constructor(point: Point) {
-    super(1);
+    super();
 
     this.arrayOfPoint = [point];
   }
@@ -29,7 +29,7 @@ class Polygon extends Shape {
     ]);
   }
 
-  public updatePoint(point: Point) {
+  public updatePoint(point: Point): void {
     this.arrayOfPoint = convexHull([...this.arrayOfPoint, point]);
   }
 
@@ -79,13 +79,13 @@ class Polygon extends Shape {
     return this.arrayOfPoint.length >= 2;
   }
 
-  public moveX(delta: number) {
+  public moveX(delta: number): void {
     this.tx = delta;
 
     renderCanvas();
   }
 
-  public moveY(delta: number) {
+  public moveY(delta: number): void {
     this.ty = -delta;
 
     renderCanvas();
@@ -129,19 +129,19 @@ class Polygon extends Shape {
     return maximumY - minimumY;
   }
 
-  public setLength(delta: number) {
+  public setLength(delta: number): void {
     this.sx = 1 + delta / this.getLength();
 
     renderCanvas();
   }
 
-  public setWidth(delta: number) {
+  public setWidth(delta: number): void {
     this.sy = 1 + delta / this.getWidth();
 
     renderCanvas();
   }
 
-  public setRotation(degree: number) {
+  public setRotation(degree: number): void {
     this.degree = (degree * Math.PI) / 180;
 
     renderCanvas();

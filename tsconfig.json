@@ -14,7 +14,8 @@
       "Objects/*": ["./src/Objects/*"],
       "Operations/*": ["./src/Operations/*"],
       "Algorithms/*": ["./src/Algorithms/*"],
-      "Files/*": ["./src/Files/*"]
+      "Files/*": ["./src/Files/*"],
+      "Interfaces/*": ["./src/Interfaces/*"]
     }
   },
   "include": ["src/**/*"]

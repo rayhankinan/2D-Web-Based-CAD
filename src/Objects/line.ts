@@ -8,7 +8,7 @@ class Line extends Shape {
   public p2: Point;
 
   public constructor(p1: Point) {
-    super(2);
+    super();
 
     this.p1 = p1;
     this.p2 = null;
@@ -46,7 +46,7 @@ class Line extends Shape {
   }
 
   public count(): number {
-    return this.n;
+    return 2;
   }
 
   public isPointComplete(): boolean {
@@ -72,7 +72,7 @@ class Line extends Shape {
     return Math.sqrt((p2x - p1x) ** 2 + (p2y - p1y) ** 2);
   }
 
-  public setLength(delta: number) {
+  public setLength(delta: number): void {
     /* Mengikuti sumbu X */
     this.sx = 1 + delta / this.getLength();
     this.sy = 1 + delta / this.getLength();
@@ -80,13 +80,13 @@ class Line extends Shape {
     renderCanvas();
   }
 
-  public setRotation(degree: number) {
+  public setRotation(degree: number): void {
     this.degree = (degree * Math.PI) / 180;
 
     renderCanvas();
   }
 
-  public setupColorSelector(index: number) {
+  public setupColorSelector(index: number): void {
     const colorSelector = document.getElementById("color-selector");
     colorSelector.innerHTML = "";
     colorSelector.replaceChildren();
@@ -123,7 +123,7 @@ class Line extends Shape {
     colorSelector.append(colorTitle, colorInput);
   }
 
-  public setupSelector() {
+  public setupSelector(): void {
     const selector = document.getElementById("selector");
     selector.innerHTML = "";
     selector.replaceChildren();
