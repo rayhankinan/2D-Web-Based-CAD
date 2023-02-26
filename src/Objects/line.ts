@@ -2,7 +2,7 @@ import Shape from "Objects/shape";
 import LineInterface from "Main/Interfaces/Objects/line-interface";
 import ShapeType from "Objects/types";
 import Point from "Operations/point";
-import renderCanvas from "Main/index";
+import { renderCanvas } from "Main/index";
 import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Line extends Shape implements LineInterface {

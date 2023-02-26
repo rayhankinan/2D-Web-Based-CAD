@@ -1,12 +1,12 @@
-import Shape from "Objects/shape";
+import ShapeInterface from "Main/Interfaces/Objects/shape-interface";
 
 class FileSystem {
-  public static loadShape(text: string): Shape[] {
-    return JSON.parse(text) as Shape[];
+  public static loadShape(text: string): ShapeInterface[] {
+    return JSON.parse(text) as ShapeInterface[];
   }
 
-  public static rawShape(arrayOfShape: Shape[]): string {
-    return JSON.stringify(arrayOfShape);
+  public static rawShape(arrayOfShapeInterface: ShapeInterface[]): string {
+    return JSON.stringify(arrayOfShapeInterface);
   }
 }
 

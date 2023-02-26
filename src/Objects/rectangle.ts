@@ -2,7 +2,7 @@ import Shape from "Objects/shape";
 import RectangleInterface from "Main/Interfaces/Objects/rectangle-interface";
 import ShapeType from "Objects/types";
 import Point from "Operations/point";
-import renderCanvas from "Main/index";
+import { renderCanvas } from "Main/index";
 import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Rectangle extends Shape implements RectangleInterface {

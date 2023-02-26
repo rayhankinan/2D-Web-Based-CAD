@@ -1,6 +1,7 @@
 import createShader from "Utils/shader";
 import createProgram from "Utils/program";
 import resizeCanvasToDisplaySize from "Utils/resize-canvas";
+import FileSystem from "Files/file-system";
 
 import Line from "Objects/line";
 import Shape from "Objects/shape";
@@ -154,6 +155,8 @@ canvas.addEventListener("mousedown", (event) => {
       }
       break;
   }
+
+  console.log(FileSystem.loadShape(FileSystem.rawShape(objects)));
 });
 
 canvas.addEventListener("mousemove", (event) => {
@@ -185,7 +188,7 @@ canvas.addEventListener("mousemove", (event) => {
 });
 
 /* Render Canvas */
-const renderCanvas = () => {
+export const renderCanvas = () => {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   for (const object of objects) {
@@ -195,7 +198,23 @@ const renderCanvas = () => {
   window.requestAnimationFrame(renderCanvas);
 };
 
+export const getShapeType: () => ShapeType = () => {
+  return shapeType;
+};
+
+export const setShapeType: (newShapeType: ShapeType) => void = (
+  newShapeType
+) => {
+  shapeType = newShapeType;
+};
+
+export const getIsDrawing: () => boolean = () => {
+  return isDrawing;
+};
+
+export const setIsDrawing: (newIsDrawing: boolean) => void = (newIsDrawing) => {
+  isDrawing = newIsDrawing;
+};
+
 /* DOM Listener */
 document.addEventListener("DOMContentLoaded", renderCanvas);
-
-export default renderCanvas;

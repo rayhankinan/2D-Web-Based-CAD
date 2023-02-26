@@ -3,7 +3,7 @@ import SquareInterface from "Main/Interfaces/Objects/square-interface";
 import ShapeType from "Objects/types";
 import Point from "Operations/point";
 import Transformation from "Main/Operations/transformation";
-import renderCanvas from "Main/index";
+import { renderCanvas } from "Main/index";
 import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Square extends Shape implements SquareInterface {

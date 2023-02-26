@@ -3,7 +3,7 @@ import PolygonInterface from "Main/Interfaces/Objects/polygon-interface";
 import ShapeType from "Objects/types";
 import Point from "Operations/point";
 import convexHull from "Algorithms/convex-hull";
-import renderCanvas from "Main/index";
+import { renderCanvas } from "Main/index";
 
 class Polygon extends Shape implements PolygonInterface {
   public arrayOfPoint: Point[];
