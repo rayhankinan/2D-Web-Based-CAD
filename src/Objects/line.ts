@@ -136,9 +136,6 @@ class Line extends Shape implements LineInterface {
     const firstDiv = document.createElement("div");
     firstDiv.className = "transformation-translation";
 
-    const translationSelectorTitle = document.createElement("h1");
-    translationSelectorTitle.textContent = "Translation";
-
     /* Slider X */
     const sliderXTitle = document.createElement("h2");
     sliderXTitle.textContent = "Slider X";
@@ -180,7 +177,6 @@ class Line extends Shape implements LineInterface {
     });
 
     firstDiv.append(
-      translationSelectorTitle,
       sliderXTitle,
       sliderX,
       sliderXtext,
@@ -192,9 +188,6 @@ class Line extends Shape implements LineInterface {
     /* Second Div */
     const secondDiv = document.createElement("div");
     secondDiv.className = "transformation-size";
-
-    const sizeSelectorTitle = document.createElement("h1");
-    sizeSelectorTitle.textContent = "Size";
 
     /* Slider Length */
     const sliderLengthTitle = document.createElement("h2");
@@ -219,19 +212,11 @@ class Line extends Shape implements LineInterface {
       this.setLength(+delta);
     });
 
-    secondDiv.append(
-      sizeSelectorTitle,
-      sliderLengthTitle,
-      sliderLength,
-      sliderLengthText
-    );
+    secondDiv.append(sliderLengthTitle, sliderLength, sliderLengthText);
 
     /* Third Div */
     const thirdDiv = document.createElement("div");
     thirdDiv.className = "transformation-rotation";
-
-    const rotationSelectorTitle = document.createElement("h1");
-    rotationSelectorTitle.textContent = "Rotation";
 
     /* Slider Rotation */
     const sliderRotationTitle = document.createElement("h2");
@@ -253,19 +238,12 @@ class Line extends Shape implements LineInterface {
       this.setRotation(+delta);
     });
 
-    thirdDiv.append(
-      rotationSelectorTitle,
-      sliderRotationTitle,
-      sliderRotation,
-      sliderRotationText
-    );
+    thirdDiv.append(sliderRotationTitle, sliderRotation, sliderRotationText);
 
     /* Fourth Div */
     const fourthDiv = document.createElement("div");
     fourthDiv.className = "transformation-color";
 
-    const colorSelectorTitle = document.createElement("h1");
-    colorSelectorTitle.textContent = "Color";
     const pointOption = document.createElement("select");
     pointOption.className = "btn";
     pointOption.addEventListener("change", () => {
@@ -290,7 +268,7 @@ class Line extends Shape implements LineInterface {
     const innerFourthDiv = document.createElement("div");
     innerFourthDiv.id = "color-selector";
 
-    fourthDiv.append(colorSelectorTitle, pointOption, innerFourthDiv);
+    fourthDiv.append(pointOption, innerFourthDiv);
 
     selector.append(firstDiv, secondDiv, thirdDiv, fourthDiv);
 

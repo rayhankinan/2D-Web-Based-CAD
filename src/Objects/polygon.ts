@@ -3,7 +3,12 @@ import PolygonInterface from "Main/Interfaces/Objects/polygon-interface";
 import ShapeType from "Objects/types";
 import Point from "Operations/point";
 import convexHull from "Algorithms/convex-hull";
-import { renderCanvas } from "Main/index";
+import {
+  renderCanvas,
+  setIsDrawing,
+  setPolygonRedrawIndex,
+  setShapeType,
+} from "Main/index";
 import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Polygon extends Shape implements PolygonInterface {
@@ -207,16 +212,23 @@ class Polygon extends Shape implements PolygonInterface {
     colorSelector.append(colorTitle, colorInput, deletePointButton);
   }
 
-  public setupSelector(): void {
+  public setupSelector(index: number): void {
     const selector = document.getElementById("selector");
     selector.replaceChildren();
+
+    /* Add Point Button */
+    const addPointButton = document.createElement("button");
+    addPointButton.textContent = "Add New Points";
+    addPointButton.className = "btn";
+    addPointButton.addEventListener("click", () => {
+      setIsDrawing(true);
+      setPolygonRedrawIndex(index);
+      setShapeType(ShapeType.POLYGON_REDRAW);
+    });
 
     /* First Div */
     const firstDiv = document.createElement("div");
     firstDiv.className = "transformation-translation";
-
-    const translationSelectorTitle = document.createElement("h1");
-    translationSelectorTitle.textContent = "Translation";
 
     /* Slider X */
     const sliderxTitle = document.createElement("h2");
@@ -259,7 +271,6 @@ class Polygon extends Shape implements PolygonInterface {
     });
 
     firstDiv.append(
-      translationSelectorTitle,
       sliderxTitle,
       sliderX,
       sliderXtext,
@@ -271,9 +282,6 @@ class Polygon extends Shape implements PolygonInterface {
     /* Second Div */
     const secondDiv = document.createElement("div");
     secondDiv.className = "transformation-size";
-
-    const sizeSelectorTitle = document.createElement("h1");
-    sizeSelectorTitle.textContent = "";
 
     /* Slider Length */
     const sliderLengthTitle = document.createElement("h2");
@@ -319,7 +327,6 @@ class Polygon extends Shape implements PolygonInterface {
     });
 
     secondDiv.append(
-      sizeSelectorTitle,
       sliderLengthTitle,
       sliderLength,
       sliderLengthText,
@@ -331,9 +338,6 @@ class Polygon extends Shape implements PolygonInterface {
     /* Third Div */
     const thirdDiv = document.createElement("div");
     thirdDiv.className = "transformation-rotation";
-
-    const rotationSelectorTitle = document.createElement("h1");
-    rotationSelectorTitle.textContent = "Rotation";
 
     /* Slider Rotation */
     const sliderRotationTitle = document.createElement("h2");
@@ -355,19 +359,11 @@ class Polygon extends Shape implements PolygonInterface {
       this.setRotation(+delta);
     });
 
-    thirdDiv.append(
-      rotationSelectorTitle,
-      sliderRotationTitle,
-      sliderRotation,
-      sliderRotationText
-    );
+    thirdDiv.append(sliderRotationTitle, sliderRotation, sliderRotationText);
 
     /* Fourth Div */
     const fourthDiv = document.createElement("div");
     fourthDiv.className = "transformation-color";
-
-    const colorSelectorTitle = document.createElement("h1");
-    colorSelectorTitle.textContent = "Color";
 
     const pointOption = document.createElement("select");
     pointOption.id = "point-option";
@@ -389,9 +385,9 @@ class Polygon extends Shape implements PolygonInterface {
     const innerFourthDiv = document.createElement("div");
     innerFourthDiv.id = "color-selector";
 
-    fourthDiv.append(colorSelectorTitle, pointOption, innerFourthDiv);
+    fourthDiv.append(pointOption, innerFourthDiv);
 
-    selector.append(firstDiv, secondDiv, thirdDiv, fourthDiv);
+    selector.append(addPointButton, firstDiv, secondDiv, thirdDiv, fourthDiv);
 
     this.setupColorSelector(0);
   }

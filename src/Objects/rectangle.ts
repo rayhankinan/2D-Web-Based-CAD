@@ -208,9 +208,6 @@ class Rectangle extends Shape implements RectangleInterface {
     const firstDiv = document.createElement("div");
     firstDiv.className = "transformation-translation";
 
-    const translationSelectorTitle = document.createElement("h1");
-    translationSelectorTitle.textContent = "Translation";
-
     /* Slider X */
     const sliderxTitle = document.createElement("h2");
     sliderxTitle.textContent = "Slider X";
@@ -252,7 +249,6 @@ class Rectangle extends Shape implements RectangleInterface {
     });
 
     firstDiv.append(
-      translationSelectorTitle,
       sliderxTitle,
       sliderX,
       sliderXtext,
@@ -264,8 +260,6 @@ class Rectangle extends Shape implements RectangleInterface {
     /* Second Div */
     const secondDiv = document.createElement("div");
     secondDiv.className = "transformation-size";
-    const sizeSelectorTitle = document.createElement("h1");
-    sizeSelectorTitle.textContent = "Size";
 
     /* Slider Length */
     const sliderLengthTitle = document.createElement("h2");
@@ -311,7 +305,6 @@ class Rectangle extends Shape implements RectangleInterface {
     });
 
     secondDiv.append(
-      sizeSelectorTitle,
       sliderLengthTitle,
       sliderLength,
       sliderLengthText,
@@ -323,9 +316,6 @@ class Rectangle extends Shape implements RectangleInterface {
     /* Third Div */
     const thirdDiv = document.createElement("div");
     thirdDiv.className = "transformation-rotation";
-
-    const rotationSelectorTitle = document.createElement("h1");
-    rotationSelectorTitle.textContent = "Rotation";
 
     /* Slider Rotation */
     const sliderRotationTitle = document.createElement("h2");
@@ -347,19 +337,12 @@ class Rectangle extends Shape implements RectangleInterface {
       this.setRotation(+delta);
     });
 
-    thirdDiv.append(
-      rotationSelectorTitle,
-      sliderRotationTitle,
-      sliderRotation,
-      sliderRotationText
-    );
+    thirdDiv.append(sliderRotationTitle, sliderRotation, sliderRotationText);
 
     /* Fourth Div */
     const fourthDiv = document.createElement("div");
     fourthDiv.className = "transformation-color";
 
-    const colorSelectorTitle = document.createElement("h1");
-    colorSelectorTitle.textContent = "Color";
     const pointOption = document.createElement("select");
     pointOption.className = "btn";
     pointOption.addEventListener("change", () => {
@@ -394,7 +377,7 @@ class Rectangle extends Shape implements RectangleInterface {
     const innerFourthDiv = document.createElement("div");
     innerFourthDiv.id = "color-selector";
 
-    fourthDiv.append(colorSelectorTitle, pointOption, innerFourthDiv);
+    fourthDiv.append(pointOption, innerFourthDiv);
 
     selector.append(firstDiv, secondDiv, thirdDiv, fourthDiv);
 

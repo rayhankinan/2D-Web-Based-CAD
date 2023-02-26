@@ -192,9 +192,6 @@ class Square extends Shape implements SquareInterface {
     const firstDiv = document.createElement("div");
     firstDiv.className = "transformation-translation";
 
-    const translationSelectorTitle = document.createElement("h1");
-    translationSelectorTitle.textContent = "Translation";
-
     /* Slider X */
     const sliderxTitle = document.createElement("h2");
     sliderxTitle.textContent = "Slider X";
@@ -236,7 +233,6 @@ class Square extends Shape implements SquareInterface {
     });
 
     firstDiv.append(
-      translationSelectorTitle,
       sliderxTitle,
       sliderX,
       sliderXtext,
@@ -248,9 +244,6 @@ class Square extends Shape implements SquareInterface {
     /* Second Div */
     const secondDiv = document.createElement("div");
     secondDiv.className = "transformation-size";
-
-    const sizeSelectorTitle = document.createElement("h1");
-    sizeSelectorTitle.textContent = "Size";
 
     /* Slider Length */
     const sliderLengthTitle = document.createElement("h2");
@@ -275,19 +268,11 @@ class Square extends Shape implements SquareInterface {
       this.setLength(+delta);
     });
 
-    secondDiv.append(
-      sizeSelectorTitle,
-      sliderLengthTitle,
-      sliderLength,
-      sliderLengthText
-    );
+    secondDiv.append(sliderLengthTitle, sliderLength, sliderLengthText);
 
     /* Third Div */
     const thirdDiv = document.createElement("div");
     thirdDiv.className = "transformation-rotation";
-
-    const rotationSelectorTitle = document.createElement("h1");
-    rotationSelectorTitle.textContent = "Rotation";
 
     /* Slider Rotation */
     const sliderRotationTitle = document.createElement("h2");
@@ -309,19 +294,11 @@ class Square extends Shape implements SquareInterface {
       this.setRotation(+delta);
     });
 
-    thirdDiv.append(
-      rotationSelectorTitle,
-      sliderRotationTitle,
-      sliderRotation,
-      sliderRotationText
-    );
+    thirdDiv.append(sliderRotationTitle, sliderRotation, sliderRotationText);
 
     /* Fourth Div */
     const fourthDiv = document.createElement("div");
     fourthDiv.className = "transformation-color";
-
-    const colorSelectorTitle = document.createElement("h1");
-    colorSelectorTitle.textContent = "Color";
 
     const pointOption = document.createElement("select");
     pointOption.className = "btn";
@@ -357,7 +334,7 @@ class Square extends Shape implements SquareInterface {
     const innerFourthDiv = document.createElement("div");
     innerFourthDiv.id = "color-selector";
 
-    fourthDiv.append(colorSelectorTitle, pointOption, innerFourthDiv);
+    fourthDiv.append(pointOption, innerFourthDiv);
 
     selector.append(firstDiv, secondDiv, thirdDiv, fourthDiv);
 

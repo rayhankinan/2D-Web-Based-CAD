@@ -60,21 +60,7 @@ const listOfShapes = document.getElementById(
 listOfShapes.addEventListener("change", () => {
   const index: number = +listOfShapes.selectedOptions[0].value;
 
-  objects[index].setupSelector();
-  if (objects[index].type == ShapeType.POLYGON) {
-    const selector = document.getElementById("selector");
-
-    const addPointButton = document.createElement("button");
-    addPointButton.textContent = "add new point";
-    addPointButton.className = "btn";
-    addPointButton.addEventListener("click", () => {
-      isDrawing = true;
-      polygonRedrawIndex = index;
-      shapeType = ShapeType.POLYGON_REDRAW;
-    });
-
-    selector.append(addPointButton);
-  }
+  objects[index].setupSelector(index);
 });
 
 /* Button Listener */
@@ -256,6 +242,10 @@ export const setShapeType = (newShapeType: ShapeType) => {
 
 export const setIsDrawing = (newIsDrawing: boolean) => {
   isDrawing = newIsDrawing;
+};
+
+export const setPolygonRedrawIndex = (newPolygonRedrawIndex: number) => {
+  polygonRedrawIndex;
 };
 
 /* DOM Listener */

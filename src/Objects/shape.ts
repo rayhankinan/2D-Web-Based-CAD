@@ -29,7 +29,7 @@ abstract class Shape implements ShapeInterface {
   public abstract drawMethod(gl: WebGLRenderingContext): number;
   public abstract count(): number;
   public abstract isPointComplete(): boolean;
-  public abstract setupSelector(): void;
+  public abstract setupSelector(index?: number): void;
   public abstract updatePoint(point: Point): void;
 
   public getType(): ShapeType {
