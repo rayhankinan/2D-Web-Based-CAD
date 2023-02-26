@@ -1,16 +1,18 @@
 import Shape from "Objects/shape";
+import RectangleInterface from "Main/Interfaces/Objects/rectangle-interface";
+import ShapeType from "Objects/types";
 import Point from "Operations/point";
 import renderCanvas from "Main/index";
 import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
-class Rectangle extends Shape {
-  private p1: Point;
-  private p2: Point;
-  private p3: Point;
-  private p4: Point;
+class Rectangle extends Shape implements RectangleInterface {
+  public p1: Point;
+  public p2: Point;
+  public p3: Point;
+  public p4: Point;
 
   public constructor(point: Point) {
-    super();
+    super(ShapeType.RECTANGLE);
 
     this.p1 = point;
     this.p2 = null;

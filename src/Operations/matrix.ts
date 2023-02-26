@@ -2,9 +2,9 @@ import Coordinate from "Operations/coordinate";
 import Point from "Operations/point";
 
 class Matrix {
-  protected a1;
-  protected a2;
-  protected a3;
+  public a1;
+  public a2;
+  public a3;
 
   public constructor(tuple: readonly [Coordinate, Coordinate, Coordinate]) {
     const [a1, a2, a3] = tuple;

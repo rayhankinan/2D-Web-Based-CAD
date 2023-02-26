@@ -1,10 +1,11 @@
+import PointInterface from "Main/Interfaces/Operations/point-interface";
 import Coordinate from "Operations/coordinate";
 
-class Point extends Coordinate {
-  private r: number;
-  private g: number;
-  private b: number;
-  private a: number;
+class Point extends Coordinate implements PointInterface {
+  public r: number;
+  public g: number;
+  public b: number;
+  public a: number;
 
   public constructor(
     position: readonly [number, number],
@@ -34,7 +35,6 @@ class Point extends Coordinate {
     this.b = b;
     this.a = a;
   }
-
 }
 
 export default Point;

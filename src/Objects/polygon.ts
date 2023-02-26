@@ -1,13 +1,15 @@
 import Shape from "Objects/shape";
+import PolygonInterface from "Main/Interfaces/Objects/polygon-interface";
+import ShapeType from "Objects/types";
 import Point from "Operations/point";
 import convexHull from "Algorithms/convex-hull";
 import renderCanvas from "Main/index";
 
-class Polygon extends Shape {
-  private arrayOfPoint: Point[];
+class Polygon extends Shape implements PolygonInterface {
+  public arrayOfPoint: Point[];
 
   public constructor(point: Point) {
-    super();
+    super(ShapeType.POLYGON);
 
     this.arrayOfPoint = [point];
   }
