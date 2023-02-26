@@ -49,6 +49,20 @@
         <div>2D WEB BASED CAD</div>
       </div>
     </div>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h1>HELP</h1>
+        <ol>
+          <li>(Optional) Klik Load pada section tools lalu masukkan file json yang berisi object yang ingin dirender</li>
+          <li>Klik shape yang ingin digambar dari tombol di bawah create shape</li>
+          <li>Setelah klik shape yang ingin digambar, klik canvas untuk mulai menggambar</li>
+          <li>Untuk melakukan manipulasi object, dapat dilakukan dengan memilih object di list of shapes</li>
+          <li>Manipulasi yang dapat dilakukan antara lain: translasi, rotasi, perubahan ukuran, dan merubah warna tiap titik</li>
+          <li>Jika ingin menyimpan gambar, maka klik save di section tools</li>
+        </ol>
+      </div>
+    </div>
     <div id="root">
       <div id="left-panel">
         <div class="create-section">
@@ -57,8 +71,10 @@
           <button class="btn" id="square-btn">Square</button>
           <button class="btn" id="rectangle-btn">Rectangle</button>
           <button class="btn" id="polygon-btn">Polygon</button>
+          <h1>Tools:</h1>
           <button class="btn" id="save-btn">Save</button>
           <button class="btn" id="load-btn">Load</button>
+          <button class="btn" id="help-btn">Help</button>
         </div>
       </div>
       <canvas id="webgl-canvas"></canvas>
@@ -71,4 +87,27 @@
       </div>
     </div>
   </body>
+  <script>
+    var modal = document.getElementById("modal");
+    var helpButton = document.getElementById("help-btn")
+
+    helpButton.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+  </script>
 </html>
