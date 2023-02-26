@@ -12,8 +12,8 @@ class Rectangle extends Shape implements RectangleInterface {
   public p3: Point;
   public p4: Point;
 
-  public constructor(point: Point) {
-    super();
+  public constructor(point: Point, id: number) {
+    super(id);
 
     this.type = ShapeType.RECTANGLE;
     this.p1 = point;

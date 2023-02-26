@@ -113,6 +113,10 @@ uploadBtn.addEventListener("click", () => {
   FileHandling.upload((text) => {
     objects = FileSystem.load(text);
 
+    for (const object of objects) {
+      object.setupSelector();
+    }
+
     renderCanvas();
   });
 });
@@ -126,7 +130,7 @@ canvas.addEventListener("mousedown", (event) => {
   switch (shapeType) {
     case ShapeType.LINE:
       if (!isDrawing) {
-        const line = new Line(point);
+        const line = new Line(point, objects.length);
         objects.push(line);
 
         isDrawing = true;
@@ -134,7 +138,7 @@ canvas.addEventListener("mousedown", (event) => {
         const line = objects[objects.length - 1] as Line;
         line.updatePoint(point);
         line.render(gl, program, positionBuffer, colorBuffer);
-        line.setupOption(`line_${objects.length}`, objects.length, true);
+        line.setupOption(true);
 
         isDrawing = false;
       }
@@ -142,7 +146,7 @@ canvas.addEventListener("mousedown", (event) => {
 
     case ShapeType.SQUARE:
       if (!isDrawing) {
-        const square = new Square(point);
+        const square = new Square(point, objects.length);
         objects.push(square);
 
         isDrawing = true;
@@ -150,7 +154,7 @@ canvas.addEventListener("mousedown", (event) => {
         const square = objects[objects.length - 1] as Square;
         square.updatePoint(point);
         square.render(gl, program, positionBuffer, colorBuffer);
-        square.setupOption(`square_${objects.length}`, objects.length, true);
+        square.setupOption(true);
 
         isDrawing = false;
       }
@@ -158,7 +162,7 @@ canvas.addEventListener("mousedown", (event) => {
 
     case ShapeType.RECTANGLE:
       if (!isDrawing) {
-        const rectangle = new Rectangle(point);
+        const rectangle = new Rectangle(point, objects.length);
         objects.push(rectangle);
 
         isDrawing = true;
@@ -167,11 +171,7 @@ canvas.addEventListener("mousedown", (event) => {
 
         rectangle.updatePoint(point);
         rectangle.render(gl, program, positionBuffer, colorBuffer);
-        rectangle.setupOption(
-          `rectangle_${objects.length}`,
-          objects.length,
-          true
-        );
+        rectangle.setupOption(true);
 
         isDrawing = false;
       }
@@ -179,7 +179,7 @@ canvas.addEventListener("mousedown", (event) => {
 
     case ShapeType.POLYGON:
       if (!isDrawing) {
-        const polygon = new Polygon(point);
+        const polygon = new Polygon(point, objects.length);
         objects.push(polygon);
 
         isDrawing = true;
@@ -188,11 +188,7 @@ canvas.addEventListener("mousedown", (event) => {
 
         polygon.updatePoint(point);
         polygon.render(gl, program, positionBuffer, colorBuffer);
-        polygon.setupOption(
-          `polygon_${objects.length}`,
-          objects.length,
-          isFirstDrawing
-        );
+        polygon.setupOption(isFirstDrawing);
 
         isFirstDrawing = false;
       }
@@ -254,16 +250,8 @@ export const renderCanvas = () => {
   window.requestAnimationFrame(renderCanvas);
 };
 
-export const getShapeType = () => {
-  return shapeType;
-};
-
 export const setShapeType = (newShapeType: ShapeType) => {
   shapeType = newShapeType;
-};
-
-export const getIsDrawing = () => {
-  return isDrawing;
 };
 
 export const setIsDrawing = (newIsDrawing: boolean) => {

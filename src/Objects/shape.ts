@@ -13,7 +13,7 @@ abstract class Shape implements ShapeInterface {
   public kx: number;
   public ky: number;
 
-  public constructor() {
+  public constructor(public readonly id: number) {
     this.tx = 0;
     this.ty = 0;
     this.degree = 0;
@@ -36,17 +36,17 @@ abstract class Shape implements ShapeInterface {
     return this.type;
   }
 
-  public setupOption(name: string, id: number, isFirstDrawing: boolean): void {
+  public setupOption(isFirstDrawing: boolean): void {
     const option = document.createElement("option");
-    option.value = (id - 1).toString();
-    option.text = name;
+    option.value = this.id.toString();
+    option.text = `${this.type}_${this.id}`;
 
     if (isFirstDrawing) {
       const listOfShapes = document.getElementById(
         "list-of-shapes"
       ) as HTMLSelectElement;
       listOfShapes.appendChild(option);
-      listOfShapes.value = (id - 1).toString();
+      listOfShapes.value = this.id.toString();
     }
 
     this.setupSelector();

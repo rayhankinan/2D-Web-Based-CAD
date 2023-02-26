@@ -7,7 +7,8 @@ class RectangleFactory {
     rectangleInterface: RectangleInterface
   ): Rectangle {
     const rectangle = new Rectangle(
-      PointFactory.fromInterface(rectangleInterface.p1)
+      PointFactory.fromInterface(rectangleInterface.p1),
+      rectangleInterface.id
     );
     rectangle.p2 = PointFactory.fromInterface(rectangleInterface.p2);
     rectangle.p3 = PointFactory.fromInterface(rectangleInterface.p3);

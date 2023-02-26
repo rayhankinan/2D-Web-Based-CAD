@@ -10,8 +10,8 @@ class Polygon extends Shape implements PolygonInterface {
   public readonly type: ShapeType.POLYGON;
   public arrayOfPoint: Point[];
 
-  public constructor(point: Point) {
-    super();
+  public constructor(point: Point, id: number) {
+    super(id);
 
     this.type = ShapeType.POLYGON;
     this.arrayOfPoint = new Array(point);
@@ -154,7 +154,7 @@ class Polygon extends Shape implements PolygonInterface {
 
   public deletePoint(index: number) {
     var newPoints: Point[] = [this.arrayOfPoint[index]];
-    for (let i=0; i<this.arrayOfPoint.length; i++) {
+    for (let i = 0; i < this.arrayOfPoint.length; i++) {
       if (i != index) {
         newPoints.push(this.arrayOfPoint[i]);
       }
@@ -164,7 +164,7 @@ class Polygon extends Shape implements PolygonInterface {
 
     // after delete, need to setup option again
     const pointOption = document.getElementById("point-option");
-    pointOption.innerHTML = ""
+    pointOption.innerHTML = "";
     pointOption.replaceChildren();
     /* All Point */
     for (let i = 0; i < this.arrayOfPoint.length; i++) {
@@ -197,12 +197,12 @@ class Polygon extends Shape implements PolygonInterface {
     });
 
     const deletePointButton = document.createElement("button");
-    deletePointButton.textContent = "delete point"
-    deletePointButton.className = "btn"
+    deletePointButton.textContent = "delete point";
+    deletePointButton.className = "btn";
     deletePointButton.addEventListener("click", () => {
       this.deletePoint(index);
       renderCanvas();
-    })
+    });
 
     colorSelector.append(colorTitle, colorInput, deletePointButton);
   }
@@ -271,7 +271,9 @@ class Polygon extends Shape implements PolygonInterface {
     /* Second Div */
     const secondDiv = document.createElement("div");
     secondDiv.className = "transformation-size";
+
     const sizeSelectorTitle = document.createElement("h1");
+    sizeSelectorTitle.textContent = "";
 
     /* Slider Length */
     const sliderLengthTitle = document.createElement("h2");
@@ -368,7 +370,7 @@ class Polygon extends Shape implements PolygonInterface {
     colorSelectorTitle.textContent = "Color";
 
     const pointOption = document.createElement("select");
-    pointOption.id = "point-option"
+    pointOption.id = "point-option";
     pointOption.className = "btn";
     pointOption.addEventListener("change", () => {
       const index: number = +pointOption.selectedOptions[0].value;

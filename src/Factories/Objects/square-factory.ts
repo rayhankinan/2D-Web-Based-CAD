@@ -4,7 +4,10 @@ import PointFactory from "Factories/Operations/point-factory";
 
 class SquareFactory {
   public static fromInterface(squareInterface: SquareInterface): Square {
-    const square = new Square(PointFactory.fromInterface(squareInterface.p1));
+    const square = new Square(
+      PointFactory.fromInterface(squareInterface.p1),
+      squareInterface.id
+    );
     square.p2 = PointFactory.fromInterface(squareInterface.p2);
     square.p3 = PointFactory.fromInterface(squareInterface.p3);
     square.p4 = PointFactory.fromInterface(squareInterface.p4);

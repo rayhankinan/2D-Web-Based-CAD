@@ -14,8 +14,8 @@ class Square extends Shape implements SquareInterface {
   public p3: Point;
   public p4: Point;
 
-  public constructor(point: Point) {
-    super();
+  public constructor(point: Point, id: number) {
+    super(id);
 
     this.type = ShapeType.SQUARE;
     this.center = point;

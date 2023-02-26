@@ -7,7 +7,10 @@ class PolygonFactory {
     const [pInitialInterface, ...pRestInterfaces] =
       polygonInterface.arrayOfPoint;
 
-    const polygon = new Polygon(PointFactory.fromInterface(pInitialInterface));
+    const polygon = new Polygon(
+      PointFactory.fromInterface(pInitialInterface),
+      polygonInterface.id
+    );
     for (const p of pRestInterfaces) {
       polygon.updatePoint(PointFactory.fromInterface(p));
     }

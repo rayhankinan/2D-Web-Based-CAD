@@ -10,8 +10,8 @@ class Line extends Shape implements LineInterface {
   public p1: Point;
   public p2: Point;
 
-  public constructor(p1: Point) {
-    super();
+  public constructor(p1: Point, id: number) {
+    super(id);
 
     this.type = ShapeType.LINE;
     this.p1 = p1;
