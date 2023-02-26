@@ -102,3 +102,4 @@ WebGL merupakan kakas dengan spesialisasi pada ranah grafika yang dapat dengan m
 
 1. Jalankan perintah `yarn nodemon` untuk menjalankan kompilasi secara _hot reload_
 2. Buka file `./public/index.html` pada browser
+3. Dapat diakses pada pranala berikut [ini](https://rayhankinan.github.io/2D-Web-Based-CAD/public/index.html)
