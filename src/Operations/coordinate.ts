@@ -1,7 +1,9 @@
-class Coordinate {
-  protected x: number;
-  protected y: number;
-  protected w: number;
+import CoordinateInterface from "Main/Interfaces/Operations/coordinate-interface";
+
+class Coordinate implements CoordinateInterface {
+  public x: number;
+  public y: number;
+  public w: number;
 
   public constructor(position: readonly [number, number, number]) {
     const [x, y, w] = position;
