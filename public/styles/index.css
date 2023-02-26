@@ -99,7 +99,8 @@ canvas {
   overflow-wrap: break-word;
   padding-left: 8px;
   text-decoration: none;
-  width: auto;
+  margin-bottom: 2px;
+  width: 100%;
   border-radius: 8px;
   cursor: pointer;
   user-select: none;

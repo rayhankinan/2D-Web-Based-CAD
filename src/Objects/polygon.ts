@@ -196,14 +196,15 @@ class Polygon extends Shape implements PolygonInterface {
       this.arrayOfPoint[index].setColor(hexToRgb(hex));
     });
 
-    const deletePointSelector = document.createElement("button");
-    deletePointSelector.textContent = "delete point"
-    deletePointSelector.addEventListener("click", () => {
+    const deletePointButton = document.createElement("button");
+    deletePointButton.textContent = "delete point"
+    deletePointButton.className = "btn"
+    deletePointButton.addEventListener("click", () => {
       this.deletePoint(index);
       renderCanvas();
     })
 
-    colorSelector.append(colorTitle, colorInput, deletePointSelector);
+    colorSelector.append(colorTitle, colorInput, deletePointButton);
   }
 
   public setupSelector(): void {

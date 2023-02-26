@@ -41,7 +41,7 @@ abstract class Shape implements ShapeInterface {
     option.value = (id - 1).toString();
     option.text = name;
 
-    if (!isFirstDrawing) {
+    if (isFirstDrawing) {
       const listOfShapes = document.getElementById(
         "list-of-shapes"
       ) as HTMLSelectElement;

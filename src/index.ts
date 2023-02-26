@@ -16,6 +16,7 @@ import FileSystem from "Files/file-system";
 let objects: Shape[] = [];
 let shapeType: ShapeType;
 let isDrawing = false;
+let polygonRedrawIndex = 0;
 let isFirstDrawing = true;
 
 /* Create Program */
@@ -58,6 +59,20 @@ listOfShapes.addEventListener("change", () => {
   const index: number = +listOfShapes.selectedOptions[0].value;
 
   objects[index].setupSelector();
+  if (objects[index].type == ShapeType.POLYGON) {
+    const selector = document.getElementById("selector");
+
+    const addPointButton = document.createElement("button");
+    addPointButton.textContent = "add new point"
+    addPointButton.className = "btn"
+    addPointButton.addEventListener("click", () => {
+      isDrawing = true;
+      polygonRedrawIndex = index;
+      shapeType = ShapeType.POLYGON_REDRAW;
+    })
+
+    selector.append(addPointButton);
+  }
 });
 
 /* Button listener */
@@ -154,7 +169,17 @@ canvas.addEventListener("mousedown", (event) => {
         polygon.updatePoint(point);
         polygon.render(gl, program, positionBuffer, colorBuffer);
         polygon.setupOption(`polygon_${objects.length}`, objects.length, isFirstDrawing);
+
+        isFirstDrawing = false;
       }
+      break;
+
+    case ShapeType.POLYGON_REDRAW:
+      const polygon = objects[polygonRedrawIndex] as Polygon;
+
+      polygon.updatePoint(point);
+      polygon.render(gl, program, positionBuffer, colorBuffer);
+
       break;
   }
 
