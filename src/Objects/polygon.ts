@@ -193,11 +193,9 @@ class Polygon extends Shape implements PolygonInterface {
     colorInput.type = "color";
 
     colorInput.value = rgbToHex(this.arrayOfPoint[index].getColor());
-    colorInput.addEventListener("change", (e) => {
-      console.log((e.target as HTMLInputElement).value);
-      const hex = (e.target as HTMLInputElement).value;
+    colorInput.addEventListener("change", (event) => {
+      const hex = (event.target as HTMLInputElement).value;
 
-      console.log(hexToRgb(hex));
       this.arrayOfPoint[index].setColor(hexToRgb(hex));
     });
 

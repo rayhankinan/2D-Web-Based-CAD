@@ -104,22 +104,18 @@ class Line extends Shape implements LineInterface {
 
     if (index === 1) {
       colorInput.value = rgbToHex(this.p1.getColor());
-      colorInput.addEventListener("change", (e) => {
-        console.log((e.target as HTMLInputElement).value);
-        const hex = (e.target as HTMLInputElement).value;
+      colorInput.addEventListener("change", (event) => {
+        const hex = (event.target as HTMLInputElement).value;
 
-        console.log(hexToRgb(hex));
         this.p1.setColor(hexToRgb(hex));
       });
     }
 
     if (index === 2) {
       colorInput.value = rgbToHex(this.p2.getColor());
-      colorInput.addEventListener("change", (e) => {
-        console.log((e.target as HTMLInputElement).value);
-        const hex = (e.target as HTMLInputElement).value;
+      colorInput.addEventListener("change", (event) => {
+        const hex = (event.target as HTMLInputElement).value;
 
-        console.log(hexToRgb(hex));
         this.p2.setColor(hexToRgb(hex));
       });
     }
@@ -248,7 +244,6 @@ class Line extends Shape implements LineInterface {
     pointOption.className = "btn";
     pointOption.addEventListener("change", () => {
       const index: number = +pointOption.selectedOptions[0].value;
-      var point: Point = null;
       this.setupColorSelector(index);
     });
 

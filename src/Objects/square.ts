@@ -138,44 +138,36 @@ class Square extends Shape implements SquareInterface {
     switch (index) {
       case 1:
         colorInput.value = rgbToHex(this.p1.getColor());
-        colorInput.addEventListener("change", (e) => {
-          console.log((e.target as HTMLInputElement).value);
-          const hex = (e.target as HTMLInputElement).value;
+        colorInput.addEventListener("change", (event) => {
+          const hex = (event.target as HTMLInputElement).value;
 
-          console.log(hexToRgb(hex));
           this.p1.setColor(hexToRgb(hex));
         });
         break;
 
       case 2:
         colorInput.value = rgbToHex(this.p2.getColor());
-        colorInput.addEventListener("change", (e) => {
-          console.log((e.target as HTMLInputElement).value);
-          const hex = (e.target as HTMLInputElement).value;
+        colorInput.addEventListener("change", (event) => {
+          const hex = (event.target as HTMLInputElement).value;
 
-          console.log(hexToRgb(hex));
           this.p2.setColor(hexToRgb(hex));
         });
         break;
 
       case 3:
         colorInput.value = rgbToHex(this.p3.getColor());
-        colorInput.addEventListener("change", (e) => {
-          console.log((e.target as HTMLInputElement).value);
-          const hex = (e.target as HTMLInputElement).value;
+        colorInput.addEventListener("change", (event) => {
+          const hex = (event.target as HTMLInputElement).value;
 
-          console.log(hexToRgb(hex));
           this.p3.setColor(hexToRgb(hex));
         });
         break;
 
       case 4:
         colorInput.value = rgbToHex(this.p4.getColor());
-        colorInput.addEventListener("change", (e) => {
-          console.log((e.target as HTMLInputElement).value);
-          const hex = (e.target as HTMLInputElement).value;
+        colorInput.addEventListener("change", (event) => {
+          const hex = (event.target as HTMLInputElement).value;
 
-          console.log(hexToRgb(hex));
           this.p4.setColor(hexToRgb(hex));
         });
         break;
