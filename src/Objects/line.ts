@@ -2,16 +2,18 @@ import Shape from "Objects/shape";
 import LineInterface from "Main/Interfaces/Objects/line-interface";
 import ShapeType from "Objects/types";
 import Point from "Operations/point";
-import renderCanvas from "Main/index";
+import { renderCanvas } from "Main/index";
 import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Line extends Shape implements LineInterface {
+  public readonly type: ShapeType.LINE;
   public p1: Point;
   public p2: Point;
 
   public constructor(p1: Point) {
-    super(ShapeType.LINE);
+    super();
 
+    this.type = ShapeType.LINE;
     this.p1 = p1;
     this.p2 = null;
   }

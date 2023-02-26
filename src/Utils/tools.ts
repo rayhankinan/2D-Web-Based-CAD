@@ -1,6 +1,6 @@
 function componentToHex(c: number) {
   var hex = c.toString(16);
-  return hex.length === 1 ? "0" + hex : hex;
+  return hex.length === 1 ? `0${hex}` : hex;
 }
 
 function rgbToHex(rgba: readonly [number, number, number, number]): string {
@@ -14,7 +14,7 @@ function hexToRgb(hex: string): readonly [number, number, number, number] {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
 
-  return [r/255, g/255, b/255, 1];
+  return [r / 255, g / 255, b / 255, 1];
 }
 
 export { rgbToHex, hexToRgb };

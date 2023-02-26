@@ -3,16 +3,18 @@ import PolygonInterface from "Main/Interfaces/Objects/polygon-interface";
 import ShapeType from "Objects/types";
 import Point from "Operations/point";
 import convexHull from "Algorithms/convex-hull";
-import renderCanvas from "Main/index";
+import { renderCanvas } from "Main/index";
 import { hexToRgb, rgbToHex } from "Main/Utils/tools";
 
 class Polygon extends Shape implements PolygonInterface {
+  public readonly type: ShapeType.POLYGON;
   public arrayOfPoint: Point[];
 
   public constructor(point: Point) {
-    super(ShapeType.POLYGON);
+    super();
 
-    this.arrayOfPoint = [point];
+    this.type = ShapeType.POLYGON;
+    this.arrayOfPoint = new Array(point);
   }
 
   public findCenter(): Point {

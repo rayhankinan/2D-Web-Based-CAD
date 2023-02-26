@@ -10,9 +10,10 @@ import Polygon from "Objects/polygon";
 import Square from "Objects/square";
 import ShapeType from "Objects/types";
 
-/* Global variables */
-const objects: Shape[] = [];
+import FileSystem from "Files/file-system";
 
+/* Global variables */
+let objects: Shape[] = [];
 let shapeType: ShapeType;
 let isDrawing = false;
 let isFirstDrawing = true;
@@ -156,6 +157,14 @@ canvas.addEventListener("mousedown", (event) => {
       }
       break;
   }
+
+  const {
+    objects: newObjects,
+    shapeType: newShapeType,
+    isDrawing: newIsDrawing,
+  } = FileSystem.loadShape(
+    FileSystem.rawShape({ objects, shapeType, isDrawing })
+  );
 });
 
 canvas.addEventListener("mousemove", (event) => {
@@ -186,8 +195,8 @@ canvas.addEventListener("mousemove", (event) => {
   }
 });
 
-/* Render Canvas */
-const renderCanvas = () => {
+/* Export Function */
+export const renderCanvas = () => {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   for (const object of objects) {
@@ -197,7 +206,21 @@ const renderCanvas = () => {
   window.requestAnimationFrame(renderCanvas);
 };
 
+export const getShapeType = () => {
+  return shapeType;
+};
+
+export const setShapeType = (newShapeType: ShapeType) => {
+  shapeType = newShapeType;
+};
+
+export const getIsDrawing = () => {
+  return isDrawing;
+};
+
+export const setIsDrawing = (newIsDrawing: boolean) => {
+  isDrawing = newIsDrawing;
+};
+
 /* DOM Listener */
 document.addEventListener("DOMContentLoaded", renderCanvas);
-
-export default renderCanvas;
