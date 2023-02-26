@@ -11,6 +11,7 @@ import Square from "Objects/square";
 import ShapeType from "Objects/types";
 
 import FileSystem from "Files/file-system";
+import downloadFile from "./Utils/download-file";
 
 /* Global variables */
 let objects: Shape[] = [];
@@ -38,20 +39,20 @@ const fragmentShader = createShader(
 
 const program = createProgram(gl, vertexShader, fragmentShader);
 
-/* Setup program */
+/* Setup Program */
 gl.useProgram(program);
 
-/* Setup viewport */
+/* Setup Viewport */
 resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement);
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-/* Clear color */
+/* Clear Color */
 gl.clear(gl.COLOR_BUFFER_BIT);
 
 const positionBuffer = gl.createBuffer();
 const colorBuffer = gl.createBuffer();
 
-/* List of shapes listener */
+/* List of Shapes Listener */
 const listOfShapes = document.getElementById(
   "list-of-shapes"
 ) as HTMLSelectElement;
@@ -75,7 +76,7 @@ listOfShapes.addEventListener("change", () => {
   }
 });
 
-/* Button listener */
+/* Button Listener */
 const lineBtn = document.getElementById("line-btn");
 lineBtn.addEventListener("click", () => {
   shapeType = ShapeType.LINE;
@@ -101,7 +102,12 @@ polygonBtn.addEventListener("click", () => {
   isFirstDrawing = true;
 });
 
-/* Canvas listener */
+const saveBtn = document.getElementById("save-btn");
+saveBtn.addEventListener("click", () => {
+  downloadFile(FileSystem.serialize(objects, shapeType, isDrawing));
+});
+
+/* Canvas Listener */
 canvas.addEventListener("mousedown", (event) => {
   const x = event.clientX;
   const y = event.clientY;
