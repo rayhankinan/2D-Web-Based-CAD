@@ -31,8 +31,6 @@ abstract class Shape {
   public abstract isPointComplete(): boolean;
   public abstract setupSelector(): void;
   public abstract updatePoint(point: Point): void;
-  public abstract moveX(delta: number): void;
-  public abstract moveY(delta: number): void;
 
   public setupOption(name: string, id: number) {
     const option = document.createElement("option");

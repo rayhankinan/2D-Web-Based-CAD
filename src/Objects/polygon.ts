@@ -141,6 +141,12 @@ class Polygon extends Shape {
     renderCanvas();
   }
 
+  public setRotation(degree: number) {
+    this.degree = (degree * Math.PI) / 180;
+
+    renderCanvas();
+  }
+
   public setupSelector(): void {
     const selector = document.getElementById("selector");
     selector.replaceChildren();
@@ -211,8 +217,8 @@ class Polygon extends Shape {
     const sliderLengthTitle = document.createElement("h2");
     sliderLengthTitle.textContent = "Slider Length";
 
-    const sliderLengthtext = document.createElement("label");
-    sliderLengthtext.textContent = (
+    const sliderLengthText = document.createElement("label");
+    sliderLengthText.textContent = (
       (this.sx - 1) *
       this.getLength()
     ).toString();
@@ -225,7 +231,7 @@ class Polygon extends Shape {
     sliderLength.step = "10";
     sliderLength.addEventListener("input", (event) => {
       const delta = (event.target as HTMLInputElement).value;
-      sliderLengthtext.textContent = delta;
+      sliderLengthText.textContent = delta;
 
       this.setLength(+delta);
     });
@@ -254,7 +260,7 @@ class Polygon extends Shape {
       sizeSelectorTitle,
       sliderLengthTitle,
       sliderLength,
-      sliderLengthtext,
+      sliderLengthText,
       sliderWidthTitle,
       sliderWidth,
       sliderWidthText
@@ -262,12 +268,48 @@ class Polygon extends Shape {
 
     /* Third Div */
     const thirdDiv = document.createElement("div");
-    thirdDiv.className = "transformation-color";
+    thirdDiv.className = "transformation-rotation";
+
+    const rotationSelectorTitle = document.createElement("h1");
+    rotationSelectorTitle.textContent = "Rotation";
+
+    /* Slider Rotation */
+    const sliderRotationTitle = document.createElement("h2");
+    sliderRotationTitle.textContent = "Slider Rotation";
+
+    const sliderRotationText = document.createElement("label");
+    sliderRotationText.textContent = ((180 * this.degree) / Math.PI).toString();
+
+    const sliderRotation = document.createElement("input");
+    sliderRotation.type = "range";
+    sliderRotation.min = "0";
+    sliderRotation.max = "360";
+    sliderRotation.value = ((180 * this.degree) / Math.PI).toString();
+    sliderRotation.step = "10";
+    sliderRotation.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderRotationText.textContent = delta;
+
+      this.setRotation(+delta);
+    });
+
+    thirdDiv.append(
+      rotationSelectorTitle,
+      sliderRotationTitle,
+      sliderRotation,
+      sliderRotationText
+    );
+
+    /* Fourth Div */
+    const fourthDiv = document.createElement("div");
+    fourthDiv.className = "transformation-color";
+
     const colorSelectorTitle = document.createElement("h1");
     colorSelectorTitle.textContent = "Color";
-    thirdDiv.append(colorSelectorTitle);
 
-    selector.append(firstDiv, secondDiv, thirdDiv);
+    fourthDiv.append(colorSelectorTitle);
+
+    selector.append(firstDiv, secondDiv, thirdDiv, fourthDiv);
   }
 }
 

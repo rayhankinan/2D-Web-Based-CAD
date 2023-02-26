@@ -122,6 +122,12 @@ class Square extends Shape {
     renderCanvas();
   }
 
+  public setRotation(degree: number) {
+    this.degree = (degree * Math.PI) / 180;
+
+    renderCanvas();
+  }
+
   public setupColorSelector(index: number) {
     const colorSelector = document.getElementById("color-selector");
     colorSelector.innerHTML = "";
@@ -255,8 +261,8 @@ class Square extends Shape {
     const sliderLengthTitle = document.createElement("h2");
     sliderLengthTitle.textContent = "Slider Length";
 
-    const sliderLengthtext = document.createElement("label");
-    sliderLengthtext.textContent = (
+    const sliderLengthText = document.createElement("label");
+    sliderLengthText.textContent = (
       (this.sx - 1) *
       this.getLength()
     ).toString();
@@ -269,7 +275,7 @@ class Square extends Shape {
     sliderLength.step = "10";
     sliderLength.addEventListener("input", (event) => {
       const delta = (event.target as HTMLInputElement).value;
-      sliderLengthtext.textContent = delta;
+      sliderLengthText.textContent = delta;
 
       this.setLength(+delta);
     });
@@ -278,14 +284,50 @@ class Square extends Shape {
       sizeSelectorTitle,
       sliderLengthTitle,
       sliderLength,
-      sliderLengthtext
+      sliderLengthText
     );
 
     /* Third Div */
     const thirdDiv = document.createElement("div");
-    thirdDiv.className = "transformation-color";
+    thirdDiv.className = "transformation-rotation";
+
+    const rotationSelectorTitle = document.createElement("h1");
+    rotationSelectorTitle.textContent = "Rotation";
+
+    /* Slider Rotation */
+    const sliderRotationTitle = document.createElement("h2");
+    sliderRotationTitle.textContent = "Slider Rotation";
+
+    const sliderRotationText = document.createElement("label");
+    sliderRotationText.textContent = ((180 * this.degree) / Math.PI).toString();
+
+    const sliderRotation = document.createElement("input");
+    sliderRotation.type = "range";
+    sliderRotation.min = "0";
+    sliderRotation.max = "360";
+    sliderRotation.value = ((180 * this.degree) / Math.PI).toString();
+    sliderRotation.step = "10";
+    sliderRotation.addEventListener("input", (event) => {
+      const delta = (event.target as HTMLInputElement).value;
+      sliderRotationText.textContent = delta;
+
+      this.setRotation(+delta);
+    });
+
+    thirdDiv.append(
+      rotationSelectorTitle,
+      sliderRotationTitle,
+      sliderRotation,
+      sliderRotationText
+    );
+
+    /* Fourth Div */
+    const fourthDiv = document.createElement("div");
+    fourthDiv.className = "transformation-color";
+
     const colorSelectorTitle = document.createElement("h1");
     colorSelectorTitle.textContent = "Color";
+
     const pointOption = document.createElement("select");
     pointOption.className = "btn";
     pointOption.addEventListener("change", () => {
@@ -294,12 +336,12 @@ class Square extends Shape {
       this.setupColorSelector(index);
     });
 
-    // firstPoint
+    /* First Point */
     const firstPointOption = document.createElement("option");
     firstPointOption.value = "1";
     firstPointOption.text = "point_1";
 
-    // second point
+    /* Second Point */
     const secondPointOption = document.createElement("option");
     secondPointOption.value = "2";
     secondPointOption.text = "point_2";
@@ -317,11 +359,12 @@ class Square extends Shape {
     pointOption.appendChild(thirdPointOption);
     pointOption.appendChild(fourthPointOption);
 
-    const innerThirdDiv = document.createElement("div");
-    innerThirdDiv.id = "color-selector";
+    const innerFourthDiv = document.createElement("div");
+    innerFourthDiv.id = "color-selector";
 
-    thirdDiv.append(colorSelectorTitle, pointOption, innerThirdDiv);
-    selector.append(firstDiv, secondDiv, thirdDiv);
+    fourthDiv.append(colorSelectorTitle, pointOption, innerFourthDiv);
+
+    selector.append(firstDiv, secondDiv, thirdDiv, fourthDiv);
 
     this.setupColorSelector(1);
   }

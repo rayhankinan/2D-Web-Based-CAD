@@ -1,7 +1,6 @@
 import createShader from "Utils/shader";
 import createProgram from "Utils/program";
 import resizeCanvasToDisplaySize from "Utils/resize-canvas";
-import ShapeType from "Utils/types";
 
 import Line from "Objects/line";
 import Shape from "Objects/shape";
@@ -9,11 +8,12 @@ import Point from "Operations/point";
 import Rectangle from "Objects/rectangle";
 import Polygon from "Objects/polygon";
 import Square from "Objects/square";
+import ShapeType from "Objects/types";
 
 /* Global variables */
 const objects: Shape[] = [];
 
-let drawMethod: ShapeType;
+let shapeType: ShapeType;
 let isDrawing = false;
 
 /* Create Program */
@@ -61,25 +61,25 @@ listOfShapes.addEventListener("change", () => {
 /* Button listener */
 const lineBtn = document.getElementById("line-btn");
 lineBtn.addEventListener("click", () => {
-  drawMethod = ShapeType.LINE;
+  shapeType = ShapeType.LINE;
   isDrawing = false;
 });
 
 const squareBtn = document.getElementById("square-btn");
 squareBtn.addEventListener("click", () => {
-  drawMethod = ShapeType.SQUARE;
+  shapeType = ShapeType.SQUARE;
   isDrawing = false;
 });
 
 const rectangleBtn = document.getElementById("rectangle-btn");
 rectangleBtn.addEventListener("click", () => {
-  drawMethod = ShapeType.RECTANGLE;
+  shapeType = ShapeType.RECTANGLE;
   isDrawing = false;
 });
 
 const polygonBtn = document.getElementById("polygon-btn");
 polygonBtn.addEventListener("click", () => {
-  drawMethod = ShapeType.POLYGON;
+  shapeType = ShapeType.POLYGON;
   isDrawing = false;
 });
 
@@ -89,7 +89,7 @@ canvas.addEventListener("mousedown", (event) => {
   const y = event.clientY;
   const point = new Point([x, y]);
 
-  switch (drawMethod) {
+  switch (shapeType) {
     case ShapeType.LINE:
       if (!isDrawing) {
         const line = new Line(point);
@@ -162,7 +162,7 @@ canvas.addEventListener("mousemove", (event) => {
   const point = new Point([x, y]);
 
   if (isDrawing) {
-    switch (drawMethod) {
+    switch (shapeType) {
       case ShapeType.LINE:
         const line = objects[objects.length - 1] as Line;
         line.updatePoint(point);
