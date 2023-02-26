@@ -114,7 +114,7 @@ uploadBtn.addEventListener("click", () => {
     objects = FileSystem.load(text);
 
     for (const object of objects) {
-      object.setupSelector();
+      object.setupOption(true);
     }
 
     renderCanvas();
