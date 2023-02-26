@@ -10,7 +10,6 @@ function createShader(
   const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS) as boolean;
   if (!success) {
     gl.deleteShader(shader);
-    alert("Failed to compile shader!");
 
     throw Error("Failed to compile shader!");
   }

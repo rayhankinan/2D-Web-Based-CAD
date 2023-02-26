@@ -11,6 +11,7 @@ import Square from "Objects/square";
 import ShapeType from "Objects/types";
 
 import FileSystem from "Files/file-system";
+import ShapeFactory from "Factories/shape-factory";
 
 /* Global variables */
 let objects: Shape[] = [];
@@ -63,13 +64,13 @@ listOfShapes.addEventListener("change", () => {
     const selector = document.getElementById("selector");
 
     const addPointButton = document.createElement("button");
-    addPointButton.textContent = "add new point"
-    addPointButton.className = "btn"
+    addPointButton.textContent = "add new point";
+    addPointButton.className = "btn";
     addPointButton.addEventListener("click", () => {
       isDrawing = true;
       polygonRedrawIndex = index;
       shapeType = ShapeType.POLYGON_REDRAW;
-    })
+    });
 
     selector.append(addPointButton);
   }
@@ -151,7 +152,11 @@ canvas.addEventListener("mousedown", (event) => {
 
         rectangle.updatePoint(point);
         rectangle.render(gl, program, positionBuffer, colorBuffer);
-        rectangle.setupOption(`rectangle_${objects.length}`, objects.length, true);
+        rectangle.setupOption(
+          `rectangle_${objects.length}`,
+          objects.length,
+          true
+        );
 
         isDrawing = false;
       }
@@ -168,7 +173,11 @@ canvas.addEventListener("mousedown", (event) => {
 
         polygon.updatePoint(point);
         polygon.render(gl, program, positionBuffer, colorBuffer);
-        polygon.setupOption(`polygon_${objects.length}`, objects.length, isFirstDrawing);
+        polygon.setupOption(
+          `polygon_${objects.length}`,
+          objects.length,
+          isFirstDrawing
+        );
 
         isFirstDrawing = false;
       }
@@ -184,12 +193,16 @@ canvas.addEventListener("mousedown", (event) => {
   }
 
   const {
-    objects: newObjects,
+    objects: newObjectInterfaces,
     shapeType: newShapeType,
     isDrawing: newIsDrawing,
   } = FileSystem.loadShape(
     FileSystem.rawShape({ objects, shapeType, isDrawing })
   );
+
+  for (const objectInterface of newObjectInterfaces) {
+    ShapeFactory.fromInterface(objectInterface);
+  }
 });
 
 canvas.addEventListener("mousemove", (event) => {
@@ -216,6 +229,13 @@ canvas.addEventListener("mousemove", (event) => {
         rectangle.updatePoint(point);
         rectangle.render(gl, program, positionBuffer, colorBuffer);
         break;
+
+      case ShapeType.POLYGON:
+        /* Do Nothing */
+        break;
+
+      default:
+        throw new Error("Shape type is not defined");
     }
   }
 });

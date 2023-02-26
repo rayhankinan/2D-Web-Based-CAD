@@ -78,15 +78,6 @@ class Square extends Shape implements SquareInterface {
       .multiplyMatrix(Transformation.translation(-xCenter, -yCenter))
       .multiplyPoint(this.p1);
 
-    console.log([
-      this.p1,
-      this.center,
-      Transformation.translation(xCenter, yCenter),
-      Transformation.rotation(0.5 * Math.PI),
-      Transformation.translation(-xCenter, -yCenter),
-      this.p2,
-    ]);
-
     const p3 = Transformation.translation(xCenter, yCenter)
       .multiplyMatrix(Transformation.rotation(Math.PI))
       .multiplyMatrix(Transformation.translation(-xCenter, -yCenter))
