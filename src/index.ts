@@ -11,10 +11,11 @@ import Square from "Objects/square";
 import ShapeType from "Objects/types";
 
 import FileSystem from "Files/file-system";
-import downloadFile from "./Utils/download-file";
+import FileHandling from "./Files/file-handling";
 
 /* Global variables */
 let objects: Shape[] = [];
+
 let shapeType: ShapeType;
 let isDrawing = false;
 let polygonRedrawIndex = 0;
@@ -104,7 +105,16 @@ polygonBtn.addEventListener("click", () => {
 
 const saveBtn = document.getElementById("save-btn");
 saveBtn.addEventListener("click", () => {
-  downloadFile(FileSystem.serialize(objects, shapeType, isDrawing));
+  FileHandling.download(FileSystem.serialize(objects));
+});
+
+const uploadBtn = document.getElementById("load-btn");
+uploadBtn.addEventListener("click", () => {
+  FileHandling.upload((text) => {
+    objects = FileSystem.load(text);
+
+    renderCanvas();
+  });
 });
 
 /* Canvas Listener */
