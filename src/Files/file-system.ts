@@ -1,13 +1,28 @@
+import ShapeFactory from "Main/Factories/Objects/shape-factory";
 import FileInterface from "Main/Interfaces/Files/file-interface";
+import Shape from "Main/Objects/shape";
+import ShapeType from "Main/Objects/types";
 
 class FileSystem {
-  public static loadShape(text: string): FileInterface {
-    return JSON.parse(text) as FileInterface;
+  public static load(text: string): [Shape[], ShapeType, boolean] {
+    const fileInterface = JSON.parse(text) as FileInterface;
+    const { shapeInterfaces, shapeType, isDrawing } = fileInterface;
+
+    const shapes: Shape[] = [];
+    for (const shapeInterface of shapeInterfaces) {
+      shapes.push(ShapeFactory.fromInterface(shapeInterface));
+    }
+
+    return [shapes, shapeType, isDrawing];
   }
 
-  public static rawShape(fileInterface: FileInterface): string {
-    return JSON.stringify(fileInterface);
-  }
+  // public static serialize(
+  //   shapes: Shape[],
+  //   shapeType: ShapeType,
+  //   isDrawing: boolean
+  // ): string {
+  //   return JSON.stringify();
+  // }
 }
 
 export default FileSystem;

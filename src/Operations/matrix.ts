@@ -1,10 +1,11 @@
+import MatrixInterface from "Main/Interfaces/Operations/matrix-interface";
 import Coordinate from "Operations/coordinate";
 import Point from "Operations/point";
 
-class Matrix {
-  public a1;
-  public a2;
-  public a3;
+class Matrix implements MatrixInterface {
+  public a1: Coordinate;
+  public a2: Coordinate;
+  public a3: Coordinate;
 
   public constructor(tuple: readonly [Coordinate, Coordinate, Coordinate]) {
     const [a1, a2, a3] = tuple;

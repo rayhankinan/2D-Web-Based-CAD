@@ -11,7 +11,6 @@ import Square from "Objects/square";
 import ShapeType from "Objects/types";
 
 import FileSystem from "Files/file-system";
-import ShapeFactory from "Factories/shape-factory";
 
 /* Global variables */
 let objects: Shape[] = [];
@@ -190,18 +189,6 @@ canvas.addEventListener("mousedown", (event) => {
       polygon.render(gl, program, positionBuffer, colorBuffer);
 
       break;
-  }
-
-  const {
-    objects: newObjectInterfaces,
-    shapeType: newShapeType,
-    isDrawing: newIsDrawing,
-  } = FileSystem.loadShape(
-    FileSystem.rawShape({ objects, shapeType, isDrawing })
-  );
-
-  for (const objectInterface of newObjectInterfaces) {
-    ShapeFactory.fromInterface(objectInterface);
   }
 });
 
