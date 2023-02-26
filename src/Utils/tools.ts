@@ -14,7 +14,7 @@ function hexToRgb(hex: string): readonly [number, number, number, number] {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
 
-  return [r, g, b, 1];
+  return [r/255, g/255, b/255, 1];
 }
 
 export { rgbToHex, hexToRgb };
