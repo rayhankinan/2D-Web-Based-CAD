@@ -5,7 +5,6 @@ import Transformation from "Operations/transformation";
 
 abstract class Shape implements ShapeInterface {
   public readonly type: ShapeType;
-
   public tx: number;
   public ty: number;
   public degree: number;
@@ -14,9 +13,7 @@ abstract class Shape implements ShapeInterface {
   public kx: number;
   public ky: number;
 
-  public constructor(type: ShapeType) {
-    this.type = type;
-
+  public constructor() {
     this.tx = 0;
     this.ty = 0;
     this.degree = 0;
@@ -34,10 +31,6 @@ abstract class Shape implements ShapeInterface {
   public abstract isPointComplete(): boolean;
   public abstract setupSelector(): void;
   public abstract updatePoint(point: Point): void;
-
-  public getType(): ShapeType {
-    return this.type;
-  }
 
   public setupOption(name: string, id: number): void {
     const option = document.createElement("option");

@@ -1,7 +1,6 @@
 import createShader from "Utils/shader";
 import createProgram from "Utils/program";
 import resizeCanvasToDisplaySize from "Utils/resize-canvas";
-import FileSystem from "Files/file-system";
 
 import Line from "Objects/line";
 import Shape from "Objects/shape";
@@ -11,9 +10,10 @@ import Polygon from "Objects/polygon";
 import Square from "Objects/square";
 import ShapeType from "Objects/types";
 
-/* Global variables */
-const objects: Shape[] = [];
+import FileSystem from "Files/file-system";
 
+/* Global variables */
+let objects: Shape[] = [];
 let shapeType: ShapeType;
 let isDrawing = false;
 
@@ -156,7 +156,13 @@ canvas.addEventListener("mousedown", (event) => {
       break;
   }
 
-  console.log(FileSystem.loadShape(FileSystem.rawShape(objects)));
+  const {
+    objects: newObjects,
+    shapeType: newShapeType,
+    isDrawing: newIsDrawing,
+  } = FileSystem.loadShape(
+    FileSystem.rawShape({ objects, shapeType, isDrawing })
+  );
 });
 
 canvas.addEventListener("mousemove", (event) => {
@@ -187,7 +193,7 @@ canvas.addEventListener("mousemove", (event) => {
   }
 });
 
-/* Render Canvas */
+/* Export Function */
 export const renderCanvas = () => {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -198,21 +204,19 @@ export const renderCanvas = () => {
   window.requestAnimationFrame(renderCanvas);
 };
 
-export const getShapeType: () => ShapeType = () => {
+export const getShapeType = () => {
   return shapeType;
 };
 
-export const setShapeType: (newShapeType: ShapeType) => void = (
-  newShapeType
-) => {
+export const setShapeType = (newShapeType: ShapeType) => {
   shapeType = newShapeType;
 };
 
-export const getIsDrawing: () => boolean = () => {
+export const getIsDrawing = () => {
   return isDrawing;
 };
 
-export const setIsDrawing: (newIsDrawing: boolean) => void = (newIsDrawing) => {
+export const setIsDrawing = (newIsDrawing: boolean) => {
   isDrawing = newIsDrawing;
 };
 
